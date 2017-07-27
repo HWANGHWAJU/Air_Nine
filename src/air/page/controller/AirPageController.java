@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import air.page.action.Action;
 import air.page.action.ActionForward;
+import air.schedule.action.JsonGoPassengerAction;
+import air.schedule.action.JsonScheduleAction;
 import air.schedule.action.SAction;
+import air.schedule.action.SJsonAction;
 import air.schedule.action.ScheduleAction;
 
 public class AirPageController extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet{
@@ -135,7 +138,15 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			SAction saction = new ScheduleAction();
 			saction.execute(request, response);
 			System.out.println("호엣");
+		}else if(command.equals("/Gobooking.bo")){
+			SJsonAction sjaction = new JsonScheduleAction();
+			sjaction.execute(request, response);
+			System.out.println(" 뀨 ");
+		}else if(command.equals("/GoPassengerInfoView.bo")){
+			SJsonAction sjaction = new JsonGoPassengerAction();
+			sjaction.execute(request, response);
 		}
+		
 	/*		민정, 추가			*/	
 /*		else if(command.equals("/Schedule.bo")){
 		forward = new ActionForward();

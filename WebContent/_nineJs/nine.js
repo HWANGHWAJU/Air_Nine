@@ -11,6 +11,7 @@ var BookingInfo = function(){
 	this.tripType = "";
 	this.departureAirport="";
 	this.departureDateTime="";
+	this.arrivalDateTime = "";
 	this.arrivalAirport="";
 	this.adtPaxCnt="";
 	this.chdPaxCnt="";
@@ -35,6 +36,8 @@ $(function(){
     jsHrgroup();
     Cal_fu();
 });
+
+/*	오른쪽 상단 메뉴 있는 거 가져왔어여ㅎㅅㅎ...._이현주*/
 function jsHrgroup(){
     var $sotreSelf = null;
     $(".jsHrgroup").each(function(){
@@ -71,6 +74,8 @@ function jsHrgroup(){
     })
 }
 
+
+ /* 메뉴 드롭 다운 물론 이것도 제가 한 것은 아닙니다 ㅇㅅㅇ_이현주*/
 function jsGnb(){
     var $gnb = $("#gnb");
     var $header = $("#header");
@@ -335,6 +340,7 @@ function jsGnb(){
         });
     }
 }
+/*	출발지 리스트를 받아오는 제이슨 데이터형을 이용한 아작스 함수	*/
 var JsNation; // 나라, 영문명, JsAirport[]
 var JsAirport = []; // 공항, 도시, 값 -> JSON 배열을 받아온 것 
 	
@@ -722,6 +728,9 @@ $(document).ready(function(){
 			
 			});	// 오픈 레이어 선택 함수
 					
+			
+			// book_01 항공권 예약 페이지
+			
 			$("#btnAirportConfirm").on("click", function(){
 				// 출도착지 선택 후 확인 버튼 시, 설정되지 않은 값이 있으면 return 하여 다시 화면으로! 
 	//			alert("HidDepValue :"+$("#hidDepValue").val()+ "  HidArrValue :"+$("hidArrValue").val());
@@ -774,10 +783,10 @@ $(document).ready(function(){
 				var $bookingDate = $(".booking-date");
 				var $bookingPassenger = $(".booking-passenger");
 				
-				jsBookConditionDataObject.segmentDatas[0].departureDataTime = $("#txtDepBookingDate").val();
+				jsBookConditionDataObject.segmentDatas[0].departureDateTime = $("#txtDepBookingDate").val();
 				console.log("출발 날짜 : "+$("#txtDepBookingDate").val());
 				if(selectTripType=='RT'){
-					jsBookConditionDataObject.segmentDatas[1].departureDataTime = $("#txtArrBookingDate").val();
+					jsBookConditionDataObject.segmentDatas[1].departureDateTime = $("#txtArrBookingDate").val();
 					console.log("도착 날짜 :"+$("#txtArrBookingDate").val());
 				}
 				
@@ -841,10 +850,271 @@ $(document).ready(function(){
 				goSelectSchedule(jsBookConditionDataObject);
 
 			});
+		
+		
+			$("#goItinerary").on("click", function(){
+			
+				var jsBookConditionDataObject = new BookingConditionDataObject();
+				var ShowBooking = new BookingInfo();
+				
+				var $triptype = $(".booking-journey-type-area").find("input:radio:checked").val();
+				
+				jsBookConditionDataObject.TRIPTYPE = $triptype;
+				jsBookConditionDataObject.segmentDatas =[];
+				jsBookConditionDataObject.passengerDatas = [];
+				
+				var $dep = $("#txtDepAirport").val();
+				var $arr = $("#txtArrAirport").val();
+				
+				if($dep == "" || $arr==""){
+					alert(" 출도착지를 선택 해주세요");
+					return;
+				}
+				
+				var $depdate = $("#txtDepBookingDate").val();
+				var $arrdate = "";
+				
+				var jsSegmentDataObject = new SegmentDataObject();
+				jsSegmentDataObject.departureAirport = $dep;
+				jsSegmentDataObject.departureDateTime = $depdate;
+				jsSegmentDataObject.arrivalAirport = $arr;
+								
+				jsBookConditionDataObject.segmentDatas.push(jsSegmentDataObject);
+				if($triptype == 'RT'){
+					$arrdate = $("#txtArrBookingDate").val();
+					var jsSegmentDataObject = new SegmentDataObject();
+					jsSegmentDataObject.departureAirport = $arr;
+					jsSegmentDataObject.departureDateTime = $arrdate;
+					jsSegmentDataObject.arrivalAirport = $dep;
+					jsBookConditionDataObject.segmentDatas.push(jsSegmentDataObject);
+				}
+				
+				var jsPassengerDataObject = new PassengerDataObject();
+				
+				var $adtcnt = $("#txtSelAdtPaxCnt").val().replace(/[^0-9]/g,'');
+				var $chdcnt = $("#txtSelChdPaxCnt").val().replace(/[^0-9]/g,'');
+				var $infcnt = $("#txtSelInfPaxCnt").val().replace(/[^0-9]/g,'');
+				
+				jsPassengerDataObject.paxType="ADT";
+				jsPassengerDataObject.passengerNo = $adtcnt;
+				
+				jsBookConditionDataObject.passengerDatas.push(jsPassengerDataObject);
+				
+				if($chdcnt > 0){
+					var jsPassengerDataObject = new PassengerDataObject();
+					jsPassengerDataObject.paxType="CHD";
+					jsPassengerDataObject.passengerNo = $chdcnt;
+					jsBookConditionDataObject.passengerDatas.push(jsPassengerDataObject);
+				}
+				
+				if($infcnt > 0){
+					var jsPassengerDataObject = new PassengerDataObject();
+					jsPassengerDataObject.paxType="INF";
+					jsPassengerDataObject.passengerNo = $chdcnt;
+					jsBookConditionDataObject.passengerDatas.push(jsPassengerDataObject);
+				}
+				
+				
+				console.log("메인 페이지");
+				console.log(" TripType :"+$triptype+"  Dep :"+$dep+"  Arr :"+$arr);
+				console.log(" Dep Date :"+$depdate+"  Arr Date :"+$arrdate);
+				console.log(" Adult Cnt :"+$adtcnt+"  Chd Cnt :"+ $chdcnt+"  Inf Cnt :"+$infcnt);
+			
+				
+				document.availInforForm.hidBookConditionData.value = JSON.stringify(jsBookConditionDataObject);
+				document.availInforForm.action="./Gobooking.bo";
+				document.availInforForm.submit();
+				
+				
+			});
+			
+			
+			
+			
 			
 
 }); // document.ready 함수 끝 
 
+// 5단계로 가져가야 할 데이터는 뭘까. (확실하게 선택된 데이터 )
+/*	1. 여행 타입 RT, OW 
+ *  2. 출발지와 목적지 / RT의 경우 두가지를 바꾼 것. 
+ *  3. 출발지에서의 탑승 날짜와, 탑승 시간. 항공기편
+ *  4. RT의 경우 목적지에서 출발지로 오는 날짜와, 시간, 항공기편 
+ * 	5. 탑승 인원의 종류와 그 수 (성인, 소아, 유아)
+ * 	6. 각 인원의 금액과 총 금액, 세금, 유류할증료 등. 
+ * 
+ * */
+var FlightInfo = function(){
+	this.triptype = "";
+	this.flightDetailInfo = [];
+}
+
+var FlightDetailInfo = function(){
+	this.depflight = "";
+	this.dep="";
+	this.arr="";
+	this.depDate = "";
+	this.depTime = "";
+	this.arrTime = "";
+	this.baseprice = "";
+	this.saleprice = "";
+}
+
+function fn_ClickConfirmBtn(){
+	var memid = $("#memID").val();
+	var memEmail = $("#memEMAIL").val();
+
+	if(memid==null){
+		alert("로그인 후 이용 가능합니다.");
+		location.href="./LoginJoin.bo";
+	}else{
+
+	var jsFlightInfo = new FlightInfo();
+	var jsBookingDataObject = new BookingConditionDataObject();
+	
+	var $tripType = $("#triptype").val();
+	var $depflight = $("#depFlight").text();
+	
+
+	
+	
+	jsFlightInfo.triptype = $tripType;
+	jsFlightInfo.flightDetailInfo =[];
+
+	jsBookingDataObject.TRIPTYPE= $tripType;
+	jsBookingDataObject.segmentDatas = [];
+	jsBookingDataObject.passengerDatas = [];
+	
+	
+	var $departureAirport=$("#departureAirport").val();
+	var $departureDate = moment($("#departureDateTime").val()).format('YYYY.MM.DD [(]dd[)]' );
+	var $departureTime = $("#deptime").text();
+	var $arrivalTime = $("#arrtime").text();
+	var $arrivalAirport = $("#arrivalAirport").val();
+	
+	var depFlightDetailInfo = new FlightDetailInfo();
+	depFlightDetailInfo.depflight = $depflight;
+	depFlightDetailInfo.dep = $departureAirport;
+	depFlightDetailInfo.arr = $arrivalAirport;
+	depFlightDetailInfo.depDate = $departureDate;
+	depFlightDetailInfo.depTime = $departureTime;
+	depFlightDetailInfo.arrTime = $arrivalTime;
+	depFlightDetailInfo.baseprice = $("#depBaseprice").val();
+	depFlightDetailInfo.saleprice = $("#depSaleprice").val();
+
+	var segmentData = new SegmentDataObject();
+	segmentData.arrivalAirport=$arrivalAirport;
+	segmentData.departureAirport = $departureAirport;
+	segmentData.departureDateTime = $departureDate;
+	
+	jsBookingDataObject.segmentDatas.push(segmentData);
+	jsFlightInfo.flightDetailInfo.push(depFlightDetailInfo);
+	
+	
+	
+	
+	var $adtcnt = $("#adtPaxCnt").val();
+	var $chdcnt = $("#chdPaxCnt").val();
+	var $infcnt = $("#infPaxCnt").val(); 
+	
+	
+
+	var $arrTocomeDep ="";
+	var $arrTocomeArr = "";
+	var $arrTocomeflight = "";
+	var $arrTocomeDate ="";
+	var $arrTocomeTime ="";
+	var $arrTocomearrivalTime="";
+	
+	if($tripType=='RT'){
+		
+		var arrFlightDetailInfo = new FlightDetailInfo();
+
+		$arrTocomeflight = $("#arrFlight").text();
+		$arrTocomeDep = $arrivalAirport;
+		$arrTocomeArr = $departureAirport;
+		$arrTocomeDate = $("#rtdepartureDate").text();
+		$arrTocomeTime = $("#rtdeptime").text();
+		$arrTocomearrivalTime = $("#rtarrtime").text();
+		
+		arrFlightDetailInfo.depflight = $arrTocomeflight;
+		arrFlightDetailInfo.dep = $arrTocomeDep;
+		arrFlightDetailInfo.arr = $arrTocomeArr;
+		arrFlightDetailInfo.depDate = $arrTocomeDate;
+		arrFlightDetailInfo.depTime = $arrTocomeTime;
+		arrFlightDetailInfo.arrTime = $arrTocomearrivalTime;
+		arrFlightDetailInfo.baseprice = $("#arrBaseprice").val();
+		arrFlightDetailInfo.saleprice = $("#arrSaleprice").val();
+		
+		
+		var AsegmentData = new SegmentDataObject();
+		AsegmentData.arrivalAirport=$arrTocomeArr;
+		AsegmentData.departureAirport =$arrTocomeDep;
+		AsegmentData.departureDateTime = $arrTocomeDate;
+	
+		console.log("여기야이ㅑ렁러이랴ㅓㅁ;걀 :"+$arrTocomeDate);
+
+		jsBookingDataObject.segmentDatas.push(AsegmentData);
+		
+		jsFlightInfo.flightDetailInfo.push(arrFlightDetailInfo);
+		
+	}
+	
+	var jsPassengerDataObject = new PassengerDataObject();
+	
+	jsPassengerDataObject.paxType="ADT";
+	jsPassengerDataObject.passengerNo = $adtcnt;
+	
+	jsBookingDataObject.passengerDatas.push(jsPassengerDataObject);
+	
+	if($chdcnt > 0){
+		var jsPassengerDataObject = new PassengerDataObject();
+		jsPassengerDataObject.paxType="CHD";
+		jsPassengerDataObject.passengerNo = $chdcnt;
+		jsBookingDataObject.passengerDatas.push(jsPassengerDataObject);
+	}
+	
+	if($infcnt > 0){
+		var jsPassengerDataObject = new PassengerDataObject();
+		jsPassengerDataObject.paxType="INF";
+		jsPassengerDataObject.passengerNo = $chdcnt;
+		jsBookingDataObject.passengerDatas.push(jsPassengerDataObject);
+	}
+	
+	document.goPassengerInfoView.detailBooking.value = JSON.stringify(jsFlightInfo);
+	document.goPassengerInfoView.jsDetailBooking.value= JSON.stringify(jsBookingDataObject);
+	document.goPassengerInfoView.action ="./GoPassengerInfoView.bo";
+	document.goPassengerInfoView.submit();
+
+	}
+}
+
+// main 페이지에서 빠른 예매 버튼을 이용하여 예매창으로 넘어갈 경우 실행되는 함수
+function GoBook_04(data){
+	
+	var jsBookConditionDataObject = jQuery.parseJSON(data);
+	
+	console.log("Go Book_04 JsonData :"+jsBookConditionDataObject);
+
+	
+	fn_changeBookingStep("1", jsBookConditionDataObject);
+	fn_changeBookingStep("2", jsBookConditionDataObject);
+	fn_changeBookingStep("3", jsBookConditionDataObject);
+	fn_changeBookingStep("4", jsBookConditionDataObject);
+
+	goSelectSchedule(jsBookConditionDataObject);
+}
+
+function GoBook_05(data){
+	var jsBookConditionDataObject= jQuery.parseJSON(data);
+
+	fn_changeBookingStep("1", jsBookConditionDataObject);
+	fn_changeBookingStep("2", jsBookConditionDataObject);
+	fn_changeBookingStep("3", jsBookConditionDataObject);
+	fn_changeBookingStep("4", jsBookConditionDataObject);
+	fn_changeBookingStep("5", jsBookConditionDataObject);
+	
+}
 /*var BookingInfo = function(){
 	this.tripType = "";
 	this.departureAirport="";
@@ -861,7 +1131,8 @@ function goSelectSchedule(Object){
 	bookingInfo.tripType = Object.TRIPTYPE;
 
 	bookingInfo.departureAirport = Object.segmentDatas[0].departureAirport;
-	bookingInfo.departureDateTime = Object.segmentDatas[0].departureDataTime;
+	bookingInfo.departureDateTime = Object.segmentDatas[0].departureDateTime;
+
 	bookingInfo.arrivalAirport = Object.segmentDatas[0].arrivalAirport;
 	bookingInfo.adtPaxCnt = Object.passengerDatas[0].passengerNo;
 	bookingInfo.chdPaxCnt = 0;
@@ -869,6 +1140,12 @@ function goSelectSchedule(Object){
 //	alert(Object.passengerDatas[0].passengerNo);
 
 	//생기지 않은 배열에 대한 인덱스는 먹히지 않음. 
+	
+	if(bookingInfo.tripType =='RT'){
+		bookingInfo.arrivalDateTime = Object.segmentDatas[1].departureDateTime;
+		console.log("geSelectSchdule Arrival Date Time :"+bookingInfo.arrivalDateTime);
+	}
+	
 	
 	if(Object.passengerDatas.length == 2){
 		// 성인외의 인원이 있을 때
@@ -900,6 +1177,7 @@ function goSelectSchedule(Object){
 		data : { tripType : bookingInfo.tripType,
 					  dep : bookingInfo.departureAirport,
 				  depDate : bookingInfo.departureDateTime,
+				  arrDate : bookingInfo.arrivalDateTime,
 					  arr : bookingInfo.arrivalAirport,
 					  adt : bookingInfo.adtPaxCnt,
 					  chd : bookingInfo.chdPaxCnt,
@@ -909,7 +1187,6 @@ function goSelectSchedule(Object){
 			
 			$(".booking-wrap").html(data);
 			ShowBookingCondition(bookingInfo);
-	//		GoBook_04(ShowBooking);
 		}
 	});
 };
@@ -920,7 +1197,7 @@ function pop(){
 /*	Book_04.jsp 에 셋팅	*/
 
 function ShowBookingCondition(data){
-	alert("ShowBookingCondition");
+	alert("Show Booking Condition");
 	// 인원 수 
 	var $txtAdult = $("#Summary_ADT");
 	var $txtChild = $("#Summary_CHD");
@@ -931,9 +1208,7 @@ function ShowBookingCondition(data){
 	$txtInfant.text(data.infPaxCnt);
 }
 
-function GoBook_04(data){
-	return data;
-}
+
 
 function Cal_fu(){
 

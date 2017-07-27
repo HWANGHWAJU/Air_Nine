@@ -9,8 +9,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%-- <%
+	String id=(String)session.getAttribute("id");
+	String email = (String)session.getAttribute("email");
+%>
+<input type="hidden" id="memID" value="<%=id %>">
+<input type="hidden" id="memEMAIL" value="<%=email %>">
 
+ --%>
 			<!-- ---------------★민정수정★----------------------- -->		
 
 			<!-- 항공권 (S) -->
@@ -334,6 +340,11 @@
 
 			</div>
 			<!-- 항공권 (E) -->
+			
+		
+			
+			
+			
 			<!-- 우측 간편 안내(S) -->
 			<div class="booking-airlineticket-finalInfo">
 				<div class="booking-airlineticket-finalInfo-title">
@@ -433,14 +444,41 @@
 <input type="text" id="triptype" name="triptype"  value="${bc.tripType }">
 <input type="text" id="departureAirport" name="departureAirport"  value="${bc.dep }">
 <input type="text" id="departureDateTime" name="departureDateTime"  value="${bc.depDate }">
+<input type="text" id="arrivalDateTime" name="arrivalDateTime" value="${bc.arrDate }">
 <input type="text" id="arrivalAirport" name="arrivalAirport"  value="${bc.arr }">
 <input type="text" id="adtPaxCnt" name="adtPaxCnt"  value="${bc.adt }">
 <input type="text" id="chdPaxCnt" name="chdPaxCnt"  value="${bc.chd }">
-<input type="text" id="infPaxCnt" name="infPaxCnt"  value="${bc.inf }">		
+<input type="text" id="infPaxCnt" name="infPaxCnt"  value="${bc.inf }">
+
 </div>		
+
+<!-- wrap -->
+<div>
+<c:set var="v" value="${requestScope.JS }"/>
+<c:choose>
+<c:when test="${v==null }">
+<c:set var="v" value="null"/>
+<input type="hidden" id="mainBookingCondition" name="mainBookingCondition" value='${v }'>
+</c:when>
+<c:otherwise>
+<input type="hidden" id="mainBookingCondition" name="mainBookingCondition" value='${v }'>
+</c:otherwise>
+</c:choose>
+</div>
+
 
 	
 
+
+
+<div id="hidden-priceDep">
+</div>
+<div id="hidden-priceArr">
+</div>
+<form id="goPassengerInfoView"  name="goPassengerInfoView" method="post" target="_self">
+<input type="hidden" name="detailBooking">
+<input type="hidden" name="jsDetailBooking">
+</form>
 		<!-- ---------------★민정수정완료★----------------------- -->
 
 
@@ -462,7 +500,17 @@ $(document).ready(function(){
 		var $chd = $("#chdPaxCnt").val();
 		var $inf = $("#infPaxCnt").val(); 
 		
+		var mainBooking = $("#mainBookingCondition").val();
+
+
+		
 //		console.log("$adult :"+$adult);
+		
+ 		if(mainBooking != "null"){
+			GoBook_04(mainBooking);
+		}	 
+	
+
 		
  		var dep = "";
 		var arr = "";
@@ -519,10 +567,10 @@ $(document).ready(function(){
  			        
  			        	
  			        	var seg = 
- 			        					   "<div class='booking-airlineticket-finalInfo-head-kinds'><span class='icon_airlineticket_from02' id='DepartureItinerary'>가는여정</span>"+flight+"</div>"+
- 			        					   "<div class='booking-airlineticket-finalInfo-head-fly'>"+$departureAirport+"</div>" +
+ 			        					   "<div class='booking-airlineticket-finalInfo-head-kinds'><span class='icon_airlineticket_from02' id='DepartureItinerary'>가는여정</span><span id='depFlight'>"+flight+"</span></div>"+
+ 			        					   "<div class='booking-airlineticket-finalInfo-head-fly'>"+$departureAirport+"&nbsp;<span class='directory icon_airlineticket_oneway02'></span></div>" +
  			        					   "<div class='booking-airlineticket-finalInfo-head-fly'>"+$arrivalAirport+"</div> "+
- 			        					   "<div class='booking-airlineticket-finalInfo-head-date'>"+$departureDate+" "+dep_time+" ~ "+arr_time+"</div>";
+ 			        					   "<div class='booking-airlineticket-finalInfo-head-date'>"+$departureDate+" <span id='deptime'>"+dep_time+"</span> ~<span id='arrtime'> "+arr_time+"</span></div>";
 
  			        	$("#Summary_Dep").html(seg);
 			        
@@ -530,6 +578,11 @@ $(document).ready(function(){
  	 			        	pDep.base_price = base_price;
  	 			        	pDep.sale_price = sale_price;
 
+ 	 			        	var priceStr = "<input type='hidden' id='depBaseprice' value='"+pDep.base_price+"'>"+
+ 	 			        							 	"<input type='hidden' id='depSaleprice' value='"+pDep.sale_price+"'>";
+ 	 			        	
+ 	 			        	$("#hidden-priceDep").html(priceStr);							 	
+ 	 			        							 	
  	 			        	console.log("pDep.base :"+pDep.sale_price); 	
  	 			        	
  	 			        	var CheckedRadioCount =$("input:radio:checked").length;
@@ -550,9 +603,11 @@ $(document).ready(function(){
  		
 		if($tripType=='RT'){
 			
-			 dep2TOarr =$("#departureAirport").val();
-			 arr2TOdep=$("#arrivalAirport").val();
+			 dep2TOarr =$("#arrivalAirport").val();
+			 arr2TOdep=$("#departureAirport").val();
 			
+			 var arr2comeDate = $("#arrivalDateTime").val();
+			 
 			 console.log("출발지 -> 도착지 :   "+$tripType+"  출발 :  "+$departureAirport+"  도착 :  "+$arrivalAirport); 	
 			 console.log(" 도착지 -> 출발지 : "+$tripType+"  출발 :"+arr2TOdep+"  도착 :"+dep2TOarr);
 			
@@ -573,12 +628,17 @@ $(document).ready(function(){
 	 			        	pArr.base_price = base_price;
 	 			        	pArr.sale_price = sale_price;
 		   	
-				        	
+ 	 			        	var priceStr = "<input type='hidden' id='arrBaseprice' value='"+pArr.base_price+"'>"+
+													 	"<input type='hidden' id='arrSaleprice' value='"+pArr.sale_price+"'>";
+	
+								$("#hidden-priceArr").html(priceStr);							 	
+						
+	 			        	
 				        	var seg = 
-				        					   "<div class='booking-airlineticket-finalInfo-head-kinds'><span class='icon_airlineticket_to02' id='ArrivalItinerary'>오는여정</span>"+flight+"</div>"+
-				        					   "<div class='booking-airlineticket-finalInfo-head-fly'>"+dep2TOarr+"</div>" +
+				        					   "<div class='booking-airlineticket-finalInfo-head-kinds'><span class='icon_airlineticket_to02' id='ArrivalItinerary'>오는여정</span><span id='arrFlight'>"+flight+"</span></div>"+
+				        					   "<div class='booking-airlineticket-finalInfo-head-fly'>"+dep2TOarr+"&nbsp;<span class='directory icon_airlineticket_oneway02'></span></div>" +
 				        					   "<div class='booking-airlineticket-finalInfo-head-fly'>"+arr2TOdep+"</div> "+
-				        					   "<div class='booking-airlineticket-finalInfo-head-date'>"+$departureDate+" "+dep_time+" ~ "+arr_time+"</div>";
+				        					   "<div class='booking-airlineticket-finalInfo-head-date'><span id='rtdepartureDate'>"+arr2comeDate+"</span> <span id='rtdeptime'>"+dep_time+"</span> ~ <span id='rtarrtime'>"+arr_time+"</span></div>";
 	
 				        	$("#Summary_Arr").html(seg);
 
@@ -703,6 +763,10 @@ function jsRadiobox01(){
         });
     });
 }
+	
+	
+	
+	
 	
 /*		
 	$("#OneFlightInfo").find($(".radiobox01")).on("click", function(){

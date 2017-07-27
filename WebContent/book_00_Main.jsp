@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+
+String id = "hyunju";
+String email ="hyunju.it2@gmail.com";
+
+request.getSession().setAttribute("id", id);
+request.getSession().setAttribute("email",email);
+
+%>
 <html lang="ko" class="gr__flyairseoul_com"><head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200">
@@ -40,6 +49,8 @@
     </ul>
 </div>
 <!-- wrap -->
+<input type="hidden" id="memID" value="<%=id %>">
+<input type="hidden" id="memEMAIL" value="<%=email %>">
 
 <div id="wrap" class="booking booking-step-on">
 
@@ -345,27 +356,28 @@ function fn_changeBookingStep(bookingStep, data) {
 			var jqBookingStepJourney = $("#liBookingStepJourney");		
 			$(jqBookingStepJourney).find("span.from").html(data.segmentDatas[0].departureAirport);
 			$(jqBookingStepJourney).find("span.city").html(data.segmentDatas[0].arrivalAirport);
-/* 			if (data.TRIPTYPE == "RT") {
+			
+ 			if (data.TRIPTYPE == "RT") {
 				$(jqBookingStepJourney).find("span.booking-step-content span").eq(1).addClass("roundtrip");
-				$(jqBookingStepJourney).find("span.city").html(data.segmentDatas[1].departureAirportName);
+//				$(jqBookingStepJourney).find("span.city").html(data.segmentDatas[1].departureAirportName);
 			} else if (data.TRIPTYPE == "OW") {
 				$(jqBookingStepJourney).find("span.booking-step-content span").eq(1).addClass("oneway");
-				$(jqBookingStepJourney).find("span.city").html(data.segmentDatas[0].arrivalAirportName);
+//				$(jqBookingStepJourney).find("span.city").html(data.segmentDatas[0].arrivalAirportName);
 			} else {
 				
-			} */
+			} 
 		} else if (mode == "date") {
 			var jqBookingStepDate = $("#liBookingStepDate");
 		//	$(jqBookingStepDate).find("span.startdate").html(moment(data.segmentDatas[0].departureDateTime).format("YYYY.MM.DD [(]dd[)]"));
-			$(jqBookingStepDate).find("span.startdate").html(moment(data.segmentDatas[0].departureDataTime).format("YYYY.MM.DD [(]dd[)]"));
-			console.log("출발 날짜 :"+data.segmentDatas[0].departureDataTime);
+			$(jqBookingStepDate).find("span.startdate").html(moment(data.segmentDatas[0].departureDateTime).format("YYYY.MM.DD [(]dd[)]"));
+			console.log("출발 날짜 :"+data.segmentDatas[0].departureDateTime);
 			console.log("SELECT TRIPTYPE :"+ data.TRIPTYPE);
-			console.log(moment(data.segmentDatas[0].departureDataTime).format("YYYY.MM.DD [(]dd[)]"));
+			console.log(moment(data.segmentDatas[0].departureDateTime).format("YYYY.MM.DD [(]dd[)]"));
 			
 			if (data.TRIPTYPE == "RT") {
-				console.log(moment(data.segmentDatas[1].departureDataTime).format("YYYY.MM.DD [(]dd[)]"));
+				console.log(moment(data.segmentDatas[1].departureDateTime).format("YYYY.MM.DD [(]dd[)]"));
 				$(jqBookingStepDate).find("span.directory").css("display", "block");
-				$(jqBookingStepDate).find("span.enddate").html(moment(data.segmentDatas[1].departureDataTime).format("YYYY.MM.DD [(]dd[)]"));
+				$(jqBookingStepDate).find("span.enddate").html(moment(data.segmentDatas[1].departureDateTime).format("YYYY.MM.DD [(]dd[)]"));
 			} else if (data.TRIPTYPE == "OW") {
 				$(jqBookingStepDate).find("span.directory").css("display", "none");
 				$(jqBookingStepDate).find("span.enddate").css("display", "none");
@@ -419,13 +431,7 @@ function fn_changeBookingStep(bookingStep, data) {
 
 </div><!-- wrap -->
 
-<!-- wrap -->
 
-
-
-
-
-	
 
 
 <script type="text/javascript">
@@ -440,7 +446,18 @@ $(document).ready(function(){
 	
 	var bookingStep="";
 	
+	var memid = $("#memID").val();
+	var memEmail = $("#memEMAIL").val();
 	
+	console.log("id :" +memid+"  Email :"+memEmail);
+	
+		
+//		console.log("main Booking :"+mainBooking);
+
+		//main 화면에서 빠른 예매를 이용하여 예약을 진행할 경우 입력 받은 값을 가지고 바로 
+		// 노선 스케줄을 볼 수 있는 화면으로. book_04
+		
+
 	
 		$("#txtDepBookingDate").val(moment().add('2','days').format('YYYY.MM.DD'));
 		$("#txtArrBookingDate").val(moment().add('3','days').format('YYYY.MM.DD'));

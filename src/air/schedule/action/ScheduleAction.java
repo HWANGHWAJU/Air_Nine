@@ -44,18 +44,19 @@ public class ScheduleAction implements SAction {
 		String tripType =(String)request.getParameter("tripType");
 		String  flightschedule_dep  =(String)request.getParameter("dep");
 		String depDate = (String)request.getParameter("depDate");
+		String arrDate = (String)request.getParameter("arrDate");
 		String flightschedule_arr  = (String)request.getParameter("arr");
 		String adt = (String)request.getParameter("adt");
 		String chd = (String)request.getParameter("chd");
 		String inf = (String)request.getParameter("inf");
 		
-		BookingCondition bcondition = new BookingCondition(tripType, flightschedule_dep, depDate, flightschedule_arr, adt, chd, inf);
+		BookingCondition bcondition = new BookingCondition(tripType, flightschedule_dep, depDate, arrDate, flightschedule_arr, adt, chd, inf);
 		
 		System.out.println("type :"+ tripType);
 		System.out.println("dep : "+flightschedule_dep+"  dep Date :"+depDate);
 		System.out.println("arr : "+flightschedule_arr );
 		System.out.println("Adult : "+adt+"  Chd : "+chd+" Inf : "+inf );
-	
+		System.out.println("돌아오는 날짜 왕복 :"+arrDate);
 		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
 		Date date = format.parse(depDate);
@@ -88,9 +89,6 @@ public class ScheduleAction implements SAction {
 
 			Vector<flightschedule> v = fdao.getFlightScheduleList(conn, flightschedule_dep, flightschedule_arr);
 
-			
-			
-			
 			Vector<flightschedule> vec = fdao.getFlightScheduleRound(conn, flightschedule_arr, flightschedule_dep);
 		
 			
