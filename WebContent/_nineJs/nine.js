@@ -944,6 +944,7 @@ $(document).ready(function(){
  * 	6. 각 인원의 금액과 총 금액, 세금, 유류할증료 등. 
  * 
  * */
+
 var FlightInfo = function(){
 	this.triptype = "";
 	this.flightDetailInfo = [];
@@ -959,6 +960,8 @@ var FlightDetailInfo = function(){
 	this.baseprice = "";
 	this.saleprice = "";
 }
+
+// 여행 조건을 전부 입력후 5단계, 탑승자 정보를 입력하는 페이지로 이동할 데이터들 
 
 function fn_ClickConfirmBtn(){
 	var memid = $("#memID").val();
@@ -1052,8 +1055,6 @@ function fn_ClickConfirmBtn(){
 		AsegmentData.departureAirport =$arrTocomeDep;
 		AsegmentData.departureDateTime = $arrTocomeDate;
 	
-		console.log("여기야이ㅑ렁러이랴ㅓㅁ;걀 :"+$arrTocomeDate);
-
 		jsBookingDataObject.segmentDatas.push(AsegmentData);
 		
 		jsFlightInfo.flightDetailInfo.push(arrFlightDetailInfo);
@@ -1191,9 +1192,6 @@ function goSelectSchedule(Object){
 	});
 };
 
-function pop(){
-	alert("dddd");
-}
 /*	Book_04.jsp 에 셋팅	*/
 
 function ShowBookingCondition(data){
@@ -1207,6 +1205,600 @@ function ShowBookingCondition(data){
 	$txtChild.text(data.chdPaxCnt);
 	$txtInfant.text(data.infPaxCnt);
 }
+
+
+/*		Book_05.jsp 우측 안내 셋팅 	*/
+function SettingDataBook05(detailFlight, detailBooking){
+
+	var jsFlight = new FlightInfo();
+	var jsFlightDetailDep =new FlightDetailInfo();
+	var jsFightDetailRT = new FlightDetailInfo();
+	
+	var jsBookingCondition = new BookingConditionDataObject();
+	var jsPassengerDataOject = new PassengerDataObject();
+	
+	var adcnt;
+	var chdcnt;
+	var infcnt;
+
+	console.log("detailFlight :"+detailFlight);
+	
+	console.log("detailBooking :"+ detailBooking);
+	
+	if(detailFlight != null){
+
+		jsFlight = jQuery.parseJSON(detailFlight);
+		console.log("jsFlight.flightDetailInfo.length :"+jsFlight.flightDetailInfo.length);
+		if(jsFlight.flightDetailInfo.length	== 2){
+			jsFlightDetailDep = jsFlight.flightDetailInfo[0];
+			jsFlightDetailRT = jsFlight.flightDetailInfo[1];
+		}else if(jsFlight.flightDetailInfo.length == 1 ){
+			console.log("들어왔는데 왜 안 들어가니 개새야");
+			console.log("오타가 났으니까 안 들어가지 ><");
+			jsFlightDetailDep = jsFlight.flightDetailInfo[0];
+		}
+		
+		console.log(jsFlight);
+		console.log(jsFlightDetailDep);
+//		console.log(jsFlightDetailRT);
+	}
+	
+	jsBookingCondition = jQuery.parseJSON(detailBooking);
+	
+	console.log(jsBookingCondition);
+	
+	var passengerDatas = new PassengerDataObject();
+		passengerDatas = [];
+		passengerDatas = jsBookingCondition.passengerDatas;
+	
+	adcnt = jsBookingCondition.passengerDatas[0].passengerNo;
+	
+/*	console.log(passengerDatas[0]);
+	console.log(passengerDatas[1]);
+	console.log(passengerDatas[2]);
+	
+	console.log(passengerDatas.length);
+	console.log("detailBooking adcnt : "+adcnt);*/
+	console.log(" 여긴 잘 들어와 확인 했어");
+	
+	if(jsBookingCondition.passengerDatas.length == 2){
+		if(jsBookingCondition.passengerDatas[1].paxType='CHD'){
+			chdcnt = jsBookingCondition.passengerDatas[1].passengerNo;
+			infcnt = 0;
+		
+		}else{
+			chdcnt = 0;
+			infcnt = jsBookingCondition.passengerDatas[1].passengerNo;
+		}
+	}else if(jsBookingCondition.passengerDatas.length==3){
+		chdcnt = jsBookingCondition.passengerDatas[1].passengerNo;
+		infcnt = jsBookingCondition.passengerDatas[2].passengerNo;
+		
+		console.log("1244 :"+chdcnt +"   infcnt :  "+infcnt);
+	}else{
+		chdcnt = 0;
+		infcnt =0;
+	}
+	
+	console.log("Adult :"+adcnt+"  Child :"+chdcnt+"  Infant :"+infcnt);
+	
+	$("#Summary_ADT").text(adcnt);
+	$("#Summary_CHD").text(chdcnt);
+	$("#Summary_INF").text(infcnt);
+	
+	
+	var depDate = moment(jsFlightDetailDep.depDate).format('YYYY.MM.DD [(]dd[)]');
+	
+	console.log("왜 안뜨고 지랄일까 존나 힘빠지네 ㅅㅂ");
+	
+	/*	우측 간편 안내 셋팅  	*/
+	var depStr = '<div class="booking-airlineticket-finalInfo-head-kinds"><span class="icon_airlineticket_from02" name="lblDepartureItinerary">가는여정</span>'+jsFlightDetailDep.depflight+'</div>'+
+				 '<div class="booking-airlineticket-finalInfo-head-fly">'+jsFlightDetailDep.dep+'&nbsp;<span class="diretory icon_airlineticket_oneway02" name="lblFrom"></span></div>'+
+				 '<div class="booking-airlineticket-finalInfo-head-fly">'+jsFlightDetailDep.arr+'</div>'+
+				 '<div class="booking-airlineticket-finalInfo-head-date" id="Summary_1"><div class="booking-airlineticket-finalInfo-head-date">'+depDate+' '+jsFlightDetailDep.depTime+' ~ '+jsFlightDetailDep.arrTime+'</div></div>';
+	
+	$(".booking-airlineticket-finalInfo-head-from").html(depStr);
+	
+	if(jsFlight.triptype =='RT'){
+		var RTdepDate = moment(jsFlightDetailRT.depDate).format('YYYY.MM.DD [(]dd[)]');
+		
+		var RTdepStr = '<div class="booking-airlineticket-finalInfo-head-kinds"><span class="icon_airlineticket_from02" name="lblDepartureItinerary">가는여정</span>'+jsFlightDetailRT.depflight+'</div>'+
+		 '<div class="booking-airlineticket-finalInfo-head-fly">'+jsFlightDetailRT.dep+'&nbsp;<span class="diretory icon_airlineticket_oneway02" name="lblFrom"></span></div>'+
+		 '<div class="booking-airlineticket-finalInfo-head-fly">'+jsFlightDetailRT.arr+'</div>'+
+		 '<div class="booking-airlineticket-finalInfo-head-date" id="Summary_1"><div class="booking-airlineticket-finalInfo-head-date">'+RTdepDate+' '+jsFlightDetailRT.depTime+' ~ '+jsFlightDetailRT.arrTime+'</div></div>';
+
+		$(".booking-airlineticket-finalInfo-head-to").html(RTdepStr);
+		
+	}
+}
+// 출도착 항공편의 가격 각각의 총 가격(총 인원)
+var PriceInfo = function(){
+	this.FlightPrice = "";
+	this.fuelPrice = 0;
+	this.tax = 28000;
+	this.total = "";
+}
+var PersonPrice = function(){
+	this.personPerprice = [];
+}
+//승객별 가격
+var PricePerPerson = function(){
+	this.paxType = "";	//승객 타입 
+	this.passengerNo = "";	//인원수 
+	this.price="";			//기본 가격
+	this.tax="";			//세금
+	this.perPerson ="";		//기본 가격 + 세금
+	this.totalPrice=""; 	// 해당 타입의 인원의 총 금액 
+}
+
+// 출도착 항공편 각각의 가격을 합한 가격
+var finallyPriceInfo = function(){
+	this.FlightPriceTotal = "";
+	this.fuelPrice = 0;
+	this.tax = "";
+	this.FinallyTOTAL = "";
+}
+
+/*	총 금액 및 개인 가격 셋팅	*/
+function SettingFinalPrice(detailFlight, passengerDatas){
+	var jsFlight = new FlightInfo();
+	var jsFlightDetailDep =new FlightDetailInfo();
+	var jsFightDetailRT = new FlightDetailInfo();
+	
+	var jsPassengerDataOject = new PassengerDataObject();
+	jsPassengerDataObject = [];
+	
+	var depBase_price ="";
+	var depSale_price = "";
+	
+	var RtBase_price = "";
+	var RtSale_price = "";
+	
+	var TotalPrice = "";
+	
+	var DepPrice = "";
+	var RtPrice = "";
+	
+	var depFinallyPrice = new PriceInfo();
+	var RtFinallyPrice = new PriceInfo();
+	var FinallyPrice = new finallyPriceInfo();
+	
+	var adcnt;
+	var chdcnt;
+	var infcnt;
+	
+	jsFlight = jQuery.parseJSON(detailFlight);
+	jsPassengerDataObject = passengerDatas;
+	
+	var triptype = jsFlight.triptype;
+	
+	console.log("In Setting Final Price :"+jsPassengerDataObject);
+	
+	console.log('dd : '+jsPassengerDataObject[0].paxType);
+	
+	adcnt = jsPassengerDataObject[0].passengerNo;
+	
+	if(jsPassengerDataObject.length == 2){
+		if(jsPassengerDataObject[1].paxType='CHD'){
+			chdcnt = jsPassengerDataObject[1].passengerNo;
+			infcnt = 0;
+		}else{
+			infcnt = jsPassengerDataObject[1].passengerNo;
+			chdcnt = 0;
+		}
+	}else if(jsPassengerDataObject.length==3){
+		chdcnt = jsPassengerDataObject[1].passengerNo;
+		infcnt = jsPassengerDataObject[2].passengerNo;
+	}else{
+		chdcnt = 0;
+		infcnt = 0;
+	}
+
+	
+	if(jsFlight.flightDetailInfo.length > 1){
+		jsFlightDetailDep = jsFlight.flightDetailInfo[0];
+		jsFlightDetailRT = jsFlight.flightDetailInfo[1];
+		
+		console.log("jsFlightDetailRT :"+jsFlightDetailRT);
+		
+		RtBase_price = jsFlightDetailRT.baseprice;
+		RtSale_price = jsFlightDetailRT.saleprice;
+		console.log("RtBase_price :"+RtBase_price+"  RtSale_price :"+RtSale_price);
+		RtFinallyPrice = Cal_PassengerPrice(RtBase_price, RtSale_price, adcnt, chdcnt, infcnt, 'RT');
+		
+	}else if(jsFlight.flightDetailInfo.length ==1 ){
+		
+		jsFlightDetailDep = jsFlight.flightDetailInfo[0];
+		RtFinallyPrice.total = 0;
+		RtFinallyPrice.tax = 0;
+		
+	}
+
+	
+	depBase_price = jsFlightDetailDep.baseprice;
+	depSale_price = jsFlightDetailDep.saleprice;
+	
+	console.log("Adult :"+adcnt+"  Child :"+chdcnt+"  Infant :"+infcnt);
+	console.log("depBase_price :"+depBase_price+"  depSale_price :"+depSale_price);
+	depFinallyPrice = Cal_PassengerPrice(depBase_price, depSale_price, adcnt, chdcnt, infcnt, 'OW');
+	
+	
+	TotalPrice = Number(depFinallyPrice.total) + Number(RtFinallyPrice.total);
+	this.FlightPriceTotal = "";
+	this.fuelPrice = 0;
+	this.tax = "";
+	this.FinallyTOTAL = "";
+
+	FinallyPrice.FlightPriceTotal = Number(depFinallyPrice.FlightPrice) + Number(RtFinallyPrice.FlightPrice);
+	FinallyPrice.fuelPrice = Number(depFinallyPrice.fuelPrice)+Number(RtFinallyPrice.fuelPrice);
+	FinallyPrice.tax = Number(depFinallyPrice.tax)+Number(RtFinallyPrice.tax);
+	FinallyPrice.FinallyTOTAL = TotalPrice;
+	
+	$("#EquivFare").text(FinallyPrice.FlightPriceTotal);
+	$("#FuelCharge").text(FinallyPrice.fuelPrice);
+	$("#Tax").text(FinallyPrice.tax);
+
+	$("#finallyTotal").val(JSON.stringify(FinallyPrice));
+	
+	
+	$(".price-area .unit").text("KRW");
+	$(".price-area .price").text(TotalPrice);
+	console.log("총액 :"+TotalPrice);
+	
+}
+
+
+
+function Cal_PassengerPrice(baseP, saleP, adt, chd, inf, type){
+	var flightPrice = ""; //항공 운임 
+	var fuelPrice = 0; //유류 할증료 
+	var tax = 28000; // 세금, 제반 세금 
+	
+	var TotalPrice = ""; // 세금 포함 총 가격 
+	/* Number(adt)+Number(chd)+Number(inf);*/
+
+	var PassengerCount = Number(adt)+Number(chd)+Number(inf);//총 인원 수 
+	var pricetotal = new PriceInfo();
+	
+	console.log("In cal_PassegerPrice() / 총 탑승 인원 수 :"+PassengerCount);
+	
+	var adult = "";
+	var child = "";
+	var infant = "";
+	
+	var chdfee = 0.6;
+	var inffee = 0.1;
+	
+	adult = Number(saleP * adt); // 세금 제외 
+	
+	var totalPersonPrice = new PersonPrice();
+		totalPersonPrice.personPerprice =[];
+	
+	var Aprice = new PricePerPerson();
+	Aprice.paxType="ADT";
+	Aprice.passengerNo=adt;
+	Aprice.price = saleP;
+	Aprice.tax = tax;
+	Aprice.perPerson = Number(Aprice.price)+Number(Aprice.tax);
+	Aprice.totalPrice = Aprice.perPerson * adt;
+	
+	totalPersonPrice.personPerprice.push(Aprice);
+	
+	child = (Number(baseP * chdfee)) * chd; // 세금 제외
+	
+	var Cprice = new PricePerPerson();
+	Cprice.paxType="CHD";
+	Cprice.passengerNo=chd;
+	Cprice.price = baseP*chdfee;
+	Cprice.tax = tax;
+	Cprice.perPerson = Number(Cprice.price)+Number(Cprice.tax);
+	Cprice.totalPrice = Cprice.perPerson * chd;
+
+	totalPersonPrice.personPerprice.push(Cprice);
+
+
+	infant = (Number(baseP * inffee)+ Number(tax)) * inf;
+
+	var Iprice = new PricePerPerson();
+	Iprice.paxType="INF";
+	Iprice.passengerNo=inf;
+	Iprice.price = baseP*inffee;
+	Iprice.tax = tax;
+	Iprice.perPerson = Number(Iprice.price)+Number(Iprice.tax);
+	Iprice.totalPrice = Iprice.perPerson * inf;
+
+	totalPersonPrice.personPerprice.push(Iprice);
+	
+	if(type=="OW"){
+		$("#personPrice").val(JSON.stringify(totalPersonPrice));
+	}else if(type=="RT"){
+		$("#RTpersonPrice").val(JSON.stringify(totalPersonPrice));
+	}
+	TotalPrice = Number(adult)+Number(child)+Number(infant) + (Number(tax)*(PassengerCount));
+	
+	flightPrice = Number(TotalPrice)-Number(tax);
+	
+	pricetotal.FlightPrice = flightPrice;
+	pricetotal.fuelPrice = 0;
+	pricetotal.tax = 28000*PassengerCount;
+	pricetotal.total = TotalPrice;
+	
+	console.log("항공 운임 :"+pricetotal.FlightPrice);
+	console.log("편도 총액 :"+ TotalPrice);
+	console.log(totalPersonPrice);
+	
+	
+	return pricetotal;
+}
+
+function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
+	
+		
+	var jsFinallyPrice = new finallyPriceInfo();
+		jsFinallyPrice = jQuery.parseJSON(FinallyPrice);
+	
+	console.log("Finally Price : "+jsFinallyPrice.FinallyTOTAL);
+	
+	var jsOWpersonPrice = new PersonPrice();
+		jsOWpersonPrice = jQuery.parseJSON(OWpersonPrice);
+	
+	var jsPersonPerPrice = new PricePerPerson();
+	
+	jsPersonPerPrice = [];
+	jsPersonPerPrice = jsOWpersonPrice.personPerprice;
+	
+	console.log("OWpersonPrice :"+jsOWpersonPrice);
+	
+	var jsADT = new PricePerPerson();
+	var jsCHD = new PricePerPerson();
+	var jsINF = new PricePerPerson();
+	
+	var adcnt="";
+	var chdcnt="";
+	var infcnt="";
+	
+	jsADT = jsPersonPerPrice[0];
+	adcnt = jsADT.passengerNo;
+	console.log(jsADT);
+	
+	if(jsPersonPerPrice.length == 3){
+		jsCHD = jsPersonPerPrice[1];
+		jsINF = jsPersonPerPrice[2];
+	}else if(jsPersonPerPrice.length ==2 ){
+		if(jsPersonPerPrice.length[1].paxType='CHD'){
+			jsCHD = jsPersonPerPrice[1];
+			
+			infcnt=0;
+		}else if(jsPersonPerPrice.length[1].paxType='INF'){
+			jsINF = jsPersonPerPrice[1];
+			infcnt = jsINF.passengerNo;
+			chdcnt =0;
+		}
+	}else{
+		chdcnt = 0;
+		infcnt = 0;
+	}
+
+	console.log(jsCHD);
+	console.log(jsINF);
+	chdcnt = jsCHD.passengerNo;
+	infcnt = jsINF.passengerNo;
+	
+	console.log("OW 소아 :"+chdcnt);
+	console.log(infcnt);
+	
+	var jsRTpersonPrice = new PersonPrice();
+	var jsRTPersonPerPrice = new PricePerPerson();
+	
+	jsRTPersonPerPrice =[];
+	if(type == 'RT'){
+		jsRTpersonPrice = jQuery.parseJSON(RTpersonPrice);
+		jsRTPersonPerPrice = jsRTpersonPrice.personPerprice;
+		
+		console.log("RTpersonPrice :"+jsRTpersonPrice);
+	
+		var RjsADT = new PricePerPerson();
+		var RjsCHD = new PricePerPerson();
+		var RjsINF = new PricePerPerson();
+			
+		var Radcnt= "";
+		var Rchdcnt="";
+		var RInfcnt = "";
+	
+		RjsADT =jsRTPersonPerPrice[0];
+		Radcnt = RjsADT.passengerNo;
+		console.log(RjsADT);
+		
+		if(jsRTPersonPerPrice.length == 3){
+			RjsCHD =jsRTPersonPerPrice[1];
+			RjsINF =jsRTPersonPerPrice[2];
+		}else if(jsRTPersonPerPrice.length ==2 ){
+			if(jsRTPersonPerPrice.length[1].paxType='CHD'){
+				RjsCHD =jsRTPersonPerPrice[1];
+				RInfcnt =0;
+			}else if(jsRTPersonPerPrice.length[1].paxType='INF'){
+				RjsINF =jsRTPersonPerPrice[1];
+				Rchdcnt =0;
+			}
+		}else{
+			Rchdcnt =0;
+			RInfcnt=0;
+		}
+		console.log(RjsCHD);
+		console.log(RjsINF);
+		
+		
+		Rchdcnt = RjsCHD.passengerNo;
+		Rinfcnt = RjsINF.passengerNo;
+		
+		console.log("RT 소아 :"+Rchdcnt);
+		console.log(Rinfcnt);
+		
+	}
+	
+	
+	
+	var totalPassengerCount =Number(adcnt)+Number(chdcnt)+Number(infcnt);
+	
+	console.log(" 총 탑승 인원 수 :"+totalPassengerCount);
+	
+	var PriceSTR = "";
+	/*	편도 (갈 때)	*/
+	
+	for(var j =1; j<=adcnt ; j++){
+			PriceSTR += "<tr><td id='tdAdt"+j+"'><span></span></td>"
+									+"<td class='tbl-price' name='strongPrice1'>"+jsADT.price+"</td>"
+									+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+									+"<td class='tbl-price' name='strongPrice3'>"+jsADT.tax+"</td>"
+									+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+									+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsADT.perPerson+"</strong></td></tr>";
+		}
+	for(var j=1; j<=chdcnt; j++){
+		PriceSTR += "<tr><td id='tdChd"+j+"'><span></span></td>"
+		+"<td class='tbl-price' name='strongPrice1'>"+jsCHD.price+"</td>"
+		+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+		+"<td class='tbl-price' name='strongPrice3'>"+jsCHD.tax+"</td>"
+		+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+		+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsCHD.perPerson+"</strong></td></tr>"; 
+	}
+	
+	for(var j=1; j<=infcnt; j++){
+		PriceSTR += "<tr><td id='tdInf"+j+"'><span></span></td>"
+		+"<td class='tbl-price' name='strongPrice1'>"+jsINF.price+"</td>"
+		+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+		+"<td class='tbl-price' name='strongPrice3'>"+jsINF.tax+"</td>"
+		+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+		+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsINF.perPerson+"</strong></td></tr>"; 
+	}
+	
+
+	
+	$("#OWpassengerList").html(PriceSTR);
+	$("#OWtable span#spanTotalAmt").text(jsFinallyPrice.FinallyTOTAL);
+	$("#RTtable span#spanTotalAmt").text(jsFinallyPrice.FinallyTOTAL);
+	
+	/*	왕복, 올 때	*/
+	
+	if(type == 'RT'){
+	var RpriceSTR = "";
+	
+	for(var j =1; j<=Radcnt ; j++){
+		 RpriceSTR += "<tr><td id='tdAdt"+j+"'><span></span></td>"
+								+"<td class='tbl-price' name='strongPrice1'>"+RjsADT.price+"</td>"
+								+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+								+"<td class='tbl-price' name='strongPrice3'>"+RjsADT.tax+"</td>"
+								+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsADT.perPerson+"</strong></td></tr>";
+	}
+	for(var j=1; j<=Rchdcnt; j++){
+	 RpriceSTR += "<tr><td id='tdChd"+j+"'><span></span></td>"
+	+"<td class='tbl-price' name='strongPrice1'>"+RjsCHD.price+"</td>"
+	+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+	+"<td class='tbl-price' name='strongPrice3'>"+RjsCHD.tax+"</td>"
+	+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+	+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsCHD.perPerson+"</strong></td></tr>"; 
+	}
+	
+	for(var j=1; j<=Rinfcnt; j++){
+	 RpriceSTR += "<tr><td id='tdInf"+j+"'><span></span></td>"
+	+"<td class='tbl-price' name='strongPrice1'>"+RjsINF.price+"</td>"
+	+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+	+"<td class='tbl-price' name='strongPrice3'>"+RjsINF.tax+"</td>"
+	+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+	+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsINF.perPerson+"</strong></td></tr>"; 
+	}
+	
+	$("#RTpassengerList").html(RpriceSTR);
+	
+	}
+
+	
+	var PassengerSTR = "";
+	
+	for(var j =1; j<adcnt ; j++){
+		PassengerSTR+="<div class='booking-table-title mgt20'><h3 class='table-title-mid mgr25'>성인 "+(j+1)+"</h3></div>"+
+		 			  "<div class='tbl-input-row01 mgt50' id='dvAdt"+(j+1)+"' paxno='"+(j+1)+"'>"+
+		 			  "<table>"+
+		 			  "<caption>영문 성명, 성별, 쿠폰할인으로 구성된 탑승자 정보입력표입니다.</caption>"+
+		 			  "<colgroup>"+
+		 			  	"<col style='width:20%'><col>"+
+		 			  "</colgroup>"+
+		 			  	"<tbody>"+
+		 			  		"<tr>"+
+		 			  		"<th scope='row'>영문 성명</th>"+
+		 			  		"<td>"+
+		 			  			"<div><span class='inp-txt mgr03'>" +
+		 			  			"<input type='text' id='lastNameAdt"+(j+1)+"' name='lastName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='Last Name(성) 입력' placeholder='Last Name(성)'  maxlength='30' >"+
+		 			  			"</span><span class='inp-txt mgr03'>"+
+		 			  			"<input type='text' id='firstNameAdt"+(j+1)+"' name='firstName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='First Name(이름) 입력' placeholder='First Name(이름)'  maxlength='30' >"+
+		 			  			"</span></div></td></tr>"+
+		 			  			"<tr>"+
+		 			  			"<th scope='row'>성별</th>"+
+		 			  			"<td><ul class='radio_list'>"+
+		 			  			"<li><span class='radiobox01 js-radiobox01'>"+
+		 			  				"<label for='radioSexManAdt"+(j+1)+"' >"+
+		 			  				"<input type='radio' id='radioSexManAdt"+(j+1)+"' name='radioSexAdt"+(j+1)+"' value='M'><span>남</span>"+ 
+		 			  				"</label></span></li><li><span class='radiobox01 js-radiobox01'>"+
+		 			  "<label for='radioSexWomanAdt"+(j+1)+"'><input type='radio' id='radioSexWomanAdt"+(j+1)+"' name='radioSexAdt"+(j+1)+"' value='F' ><span>여</span>"+
+		 			  "</label></span></li></ul></td></tr><tr><th scope='row'>"+
+		 			  "<label for='coupon'>쿠폰할인</label></th><td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
+		 			  "<span class='txt ex'></span><select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
+		 			  "<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option></select></span></div></td>"+
+		 			  "</tr></tbody></table></div>";
+		 	}
+	for(var j=1; j<=chdcnt; j++){
+		PassengerSTR += "<div class='booking-table-title mgt20'><h3 class='table-title-mid mgr25'>소아 "+j+"</h3></div>"+
+	  "<div class='tbl-input-row01 mgt50' id='dvChd"+j+"' paxno='"+j+"'>"+
+		  "<table><caption>영문 성명, 성별, 쿠폰할인으로 구성된 탑승자 정보입력표입니다.</caption>"+
+		  "<colgroup><col style='width:20%'><col></colgroup>"+
+		  "<tbody><tr><th scope='row'>영문 성명</th><td>"+
+		  "<div><span class='inp-txt mgr03'>" +
+		  "<input type='text' id='lastNameChd"+j+"' name='lastName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='Last Name(성) 입력' placeholder='Last Name(성)'  maxlength='30' >"+
+		  "</span><span class='inp-txt mgr03'>"+
+		  "<input type='text' id='firstNameChd"+j+"' name='firstName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='First Name(이름) 입력' placeholder='First Name(이름)'  maxlength='30' >"+
+		  "</span></div></td></tr>"+
+		  "<tr><th scope='row'>성별</th><td><ul class='radio_list'>"+
+		  "<li><span class='radiobox01 js-radiobox01'><label for='radioSexManChd"+j+"' >"+
+		  "<input type='radio' id='radioSexManChd"+j+"' name='radioSexChd"+j+"' value='M'><span>남</span>"+ 
+		  "</label></span></li><li><span class='radiobox01 js-radiobox01'>"+
+		  "<label for='radioSexWomanChd"+j+"'><input type='radio' id='radioSexWomanChd"+j+"' name='radioSexChd"+j+"' value='F' ><span>여</span>"+
+		  "</label></span></li></ul></td></tr><tr><th scope='row'>"+
+		  "<label for='coupon'>쿠폰할인</label></th><td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
+		  "<span class='txt ex'></span><select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
+		  "<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option></select></span></div></td>"+
+		  "</tr></tbody></table></div>";
+	}
+	
+	for(var j=1; j<=infcnt; j++){
+		PassengerSTR += "<div class='booking-table-title mgt20'><h3 class='table-title-mid mgr25'>유아 "+j+"</h3></div>"+
+	  "<div class='tbl-input-row01 mgt50' id='dvInf"+j+"' paxno='1'>"+
+		  "<table><caption>영문 성명, 성별, 쿠폰할인으로 구성된 탑승자 정보입력표입니다.</caption>"+
+		  "<colgroup><col style='width:20%'><col></colgroup>"+
+		  "<tbody><tr><th scope='row'>영문 성명</th><td>"+
+		  "<div><span class='inp-txt mgr03'>" +
+		  "<input type='text' id='lastNameInf"+j+"' name='lastName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='Last Name(성) 입력' placeholder='Last Name(성)'  maxlength='30' >"+
+		  "</span><span class='inp-txt mgr03'>"+
+		  "<input type='text' id='firstNameInf"+j+"' name='firstName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='First Name(이름) 입력' placeholder='First Name(이름)'  maxlength='30' >"+
+		  "</span></div></td></tr>"+
+		  "<tr><th scope='row'>성별</th><td><ul class='radio_list'>"+
+		  "<li><span class='radiobox01 js-radiobox01'><label for='radioSexManAdt1' >"+
+		  "<input type='radio' id='radioSexManInf"+j+"' name='radioSexInf"+j+"' value='M'><span>남</span>"+ 
+		  "</label></span></li><li><span class='radiobox01 js-radiobox01'>"+
+		  "<label for='radioSexWomanInf"+j+"'><input type='radio' id='radioSexWomanInf"+j+"' name='radioSexInf"+j+"' value='F' ><span>여</span>"+
+		  "</label></span></li></ul></td></tr><tr><th scope='row'>"+
+		  "<label for='coupon'>쿠폰할인</label></th><td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
+		  "<span class='txt ex'></span><select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
+		  "<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option></select></span></div></td>"+
+		  "</tr></tbody></table></div>";
+	}
+	
+	$("#originOne").after(PassengerSTR);
+	
+}
+	
+	
+	
+	
 
 
 

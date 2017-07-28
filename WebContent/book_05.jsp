@@ -27,15 +27,9 @@
 													<!-- 국가코드 -->
 												
 													<!-- 국가코드가 82 이면서 length 가 4 이면 휴대폰 -->
-												 
-												
-													
 														<!-- 회원 -->
 														<li><span class="radiobox01 js-radiobox01"><label for="CELLPHONE01" class="active"><input type="radio" id="CELLPHONE01" name="radioCellPhone" value="phone" checked="checked"> <span id="Cellphone">휴대폰</span> </label></span></li>
 														<li><span class="radiobox01 js-radiobox01"><label for="CELLPHONE02"><input type="radio" id="CELLPHONE02" name="radioCellPhone" value="etcPhone"> <span id="OtherContacts">기타연락처</span></label></span></li>
-													
-												
-												
 											</ul>
 										</div>
 										<div class="mgt10">
@@ -86,6 +80,7 @@
 				
 						<!-- 탑승자정보 - 탑승자 정보(S) -->
 						<h2 id="h2PaxInfoTitle" class="table-title-big mgt60">탑승자 정보</h2>
+						<div id="originOne">
 						<div class="booking-table-title mgt20">
 						<h3 class="table-title-mid mgr25">성인 1</h3>
 						<span class="checkbox01 js-checkbox01">
@@ -96,6 +91,8 @@
 						</span>
 						</div>
 						<div class="tbl-input-row01 mgt20" id="dvAdt1" paxno="1">
+
+		
 						
 						<table>
 							<caption>영문 성명, 성별, 쿠폰할인으로 구성된 탑승자 정보입력표입니다.</caption>
@@ -109,10 +106,10 @@
 										<td>
 											<div>
 												<span class="inp-txt mgr03">
-												<input type="text" id="lastNameAdt1" name="lastName" style="width: 224px; ime-mode:disabled; text-transform:uppercase;" title="Last Name(성) 입력" placeholder="Last Name(성)"  maxlength="30" readonly="readonly">
+												<input type="text" id="lastNameAdt1" name="lastName" style="width: 224px; ime-mode:disabled; text-transform:uppercase;" title="Last Name(성) 입력" placeholder="Last Name(성)"  maxlength="30" >
 												</span>
 												<span class="inp-txt mgr03">
-												<input type="text" id="firstNameAdt1" name="firstName" style="width: 224px; ime-mode:disabled; text-transform:uppercase;" title="First Name(이름) 입력" placeholder="First Name(이름)"  maxlength="30" readonly="readonly">
+												<input type="text" id="firstNameAdt1" name="firstName" style="width: 224px; ime-mode:disabled; text-transform:uppercase;" title="First Name(이름) 입력" placeholder="First Name(이름)"  maxlength="30" >
 												</span>
 											</div>
 										</td>
@@ -124,14 +121,14 @@
 												<li>
 													<span class="radiobox01 js-radiobox01">
 														<label for="radioSexManAdt1" >
-															<input type="radio" id="radioSexManAdt1" name="radioSexAdt1" value="M"  disabled="disabled"><span>남</span> 
+															<input type="radio" id="radioSexManAdt1" name="radioSexAdt1" value="M"  ><span>남</span> 
 														</label>
 													</span>
 												</li>
 												<li>
 													<span class="radiobox01 js-radiobox01">
 														<label for="radioSexWomanAdt1">
-															<input type="radio" id="radioSexWomanAdt1" name="radioSexAdt1" value="F" disabled="disabled"><span>여</span>
+															<input type="radio" id="radioSexWomanAdt1" name="radioSexAdt1" value="F" ><span>여</span>
 														</label>
 													</span>
 												</li>
@@ -156,6 +153,9 @@
 							</tbody>
 						</table>
 						</div>
+						</div>
+						
+						
 						<!-- 탑승자정보 - 탑승자 정보(E) -->
 						
 						<ul class="uList01">
@@ -172,7 +172,7 @@
 						<h3 class="table-title-big mgt60" id="FareNotice">탑승객별 운임</h3>
 						<p align="right"><span id="Unit">단위</span>&nbsp;<span></span></p>
 						<div class="tbl-data-col01 mgt20">
-							<table>
+							<table id="OWtable">
 								<caption id="SummaryNotice2">영문 성명, 항공운임, 유류할증료, 세금/제반요금, 쿠폰할인, 결제금액, 합계(항공운임+유류할증료+세금/제반요금), 총액으로 구성된 탑승객별 운임안내표입니다.</caption>
 								<colgroup>
 									<col style="width:220px">
@@ -193,40 +193,93 @@
 									<th scope="col" name="lblPayment">결제금액</th>
 								</tr>
 								</thead>
-								<tbody>
+								<tbody id="OWpassengerList">
 								
-											<!-- 성인건수 -->
-											<!-- 소아건수 -->
-										<!-- 유아건수 -->
-													<!-- 예상총액 -->
-													<!-- 항공운임총액 -->
-													<!-- 유류할증료총액 -->
-												<!-- 세금제반요금총액 -->
-														<!-- 지불금액 -->
+								<!-- 성인건수 -->
+								<!-- 소아건수 -->
+								<!-- 유아건수 -->
+								<!-- 예상총액 -->
+								<!-- 항공운임총액 -->
+								<!-- 유류할증료총액 -->
+								<!-- 세금제반요금총액 -->
+								<!-- 지불금액 -->
 								
-									<tr>
-										
-											<td id="tdAdt1"></td>
-											
-										
-										
-										
+									<tr>						
+										<td id="tdAdt1"></td>
 										<td class="tbl-price" name="strongPrice1"></td>
 										<!-- 총항공운임 -->
-										
 										<td class="tbl-price" name="strongPrice2"></td>
 										<!-- 총유류할증료 -->
-										
 										<td class="tbl-price" name="strongPrice3"></td>
 										<!-- 총세금제반요금 -->
-										
-										
-											<td class="tbl-price"><strong class="point-color02" name="strongCoupon"></strong></td>
-										
-									
+										<td class="tbl-price"><strong class="point-color02" name="strongCoupon"></strong></td>
 										<td class="tbl-price"><strong class="point-color02" name="strongPrice4"></strong></td>
 										<!-- 총세금제반요금 -->
-										
+									</tr>
+								
+								</tbody>
+								<tfoot id="OWfoot">
+								<tr>
+									<th scope="row" colspan="3" class="th_type01" id="SumTitle">합계(항공운임+유류할증료+세금/제반요금)</th>
+									<td colspan="3" class="tbl-price bdln"><strong class="point-color02"></strong></td>
+								</tr>
+								<tr>
+									<th scope="row" colspan="3" class="tbl-total" name="lblPredictionTotal">총액</th>
+									<td colspan="3" class="tbl-price tbl-total bdln"><em class="point-color01">KRW <span id="spanTotalAmt"></span></em></td>
+								</tr>
+								</tfoot>
+							</table>
+						</div>
+						<BR>
+						
+						<!-- 왕복 시 보여줌  -->
+						<div id="whenRTview" style="display:none;">
+						<h3 class="table-title-big mgt60" id="FareNotice">탑승객별 운임 _ 왕복</h3>
+						<p align="right"><span id="Unit">단위</span>&nbsp;<span></span></p>
+						<div class="tbl-data-col01 mgt20">
+							<table id="RTtable">
+								<caption id="SummaryNotice2">영문 성명, 항공운임, 유류할증료, 세금/제반요금, 쿠폰할인, 결제금액, 합계(항공운임+유류할증료+세금/제반요금), 총액으로 구성된 탑승객별 운임안내표입니다.</caption>
+								<colgroup>
+									<col style="width:220px">
+									<col style="width:110px">
+									<col style="width:110px">
+									<col style="width:110px">
+									<col style="width:110px">
+								</colgroup>
+								<thead>
+								<tr>
+									<th scope="col" name="lblName">영문 성명</th>
+									<th scope="col" name="lblAirfare">항공운임</th>
+									<th scope="col" name="lblFuelSurcharge">유류할증료</th>
+									<th scope="col" name="lblTaxrate">세금/제반요금</th>
+									
+										<th scope="col" name="lblCouponTitle">쿠폰할인</th>
+									
+									<th scope="col" name="lblPayment">결제금액</th>
+								</tr>
+								</thead>
+								<tbody id="RTpassengerList">
+								
+								<!-- 성인건수 -->
+								<!-- 소아건수 -->
+								<!-- 유아건수 -->
+								<!-- 예상총액 -->
+								<!-- 항공운임총액 -->
+								<!-- 유류할증료총액 -->
+								<!-- 세금제반요금총액 -->
+								<!-- 지불금액 -->
+								
+									<tr>						
+										<td id="tdAdt1"></td>
+										<td class="tbl-price" name="strongPrice1"></td>
+										<!-- 총항공운임 -->
+										<td class="tbl-price" name="strongPrice2"></td>
+										<!-- 총유류할증료 -->
+										<td class="tbl-price" name="strongPrice3"></td>
+										<!-- 총세금제반요금 -->
+										<td class="tbl-price"><strong class="point-color02" name="strongCoupon"></strong></td>
+										<td class="tbl-price"><strong class="point-color02" name="strongPrice4"></strong></td>
+										<!-- 총세금제반요금 -->
 									</tr>
 								
 								</tbody>
@@ -237,19 +290,23 @@
 								</tr>
 								<tr>
 									<th scope="row" colspan="3" class="tbl-total" name="lblPredictionTotal">총액</th>
-									<td colspan="3" class="tbl-price tbl-total bdln"><em class="point-color01"> <span id="spanTotalAmt"></span></em></td>
+									<td colspan="3" class="tbl-price tbl-total bdln"><em class="point-color01">KRW <span id="spanTotalAmt"></span></em></td>
 								</tr>
 								</tfoot>
 							</table>
 						</div>
+						</div>
 						<ul class="uList01">
 							<li id="SummaryNotice5">항공운임, 유류할증료 및 세금/제반 운임을 포함한 총액으로 구매 시점과 환율에 따라 변동될 수 있습니다.</li>
 						</ul>
+						
 						<div class="pdt30 tc">
 							<button onclick="javascript:fn_ClickConfirmBtn()" type="button" class="btn-type01-col01" id="BtnComplete">확인</button>
 						</div>
 					</div>
+				
 					<!-- 탑승자정보 - 탑승객별 운임(E) -->
+			
 					
 					<!-- 우측 간편 안내(S) -->
 					<div class="booking-airlineticket-finalInfo">
@@ -258,8 +315,6 @@
 						</div>
 						<div class="booking-airlineticket-finalInfo-head">
 								<!-- 왕복 -->
-								
-									
 										<div class="booking-airlineticket-finalInfo-head-from">
 											<div class="booking-airlineticket-finalInfo-head-kinds"><span class="icon_airlineticket_from02" name="lblDepartureItinerary">가는여정</span></div>
 											<div class="booking-airlineticket-finalInfo-head-fly"><span class="diretory icon_airlineticket_oneway02" name="lblFrom"></span></div>
@@ -267,7 +322,7 @@
 											<div class="booking-airlineticket-finalInfo-head-date" id="Summary_1"><div class="booking-airlineticket-finalInfo-head-date"></div></div>
 										</div> 
 									
-										<div class="booking-airlineticket-finalInfo-head-to">
+										<div class="booking-airlineticket-finalInfo-head-to" style="display:none;">
 										<div class="booking-airlineticket-finalInfo-head-kinds"><span class="icon_airlineticket_to02" name="lblArrivalItinerary">오는여정</span></div>
 										<div class="booking-airlineticket-finalInfo-head-fly"><span class="diretory icon_airlineticket_oneway02" name="lblFrom"></span></div>
 										<div class="booking-airlineticket-finalInfo-head-fly"></div>
@@ -285,9 +340,9 @@
 										</colgroup>
 										<tbody>
 										<tr>
-											<td class="tc tbl-adult"><span id="Adult">성인</span> <span name="lblPersonUnit">명</span></td>
-											<td class="tc tbl-child"><span id="Child">소아</span> <span name="lblPersonUnit">명</span></td>
-											<td class="tc tbl-lapinfant"><span id="Infant">유아</span><span name="lblPersonUnit">명</span></td>
+											<td class="tc tbl-adult"><span id="Adult">성인 </span><span id="Summary_ADT"></span><span name="lblPersonUnit">명</span></td>
+											<td class="tc tbl-child"><span id="Child">소아 </span><span id="Summary_CHD"></span><span name="lblPersonUnit">명</span></td>
+											<td class="tc tbl-lapinfant"><span id="Infant">유아 </span><span id="Summary_INF"></span><span name="lblPersonUnit">명</span></td>
 										</tr>
 										</tbody>
 									</table>
@@ -303,19 +358,19 @@
 										<tr>
 											<th scope="row" name="lblAirfare">항공운임</th>
 											<td class="tr tbl-price">
-												<span></span>
+												<span id="EquivFare"></span>
 											</td>
 										</tr>
 										<tr>
 											<th scope="row" name="lblFuelSurcharge">유류할증료</th>
 											<td class="tr tbl-price">
-												<span></span>
+												<span  id="FuelCharge"></span>
 											</td>
 										</tr>
 										<tr>
 											<th scope="row" name="lblTaxrate">세금/제반요금</th>
 											<td class="tr tbl-price">
-												<span></span>
+												<span  id="Tax"></span>
 											</td>
 										</tr>
 										
@@ -346,6 +401,8 @@
 
 	<form id="certify" name="certify" method="post" target="_self"></form>
 	
+
+	
 <div>
 <c:set var="vf" value="${requestScope.JF }"/>
 <c:choose>
@@ -370,9 +427,17 @@
 </c:choose>
 </div>
 
+<form id="AllPrice">
+<input type="hidden"  id="personPrice">
+<input type="hidden"  id="RTpersonPrice">
+<input type="hidden"  id="finallyTotal">
+</form>
+
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	jsRadiobox01();
 	
 	var detailFlight = $("#detailBookingCondition").val();
 	var detailBooking = $("#jsbookingCondition").val();
@@ -382,7 +447,73 @@ $(document).ready(function(){
 	
 	GoBook_05(detailBooking);
 	
+	var jsBookingCondition = new BookingConditionDataObject();
+	var jsPassengerDataOject = new PassengerDataObject();
+
+	
+	jsBookingCondition = jQuery.parseJSON(detailBooking);
+	jsPassengerDataObject =[];
+	
+	jsPassengerDataObject = jsBookingCondition.passengerDatas; //이미 Json으로 변형되었음. 
+	
+	console.log(jsPassengerDataObject);
+	
+	var type =jsBookingCondition.TRIPTYPE;
+	
+	if(type=='RT'){
+		$(".booking-airlineticket-finalInfo-head-to").css("display","block");
+		$("#OWfoot").css("display","none");
+		$("#whenRTview").css("display","block");
+	}
+
+	SettingDataBook05(detailFlight, detailBooking);
+	SettingFinalPrice(detailFlight,jsPassengerDataObject);
+	
+	var OWpersonPrice = $("#personPrice").val(); //PersonPrice (안에 성인, 소아, 유아 )
+	var RTpersonPrice = $("#RTpersonPrice").val();
+	var FinallyPrice = $("#finallyTotal").val();
+	
+	fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice);
+	
+	$("input:radio").on("click", function(){
+		alert('클릭');
+	});	
+	
+	
 });
+
+function jsRadiobox01(){
+    $(".js-radiobox01").find("input").each(function(i, radio){
+        var $radio = $(this);
+
+        $radio.off("focus blur change");
+
+        /* checked가 되어있는경우 */
+        if($radio.is(":checked")==true){
+            if($radio.is(":disabled")==true){
+                $radio.parent('label').addClass('disabled');
+            } else{
+                $radio.parent('label').addClass('active');
+            }
+        }
+        /* disable이 되어있는경우 */
+        else if($radio.is(":disabled")==true){
+            $radio.parent('label').addClass('disabled');
+        }
+
+        $radio.focus(function(){
+            $radio.closest(".radiobox01").addClass("focus");
+        })
+        $radio.blur(function(){
+            $radio.closest(".radiobox01").removeClass("focus");
+        })
+
+        $radio.on("change", function(){
+            $("input[name='" + $(this).attr("name") +"']").parent("label").removeClass("active");
+            $(this).prop("checked", true).parent('label').addClass('active');
+        });
+    });
+}
 
 </script>
 	

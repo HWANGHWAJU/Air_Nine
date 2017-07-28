@@ -15,8 +15,8 @@ public class JsonGoPassengerAction implements SJsonAction{
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
 	
-		String detailBookingCondition = (String)request.getParameter("detailBooking");
-		String JsBookingCondition = (String)request.getParameter("jsDetailBooking");
+		String detailBookingCondition = (String)request.getParameter("detailBooking"); // 운항 정보 (항공기편, 출발 시간 등)
+		String JsBookingCondition = (String)request.getParameter("jsDetailBooking"); // 기존에 가지고 넘어오던 데이터
 
 		System.out.println(detailBookingCondition);
 		System.out.println(JsBookingCondition);

@@ -697,33 +697,36 @@ $(document).ready(function(){
 	
 	console.log("chd :"+chdfee +"   inf :"+  inffee);
 	
-	adultPrice = pDep.sale_price;
-	chdPrice = pDep.base_price * chdfee *chd;
-	infPrice =pDep.base_price * inffee * inf;
+	adultPrice = Number(pDep.sale_price);
+	chdPrice =Number(pDep.base_price * chdfee) *chd;
+	infPrice =Number(pDep.base_price * inffee) * inf;
 	
 	console.log("성인 :"+adultPrice+"  소아 :"+chdPrice+"  유아  :  "+infPrice);
-	personPrice = (Number(adultPrice) + Number(chdPrice) + Number(infPrice));
 	
+	personPrice = (Number(adultPrice) + Number(chdPrice) + Number(infPrice));
+	var deptax= Number(airtax*adult) + Number(airtax*chd)+Number(airtax*inf);
 	console.log(" 출발  :   "+personPrice);
 	
+	var arrtax="";
 	if(pArr){
 		
 		adultPrice =Number(adultPrice)+ Number(pArr.sale_price);
-		chdPrice = Number(chdPrice) +Number((pArr.base_price * chdfee)*chd);
-		infPrice = Number(infPrice) + Number((pArr.base_price * inffee)*inf);
+		chdPrice = Number(chdPrice) +Number(pArr.base_price * chdfee*chd);
+		infPrice = Number(infPrice) + Number(pArr.base_price * inffee*inf);
 
 		console.log("성인 :"+adultPrice+"  소아 :"+chdPrice+"  유아  :  "+infPrice);
 		personPrice = (Number(adultPrice) + Number(chdPrice) + Number(infPrice));
+		arrtax = Number(airtax*adult) + Number(airtax*chd)+Number(airtax*inf);
 		console.log(" 도착  :   "+personPrice);
 	}
 	
 	
 	
 	aircharge = personPrice;
-	airtax = airtax*2;
+	airtax = Number(deptax)+Number(arrtax);
 	fuelsurcharge = fuelsurcharge * 2;
 	
-	totalPrice = (Number(aircharge) + Number(airtax) + Number(fuelsurcharge));
+	totalPrice = (Number(aircharge)+ Number(fuelsurcharge)+Number(airtax));
 	
 	
 	fn_setTotal(aircharge,fuelsurcharge, airtax, totalPrice);
