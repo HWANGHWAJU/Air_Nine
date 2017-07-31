@@ -5,9 +5,15 @@
 
 String id = "hyunju";
 String email ="hyunju.it2@gmail.com";
+String gender="F";
+String last = "LEE";
+String first ="HYUNJU";
 
 request.getSession().setAttribute("id", id);
 request.getSession().setAttribute("email",email);
+request.getSession().setAttribute("gender",gender);
+request.getSession().setAttribute("last", last);
+request.getSession().setAttribute("first",first);
 
 %>
 <html lang="ko" class="gr__flyairseoul_com"><head> 
@@ -32,12 +38,14 @@ request.getSession().setAttribute("email",email);
   <link rel="stylesheet" type="text/css" href="stylesheets/sub/swiper.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/sub/air_booking.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/sub/booking.css">    
-
+	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
+	  
     <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
     <script type="text/javascript" src="javascripts/moment.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="_nineJs/nine.js"></script>
+	<script type="text/javascript" src="_nineJs/nineBooking.js"></script>
 </head>
 
 
@@ -51,6 +59,9 @@ request.getSession().setAttribute("email",email);
 <!-- wrap -->
 <input type="hidden" id="memID" value="<%=id %>">
 <input type="hidden" id="memEMAIL" value="<%=email %>">
+<input type="hidden" id="memGender" value="<%=gender %>">
+<input type="hidden" id="memLast" value="<%=last %>">
+<input type="hidden" id="memFirst" value="<%=first %>">
 
 <div id="wrap" class="booking booking-step-on">
 
@@ -448,9 +459,13 @@ $(document).ready(function(){
 	
 	var memid = $("#memID").val();
 	var memEmail = $("#memEMAIL").val();
+	var memGender = $("#memGender").val();
+	var memLast = $("#memLast").val();
+	var memFirst = $('#memFirst').val();
+	
 	
 	console.log("id :" +memid+"  Email :"+memEmail);
-	
+	console.log("gender :"+memGender+"  Last :"+memLast +"  First :"+memFirst);
 		
 //		console.log("main Booking :"+mainBooking);
 

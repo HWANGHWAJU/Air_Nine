@@ -1,112 +1,25 @@
 $(document).ready(function(){
 	jsRadiobox01();
 
-	var memid = $("#memID").val();
-	var memEmail = $("#memEMAIL").val();
-	var memGender = $("#memGender").val();
-	var memLast = $("#memLast").val();
-	var memFirst = $('#memFirst').val();
-
-	/* 예약자 정보 : 로그인, 비로그인 이메일 */
-	$("#email").val(memEmail);
-	
-	/*	성인 1, 기본적으로 예약자의 정보 입력	*/
-	
-	$("#lastNameAdt1").val(memLast);
-	$("#firstNameAdt1").val(memFirst);
-	
-	if(memGender=='F'){
-		$("#radioSexWomanAdt1").parent('label').addClass('active');
-		$("#radioSexWomanAdt1").attr("selected","selected");
-	}else if(memGender =='M'){
-		$("#radioSexManAdt1").parent('label').addClass('active');
-		$("#radioSexManAdt1").attr("selected","selected");
-	}
-	
-	
-
-	$("#checkAgree").on("click", function(){
-	
-		if($(this).parent('span').find('label').hasClass('active')){
-			$(this).parent('span').find('label').removeClass('active');
-			$("#lastNameAdt1").val(memLast);
-			$("#firstNameAdt1").val(memFirst);
-
-			if(memGender=='F'){
-				$("#radioSexWomanAdt1").parent(' .').addClass('active');
-				$("#radioSexWomanAdt1").attr("selected","selected");
-			}else if(memGender =='M'){
-				$("#radioSexManAdt1").parent('label').addClass('active');
-				$("#radioSexManAdt1").attr("selected","selected");
-			}
-			
+	$(".js-selectbox01").change(function(){
+		var $domaintext = $("#txtEmailDomain");
+		var $text = $(this).find('span');
+		var $select = $(this).find("select");
+		var $selected = $(this).find("#selEmailDomain").val();
+		console.log("$selected :"+$selected);
+		
+		
+		if($(this).find("option:selected").hasClass("ex")){
+			$domaintext.val("");
+			$domaintext.attr("readonly",false);
+			$text.text('직접입력');
 		}else{
-			$(this).parent('span').find('label').addClass('active');
-			
-			$("#lastNameAdt1").val("");
-			$("#firstNameAdt1").val("");
-			
-			$("ul .radio_list").find('label').removeClass('active');
-		
+			$domaintext.attr("readonly",true);
+			$text.text(($selected));
+			$domaintext.val($selected);
 		}
+		
 	});
-	
-	$(window).click(function(){
-	
-		var type=$("#type").val();
-		
-		var adt = $("#Summary_ADT").text();
-		var chd = $("#Summary_CHD").text();
-		var inf = $("#Summary_INF").text();
-	
-		console.log("adt : "+adt+"  chd :"+chd+"  inf :"+inf);
-
-		
-		for(var i=1; i<=adt;i++){
-			var last = $("#lastNameAdt"+i).val();
-			var first = $("#firstNameAdt"+i).val();
-			
-			var inputLat = $("#tdAdt"+i).find('span').text(last+first);
-		
-			if(type=='RT'){
-				var inputLat = $("#tdAdt"+i).find('span');
-				$("#RTtdAdt"+i).text(last+first);
-			}
-			
-		
-		}
-		
-		if(chd > 0){
-			for(var i=1; i<=chd ; i++){
-				var last = $("#lastNameChd"+i).val();
-				var first = $("#firstNameChd"+i).val();
-				
-				var inputLat = $("#tdChd"+i).find('span').text(last+first);
-		
-				if(type=='RT'){
-					var inputLat = $("#tdChd"+i).find('span');
-					$("#RTtdChd"+i).text(last+first);
-				}
-				
-			}
-		}
-		
-		if(inf > 0){
-			for(var i=1; i<=inf ; i++){
-				var last = $("#lastNameInf"+i).val();
-				var first = $("#firstNameInf"+i).val();
-				
-				var inputLat = $("#tdInf"+i).find('span').text(last+first);
-			
-				if(type=='RT'){
-					var inputLat = $("#tdInf"+i).find('span');
-					$("#RTtdInf"+i).text(last+first);
-				}
-			}
-		}
-	});
-	
-	
 	
 	$("#btnSearch").on("click", function(){
 		
@@ -145,7 +58,7 @@ $(document).ready(function(){
 					
 					/*	검색 결과를 	선택할 때, 이미 선택되어 있는 것은 선택 해제 시킴. */
 					/*	선택된 값의 한글 국가명을 변수 kor에 담고 확인 버튼을 눌렀을 때, jsp 화면에 표시	*/
-					var callingNum ="";
+					var kor ="";
 					var _list = $("#result_list li");
 					$("#result_list li").on("click", function(){
 						console.log(this);
@@ -156,8 +69,8 @@ $(document).ready(function(){
 							}
 						});
 						if($(this).addClass('selected'));
-						callingNum = $(this).attr("data-calling-code");
-						console.log(callingNum);
+						kor = $(this).find('.country').text();
+						console.log($(this).text());
 					});
 					
 					/* 그 후 확인 버튼을 눌렀을 때 이벤트  */
@@ -165,9 +78,9 @@ $(document).ready(function(){
 				$("#btnConfirm").on("click", function(){
 			//		var $liselected = $("#result_list").find("li .selected").attr("data-calling-code").val();
 				//	var $textworld = $liselected.find('span');
-					console.log(callingNum);
+					console.log(kor);
 					
-					$("#selCountryCode").val(callingNum);
+					$(".txtParentCountry").val(kor);
 					closeCountryLayer();
 					
 				});
@@ -181,22 +94,9 @@ $(document).ready(function(){
 	});
 	
 	
+	
+	
 });
-
-/*function fn_ClickConfirmBtn(){
-	var _txt = $(".inp-txt");
-	
-	_txt.each(function(i){
-		if(_txt.find('input:text').text()==""){
-			alert("작성하지 않은 항목이 있습니다.");
-			return false;
-		}
-	});
-	
-	alert("전부 작성 했음?");
-	
-	nine.js에 함수 나머지 함수 작성
-}*/
 
 function viewLayerCountrySearch(){
 	$("#divLayerPopup0").css("display","block");

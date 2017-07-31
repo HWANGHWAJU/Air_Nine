@@ -31,6 +31,20 @@ var PassengerDataObject = function(){
 	this.paxType = ""; //승객 탑승 종류 (성인, 소아, 유아)
 }
 
+var ReservationPersonInfo = function(){
+	this.phoneType="";
+	this.phoneNumber = "";
+	this.email = "";
+}
+
+var PassengerDetailInfo = function(){
+	this.paxType = "";
+	this.name = "";
+	this.gender = "";
+	this.price = "";
+	
+}
+
 $(function(){
     jsGnb();
     jsHrgroup();
@@ -928,7 +942,49 @@ $(document).ready(function(){
 				
 			});
 			
+			$("#BtnComplete").on("click", function(){
+				
+				// 항공기 정보 포함
+				var detailFlightCondition = $("#detailBookingCondition").val();
+				var detailBookingCondition = $("#jsbookingCondition").val();
+				// 원래 가지고 있던 정보
+				
+				var jsFlightDetailInfo = new FlightDetailInfo();
+				var jsBookingCondition = new BookingConditionDataObject();
+				
+				jsFlightDetailInfo = jQuery.parseJSON(detailFlightCondition);
+				jsBookingCondition = jQuery.parseJSON(detailBookingCondition);
+				
+				console.log('Flight ');
+				console.log(jsFlightDetailInfo);
+				console.log('Booking');
+				console.log(jsBookingCondition);
+				
 			
+				var rePhoneType = $(".single").find(".active").find("input:radio").val();
+				console.log(rePhoneType);
+				var countryNum = $("#selCountryCode").val();
+				var phoneNumF = $("#phoneFirstNumber").val();
+				var phoneNumM = $("#phoneSecondNumber").val();
+				var phoneNumT = $("#phoneThirdNumber").val();
+				
+				var rePhoneNum = countryNum + phoneNumF + phoneNumM + phoneNumT;
+				
+				var reEmail = $("#email").val();
+				
+				var jsReservationPerson = new ReservationPersonInfo();
+				
+				jsReservationPerson.phoneType = rePhoneType;
+				jsReservationPerson.phoneNumber = rePhoneNum;
+				jsReservationPerson.email = reEmail;
+				/* 예약자의 정보 저장. 필요하다면 나중에 아이디값  */
+				console.log(jsReservationPerson);
+				
+				fn_changeBookingStep("6", jsBookingCondition);
+				
+				document.GoBook06.action="./GoBook06.bo";
+				document.GoBook06.submit();
+			});
 			
 			
 			
@@ -1531,7 +1587,7 @@ function Cal_PassengerPrice(baseP, saleP, adt, chd, inf, type){
 	return pricetotal;
 }
 
-function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
+function fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice){
 	
 		
 	var jsFinallyPrice = new finallyPriceInfo();
@@ -1646,7 +1702,7 @@ function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
 	/*	편도 (갈 때)	*/
 	
 	for(var j =1; j<=adcnt ; j++){
-			PriceSTR += "<tr><td id='tdAdt"+j+"'><span></span></td>"
+			PriceSTR += "<tr><td id='tdAdt"+j+"' style='text-transform:uppercase'><span></span></td>"
 									+"<td class='tbl-price' name='strongPrice1'>"+jsADT.price+"</td>"
 									+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 									+"<td class='tbl-price' name='strongPrice3'>"+jsADT.tax+"</td>"
@@ -1654,7 +1710,7 @@ function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
 									+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsADT.perPerson+"</strong></td></tr>";
 		}
 	for(var j=1; j<=chdcnt; j++){
-		PriceSTR += "<tr><td id='tdChd"+j+"'><span></span></td>"
+		PriceSTR += "<tr><td id='tdChd"+j+"' style='text-transform:uppercase'><span></span></td>"
 		+"<td class='tbl-price' name='strongPrice1'>"+jsCHD.price+"</td>"
 		+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 		+"<td class='tbl-price' name='strongPrice3'>"+jsCHD.tax+"</td>"
@@ -1663,7 +1719,7 @@ function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
 	}
 	
 	for(var j=1; j<=infcnt; j++){
-		PriceSTR += "<tr><td id='tdInf"+j+"'><span></span></td>"
+		PriceSTR += "<tr><td id='tdInf"+j+"' style='text-transform:uppercase'><span></span></td>"
 		+"<td class='tbl-price' name='strongPrice1'>"+jsINF.price+"</td>"
 		+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 		+"<td class='tbl-price' name='strongPrice3'>"+jsINF.tax+"</td>"
@@ -1683,7 +1739,7 @@ function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
 	var RpriceSTR = "";
 	
 	for(var j =1; j<=Radcnt ; j++){
-		 RpriceSTR += "<tr><td id='tdAdt"+j+"'><span></span></td>"
+				RpriceSTR += "<tr><td id='RTtdAdt"+j+"' style='text-transform:uppercase'><span></span></td>"
 								+"<td class='tbl-price' name='strongPrice1'>"+RjsADT.price+"</td>"
 								+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 								+"<td class='tbl-price' name='strongPrice3'>"+RjsADT.tax+"</td>"
@@ -1691,21 +1747,21 @@ function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
 								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsADT.perPerson+"</strong></td></tr>";
 	}
 	for(var j=1; j<=Rchdcnt; j++){
-	 RpriceSTR += "<tr><td id='tdChd"+j+"'><span></span></td>"
-	+"<td class='tbl-price' name='strongPrice1'>"+RjsCHD.price+"</td>"
-	+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
-	+"<td class='tbl-price' name='strongPrice3'>"+RjsCHD.tax+"</td>"
-	+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-	+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsCHD.perPerson+"</strong></td></tr>"; 
+				RpriceSTR += "<tr><td id='RTtdChd"+j+"' style='text-transform:uppercase'><span></span></td>"
+								+"<td class='tbl-price' name='strongPrice1'>"+RjsCHD.price+"</td>"
+								+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+								+"<td class='tbl-price' name='strongPrice3'>"+RjsCHD.tax+"</td>"
+								+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsCHD.perPerson+"</strong></td></tr>"; 
 	}
 	
 	for(var j=1; j<=Rinfcnt; j++){
-	 RpriceSTR += "<tr><td id='tdInf"+j+"'><span></span></td>"
-	+"<td class='tbl-price' name='strongPrice1'>"+RjsINF.price+"</td>"
-	+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
-	+"<td class='tbl-price' name='strongPrice3'>"+RjsINF.tax+"</td>"
-	+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-	+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsINF.perPerson+"</strong></td></tr>"; 
+				RpriceSTR += "<tr><td id='RTtdInf"+j+"' style='text-transform:uppercase'><span></span></td>"
+								+"<td class='tbl-price' name='strongPrice1'>"+RjsINF.price+"</td>"
+								+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
+								+"<td class='tbl-price' name='strongPrice3'>"+RjsINF.tax+"</td>"
+								+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
+								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsINF.perPerson+"</strong></td></tr>"; 
 	}
 	
 	$("#RTpassengerList").html(RpriceSTR);
@@ -1737,14 +1793,23 @@ function fn_SetUnitPrice(type,OWpersonPrice, RTpersonPrice, FinallyPrice){
 		 			  			"<td><ul class='radio_list'>"+
 		 			  			"<li><span class='radiobox01 js-radiobox01'>"+
 		 			  				"<label for='radioSexManAdt"+(j+1)+"' >"+
-		 			  				"<input type='radio' id='radioSexManAdt"+(j+1)+"' name='radioSexAdt"+(j+1)+"' value='M'><span>남</span>"+ 
-		 			  				"</label></span></li><li><span class='radiobox01 js-radiobox01'>"+
-		 			  "<label for='radioSexWomanAdt"+(j+1)+"'><input type='radio' id='radioSexWomanAdt"+(j+1)+"' name='radioSexAdt"+(j+1)+"' value='F' ><span>여</span>"+
-		 			  "</label></span></li></ul></td></tr><tr><th scope='row'>"+
-		 			  "<label for='coupon'>쿠폰할인</label></th><td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
-		 			  "<span class='txt ex'></span><select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
-		 			  "<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option></select></span></div></td>"+
-		 			  "</tr></tbody></table></div>";
+		 			  					"<input type='radio' id='radioSexManAdt"+(j+1)+"' name='radioSexAdt"+(j+1)+"' value='M'><span>남</span>"+ 
+		 			  				"</label></span>"+ 
+		 			  			"</li>"+
+		 			  			"<li><span class='radiobox01 js-radiobox01'>"+
+		 			  				"<label for='radioSexWomanAdt"+(j+1)+"'>"+
+		 			  				"<input type='radio' id='radioSexWomanAdt"+(j+1)+"' name='radioSexAdt"+(j+1)+"' value='F' ><span>여</span>"+
+		 			  				"</label>"+
+		 			  				"</span></li>"+
+		 			  				"</ul></td></tr>"+
+		 			  			"<tr><th scope='row'>"+
+		 			  			"<label for='coupon'>쿠폰할인</label></th>"+
+		 			  			"<td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
+		 			  			"<span class='txt ex'></span>"+
+		 			  			"<select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
+		 			  			"<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option></select>"+
+		 			  			"</span></div></td>"+
+		 			  			"</tr></tbody></table></div>";
 		 	}
 	for(var j=1; j<=chdcnt; j++){
 		PassengerSTR += "<div class='booking-table-title mgt20'><h3 class='table-title-mid mgr25'>소아 "+j+"</h3></div>"+

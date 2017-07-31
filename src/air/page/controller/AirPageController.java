@@ -145,6 +145,10 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 		}else if(command.equals("/GoPassengerInfoView.bo")){
 			SJsonAction sjaction = new JsonGoPassengerAction();
 			sjaction.execute(request, response);
+		}else if(command.equals("/GoBook06.bo")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./book_00_Main.jsp?book=book_06_1.jsp");
 		}
 		
 	/*		민정, 추가			*/	

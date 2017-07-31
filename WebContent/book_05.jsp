@@ -37,8 +37,8 @@
 												
 											    
 													<!-- 회원 -->
-														<span class="inp-txt"><input type="text" id="selCountryCode" name="selCountryCode" style="width: 74px;" maxlength="3" value="" title="국가번호를 입력하세요"></span>
-														<a href="I/KO/viewLayerCountrySearch" data-opener="numb1" class="btn-type02-col02 jsOpenLayer" id="CountryCodeLayer" title="국가번호 검색 팝업 열림">국가번호 검색</a>
+														<span class="inp-txt"><input type="text" id="selCountryCode" name="selCountryCode" readonly="readonly" style="width: 74px;" maxlength="3" value="" title="국가번호를 입력하세요"></span>
+														<a href="#this" data-opener="numb1" class="btn-type02-col02 jsOpenLayer" id="CountryCodeLayer" title="국가번호 검색 팝업 열림" onclick="viewLayerCountrySearch();">국가번호 검색</a>
 														
 														
 															
@@ -270,7 +270,7 @@
 								<!-- 지불금액 -->
 								
 									<tr>						
-										<td id="tdAdt1"></td>
+										<td id="RTtdAdt1"></td>
 										<td class="tbl-price" name="strongPrice1"></td>
 										<!-- 총항공운임 -->
 										<td class="tbl-price" name="strongPrice2"></td>
@@ -301,7 +301,7 @@
 						</ul>
 						
 						<div class="pdt30 tc">
-							<button onclick="javascript:fn_ClickConfirmBtn()" type="button" class="btn-type01-col01" id="BtnComplete">확인</button>
+							<button onclick="fn_Confirm();" type="button" class="btn-type01-col01" id="BtnComplete">확인</button>
 						</div>
 					</div>
 				
@@ -398,7 +398,52 @@
 					<!-- 우측 간편 안내(E) -->
 				</div>
 				<!-- 탑승자정보 (E) -->
-
+						
+		<div id="divLayerPopup0" class="layer countrySearch open" style="display:none;">
+					<div class="layer_center_type midium_type">
+						<div class="layer_area">
+							<div class="layer_inner">
+								<div class="layer_title">
+									<h2 class="title" id="CountrySearch">국가 검색</h2>
+								</div>
+								<div class="layer_content" style="height:464px; overflow-y:hidden;">
+								<p class="list_type1 mgt25" id="msgCountrySearchInfo">찾으시려는 국가명을 입력해 주시기 바랍니다.</p>
+								<div class="search_area">
+									<span class="inp-txt mgr03">
+										<input type="text" id="txtCountrySearch" name="txtCountrySearch" style="width:338px;" title="국가명 입력" id="txtCountrySearch"> 
+									</span>
+									<button type="submit" id="btnSearch" class="btn-type02-col01">검색</button>
+								</div>
+								<div class="result_area">
+									<div class="title_group">
+										<p class="country" id="NameOfCountry">국가명</p>
+										<p class="en_country" id="enNameOfCountry">영어 국가명</p>
+									</div>
+									<div class="result_box">
+										<div id="result_list" class="result_list" style="display:none;">
+										
+										</div>
+										<div id="none_data" class="none_data" style="margin:0; padding:90px;">
+										<p id="msgNoData">검색 결과가 없습니다.</p>
+										</div>
+									</div>
+		
+								</div>
+									<div class="btn_article">
+										<ul>
+											<li>
+												<button type="button" id="btnConfirm" class="btn-type02-col03">확인</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<p class="btn_close">
+									<a href="javascript:void(0);" onclick="closeCountryLayer(); return false;" class="jsCloseBtn" id="jsCloseBtn"></a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
 	<form id="certify" name="certify" method="post" target="_self"></form>
 	
 
@@ -433,11 +478,22 @@
 <input type="hidden"  id="finallyTotal">
 </form>
 
+<input type="hidden" id="type" value="">
+
+
+<form name="GoBook06"id="GoBook06" method="post">
+<input type="hidden" name ="jsBookingCondition" id="jsBookingCondition" value="">
+<input type="hidden" name="jsFlightInfo"					 id="jsFlightInfo" value="">
+<input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" value="">
+</form>
+
+
+
 
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	jsRadiobox01();
+/* 	jsRadiobox01(); */
 	
 	var detailFlight = $("#detailBookingCondition").val();
 	var detailBooking = $("#jsbookingCondition").val();
@@ -460,6 +516,8 @@ $(document).ready(function(){
 	
 	var type =jsBookingCondition.TRIPTYPE;
 	
+	$("#type").val(type);
+	
 	if(type=='RT'){
 		$(".booking-airlineticket-finalInfo-head-to").css("display","block");
 		$("#OWfoot").css("display","none");
@@ -476,19 +534,23 @@ $(document).ready(function(){
 	fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice);
 	
 	$("input:radio").on("click", function(){
-		alert('클릭');
+		var name = $(this).attr("id");
+		console.log(name);
+		jsRadiobox01();
 	});	
 	
 	
 });
-
-function jsRadiobox01(){
+function fn_Confirm(){
+	alert("다 작성 되었는지 확인하는 함수 짜기");
+}
+/* function jsRadiobox01(){
     $(".js-radiobox01").find("input").each(function(i, radio){
         var $radio = $(this);
 
         $radio.off("focus blur change");
 
-        /* checked가 되어있는경우 */
+
         if($radio.is(":checked")==true){
             if($radio.is(":disabled")==true){
                 $radio.parent('label').addClass('disabled');
@@ -496,7 +558,7 @@ function jsRadiobox01(){
                 $radio.parent('label').addClass('active');
             }
         }
-        /* disable이 되어있는경우 */
+
         else if($radio.is(":disabled")==true){
             $radio.parent('label').addClass('disabled');
         }
@@ -513,7 +575,7 @@ function jsRadiobox01(){
             $(this).prop("checked", true).parent('label').addClass('active');
         });
     });
-}
+} */
 
 </script>
 	

@@ -325,6 +325,7 @@
 				<div style="height: 30px;"></div>
 			</div>
 		</form>
+		
 		<div id="divLayerPopup0" class="layer countrySearch open" style="display:none;">
 			<div class="layer_center_type midium_type">
 				<div class="layer_area">
