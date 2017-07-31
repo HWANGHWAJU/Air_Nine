@@ -10,6 +10,7 @@ import java.util.Map;
 
 import JdbcUtil.JdbcUtil;
 import dto.AirportDTO;
+import dto.NationDTO;
 
 
 public class NationDAO {
@@ -155,93 +156,7 @@ public class NationDAO {
 		finally{ JdbcUtil.close(pstmt); JdbcUtil.close(rs);}
 		return null;
 	}
-	
-	
-	
-	// 값이 넘어온 나라의 고유 번호와, 한글명, 영문명을 가져와 Map에 저장
-	public Map<String, Object> getOneNationNum(Connection conn, int n) throws SQLException{
-		String sql = "";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try{
-			System.out.println("nation_uni_number :"+n);
-			sql = "select nation_uni_number, nation_kor, nation_eng from air_nation where nation_uni_number='"+n+"'";
-			pstmt = conn.prepareStatement(sql);
-			rs=pstmt.executeQuery();
-			
-			Map<String, Object> map = new HashMap<>();
-					
-			if(rs.next()){
-				int num = rs.getInt("nation_uni_number");
-				String nation_kor = rs.getString("nation_kor");
-				String nation_eng = rs.getString("nation_eng");
-				
-				map.put("num", num);
-				map.put("nation_kor", nation_kor);
-				map.put("nation_eng", nation_eng);
 
-			}
-				System.out.println("map Num :"+map.get("num"));
-				System.out.println("map Nation kor : "+map.get("nation_kor"));
-			
-			return map;
-
-		}catch(Exception e){  e.printStackTrace(); 	}
-		finally { JdbcUtil.close(rs); JdbcUtil.close(pstmt); }
-		return null;
-	}
-	
-	// 공항이 위치하는 도시의 번호를 가져오는 함수
-	public int getCityNumber(Connection conn,String n) throws SQLException{
-		String sql = "";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		System.out.println("Arr Value = "+n);
-		try{
-			
-			sql="select city_number from airport where airport_value='"+n+"'";
-			System.out.println(sql);
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()){ 
-				int Nnum = rs.getInt("city_number"); 
-				return Nnum;
-			}
-			
-		}catch (Exception e){e.printStackTrace();}
-		finally { JdbcUtil.close(rs); JdbcUtil.close(pstmt); }
-
-		return 0;
-	}
-	
-	//공항에 대한 정보를 공항의 값으로 검색
-	public AirportDTO getAirportByValue(Connection conn, String value) throws SQLException{
-		String sql = "";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-
-	  try {
-		  	sql = "select airport_kor airport, nation_kor nation, city_kor city, airport_value value from v_AirportInfo where airport_value=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, value);
-			rs = pstmt.executeQuery();
-
-			AirportDTO a = new AirportDTO();
-			if(rs.next()) {
-				// 
-			}
-	
-			return a;
-		}catch(Exception e){ e.printStackTrace();		}
-		finally { JdbcUtil.close(rs); JdbcUtil.close(pstmt); }
-
-
-		return null;
-	}
-	
 	//공항의 정보를 나라를 기준으로 검색
 	public List<AirportDTO> getAirportByNationNum(Connection conn, int ncnum) throws SQLException{
 		String sql = "";
@@ -260,6 +175,7 @@ public class NationDAO {
 			while(rs.next()){
 				list.add(convertA(rs));
 			}
+
 			return list;
 		}catch(Exception e){ e.printStackTrace();		}
 		finally { JdbcUtil.close(rs); JdbcUtil.close(pstmt); }
@@ -268,12 +184,132 @@ public class NationDAO {
 		return null;
 	}
 	
+	
+	public List<NationDTO> getNation(Connection conn, String w) throws SQLException{
+		String sql="";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		
+		
+		try{
+			sql = "select * from allnation where allnation_kor like '%"+w+"%' ";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
 
+			List<NationDTO> list = new ArrayList<>();
+
+			while(rs.next()){
+				list.add(convertN(rs));
+
+			}
+
+			return list;
+		}catch(Exception e){e.printStackTrace();}
+		finally { JdbcUtil.close(pstmt); JdbcUtil.close(rs); }
+		return null;
+	}
+	
 	// 리턴된 값을 공항 정보 객체로 리턴하는 과정
 	public AirportDTO convertA(ResultSet rs) throws SQLException{
 		return new AirportDTO( rs.getString("airport"), rs.getString("city"), rs.getString("value"));
 	}
 	
+	public NationDTO convertN(ResultSet rs) throws SQLException{
+
+		return new NationDTO( rs.getString("allnation_code"), rs.getInt("allnation_number"), rs.getString("allnation_kor"), rs.getString("allnation_eng"));
+	}
 	
 }
  
+
+
+
+
+
+/*	// 값이 넘어온 나라의 고유 번호와, 한글명, 영문명을 가져와 Map에 저장
+public Map<String, Object> getOneNationNum(Connection conn, int n) throws SQLException{
+	String sql = "";
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	try{
+		System.out.println("nation_uni_number :"+n);
+		sql = "select nation_uni_number, nation_kor, nation_eng from air_nation where nation_uni_number='"+n+"'";
+		pstmt = conn.prepareStatement(sql);
+		rs=pstmt.executeQuery();
+		
+		Map<String, Object> map = new HashMap<>();
+				
+		if(rs.next()){
+			int num = rs.getInt("nation_uni_number");
+			String nation_kor = rs.getString("nation_kor");
+			String nation_eng = rs.getString("nation_eng");
+			
+			map.put("num", num);
+			map.put("nation_kor", nation_kor);
+			map.put("nation_eng", nation_eng);
+
+		}
+			System.out.println("map Num :"+map.get("num"));
+			System.out.println("map Nation kor : "+map.get("nation_kor"));
+		
+		return map;
+
+	}catch(Exception e){  e.printStackTrace(); 	}
+	finally { JdbcUtil.close(rs); JdbcUtil.close(pstmt); }
+	return null;
+}*/
+
+/*	// 공항이 위치하는 도시의 번호를 가져오는 함수
+public int getCityNumber(Connection conn,String n) throws SQLException{
+	String sql = "";
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	System.out.println("Arr Value = "+n);
+	try{
+		
+		sql="select city_number from airport where airport_value='"+n+"'";
+		System.out.println(sql);
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()){ 
+			int Nnum = rs.getInt("city_number"); 
+			return Nnum;
+		}
+		
+	}catch (Exception e){e.printStackTrace();}
+	finally { JdbcUtil.close(rs); JdbcUtil.close(pstmt); }
+
+	return 0;
+}
+
+//공항에 대한 정보를 공항의 값으로 검색
+public AirportDTO getAirportByValue(Connection conn, String value) throws SQLException{
+	String sql = "";
+	
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+
+  try {
+	  	sql = "select airport_kor airport, nation_kor nation, city_kor city, airport_value value from v_AirportInfo where airport_value=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, value);
+		rs = pstmt.executeQuery();
+
+		AirportDTO a = new AirportDTO();
+		if(rs.next()) {
+			// 
+		}
+
+		return a;
+	}catch(Exception e){ e.printStackTrace();		}
+	finally { JdbcUtil.close(rs); JdbcUtil.close(pstmt); }
+
+
+	return null;
+}
+*/

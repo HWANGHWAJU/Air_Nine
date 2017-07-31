@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import air.nation.action.Action;
 import air.nation.action.ActionForward;
+import air.nation.action.JsonAllNationAction;
 import air.nation.action.JsonArrNationAction;
 import air.nation.action.JsonNationAction;
 
@@ -41,6 +42,9 @@ public class Nationcontroller extends javax.servlet.http.HttpServlet implements 
 		}else if(command.equals("/searchArr.na")){
 			JsonArrNationAction action = new JsonArrNationAction();
 			action.execute(request,response);
+		}else if(command.equals("/AllsearchNation.na")){
+			JsonAllNationAction action = new JsonAllNationAction();
+			action.execute(request, response);
 		}
 	
 		

@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import Jdbc.Connection.ConnectionProvider;
 import dao.NationDAO;
 import dto.AirportDTO;
+import dto.NationDTO;
 
 public class JsonNationService {
 	
@@ -92,6 +93,43 @@ public class JsonNationService {
 		return null;
 	}
 	
+	
+	// 검색창에 입력한 단어를 받아와 DB에서 해당 단어가 포함된 나라명을 검색하는 서비스 함수
+	public JsonArray getSearchWorld(String w) throws SQLException{
+		NationDAO dao = new NationDAO();
+		
+		String word = w;
+		
+		System.out.println("단어 :"+word);
+		
+		// 최종적으로 보내야할 객체는 (코드, 번호, 한글명, 영문명)이 객체화 되어있는 JsonArray 
+		JsonArray jsArr = new JsonArray();
+		
+		try(Connection conn = ConnectionProvider.getConnection()){
+			// try 창에서 connection을 선언 해주면 마지막에 connection 자원을 별도로 해제할 필요가 없음
+			
+			List<NationDTO> nationList = dao.getNation(conn, word);
+			// DB 작업을 할 DAO에서 해당 함수를 호출. 
+			
+			for(int i=0; i< nationList.size(); i++){
+				//dao 를 통해 리턴된 객체는 List<NationDTO>이다. 이 배열 안에 있는 NationDTO들을 JsonObject로 변환하여 JsonArray에 담아야 한다. 
+				JsonObject jsNation = new JsonObject();
+				// NationDTO를 변환하여 JsonObject 담기 위해 객체 선언 
+				
+				//json 클래스에서 제공하는 addProperty 함수를 이용하여, 객체 안에 저장될 key 값과 value값을 넣어준다. 
+				jsNation.addProperty("code", nationList.get(i).getNation_code());
+				jsNation.addProperty("number", nationList.get(i).getNation_uni_number());
+				jsNation.addProperty("kor", nationList.get(i).getNation_kor());
+				jsNation.addProperty("eng", nationList.get(i).getNation_eng());
+				
+				// 변환된 JsonObject를 JsonArray 배열에 넣어주어 리턴합니다! 
+				jsArr.add(jsNation);
+			}
+			
+		}
+		return jsArr;
+	}
+	
 	public JsonArray convertJsonObject(List<AirportDTO> list){
 		// List안에 담긴 공항 정보 객체를 JsonObject로 변환하여 JsonArray로 List전체를 변환하여 리턴한다. 
 		JsonArray jsAirportlist = new JsonArray();
@@ -109,4 +147,6 @@ public class JsonNationService {
 		}
 		return jsAirportlist;
 	}
+	
+	
 }

@@ -5,6 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+
+<!-- <script type="text/javascript" src="js/jquery-3.1.1.js"></script> -->
+
  <link rel="stylesheet" type="text/css" href="stylesheets/main/main.css">
     
   <link rel="stylesheet" type="text/css" href="stylesheets/sub/company.css">  
@@ -249,13 +254,7 @@ p.check, p.allagree_check {
 	margin-left: 20px;
 }
 
-input[type=checkbox] {
-	position: absolute;
-	left: 0px;
-	width: 19px;
-	height: 20px;
-	background-image: url("images/mainIcon/boxbefore.png");
-}
+
 .important{
 color: red;
 font-style: normal;
@@ -267,8 +266,10 @@ font-style: normal;
 <header>
 <jsp:include page="0_header.jsp"/>
 </header>
-<div id="container" style="padding-top: 110px;">
 
+
+<div id="container" style="padding-top: 110px;">
+  
 		<div class="top_lo">
 					<ol class="location_area">
 						<li><a href="#" id="Home">홈</a></li>
@@ -288,7 +289,7 @@ font-style: normal;
 
 				</ol>
 			</div>
-
+         <form action="Join_02.jsp" method="post" name="form">
 			<div class="agree_all">
 				<div class="agree_list">
 					<ul>
@@ -299,9 +300,9 @@ font-style: normal;
 								<p class="check">
 									<span class="checkbox01 js-checkbox01"> <label
 										for="agree1" class="active"><span id="AgreeTitle1">홈페이지
-												이용약관 동의 <em class="important">(필수)</em>
+												이용약관 동의 <em class="important" onclick="chk()">(필수)</em>
 										</span> <input type="checkbox" name="agree1" id="agree1"
-											class="checkbox"></label>
+											class="checkbox active"></label>
 									</span>
 								</p>
 							</div>
@@ -474,7 +475,7 @@ font-style: normal;
 									<span class="checkbox01 js-checkbox01"> <label
 										for="agree2" class="active"><span id="AgreeTitle1">홈페이지
 												이용약관 동의 <em class="important">(필수)</em>
-										</span> <input type="checkbox" name="agree1" id="agree2"
+										</span> <input type="checkbox" name="agree2" id="agree2"
 											class="checkbox"></label>
 									</span>
 								</p>
@@ -618,8 +619,8 @@ font-style: normal;
 									<span class="checkbox01 js-checkbox01"> <label
 										for="agree3" class="active"><span id="AgreeTitle1">홈페이지
 												이용약관 동의 <em class="important">(필수)</em>
-										</span> <input type="checkbox" name="agree1" id="agree3"
-											class="checkbox"></label>
+										</span> <input type="checkbox" name="agree3" id="agree3"
+											class="checkbox" ></label>
 									</span>
 								</p>
 							</div>
@@ -650,7 +651,7 @@ font-style: normal;
 									<span class="checkbox01 js-checkbox01"> <label
 										for="agree4" class="active"><span id="AgreeTitle1">홈페이지
 												이용약관 동의 <em class="important">(필수)</em>
-										</span> <input type="checkbox" name="agree1" id="agree4"
+										</span> <input type="checkbox" name="agree4" id="agree4"
 											class="checkbox"></label>
 									</span>
 								</p>
@@ -675,23 +676,78 @@ font-style: normal;
 						<span class="checkbox01 js-checkbox01"> <label
 							for="allagree"><span id="AgreeAll">약관에 모두 동의합니다.</span></label>
 						<input
-							type="checkbox" name="agree1" id="allagree" class="checkbox"
-							style="position: absolute; left: 30px; top: 22px;">
+							type="checkbox" name="Allagree" id="Allagree" class="checkbox"
+							style="position: absolute; ">
 						</span>
 					</p>
 				</div>
 			</div>
+			
+			</form>
+
 			<div class="btn_article">
 				<ul>
-					<li><button type="submit" id="btnSubmit"
-							class="btn-type01-col01">확인</button></li>
+				<li><button type="submit" id="btnSubmit"
+							class="btn-type01-col01" onclick="chk()">확인</button></li>
+
+<!-- 				  	<li><button type="submit" id="btnSubmit" -->
+<!-- 							class="btn-type01-col01" onclick="location.href='Join_02.jsp'">확인</button></li> -->
 				</ul>
 			</div>
 
 		</div>
-</div>
+		
+   </div>
+
 	</div>
 	<jsp:include page="0_footer.jsp"/>
+	
+<script type="text/javascript">
+        $(document).ready(function(){
+		 //전체선택 체크박스 클릭 
+		$("#Allagree").on("click",function(){
+			 //만약 전체 선택 체크박스가 체크된상태일경우 
+			 
+			if($("#Allagree").prop("checked")) {
+			 //해당화면에 전체 checkbox들을 체크해준다 
+//			 alert("전체 선택 클릭");
+			$("input[type=checkbox]").prop("checked",true); 
+			// 전체선택 체크박스가 해제된 경우 
+			} else { 
+			//해당화면에 모든 checkbox들의 체크를해제시킨다. 
+//			alert("전체 선택 해제");
+			$("input[type=checkbox]").prop("checked",false); }
+			 	 
+ 		 });
+       });
+		 
+		function chk(){
+
+			 var agree1 = document.form.agree1.checked;
+			 var agree2 = document.form.agree2.checked;
+			 var agree3 = document.form.agree3.checked;
+			 var agree4 = document.form.agree4.checked;
+			 var Allagree = document.form.Allagree.checked;
+
+			 var num = 0;
+
+			 if(agree1 && agree2 && agree3 && agree4 && Allagree == true){
+			    num = 1;
+			 }
+			 
+			 if(agree1 && agree2 && agree3 && agree4== 1){
+				 document.form.submit();			 
+			 }else{
+				 alert("약관에 동의하셔야합니다.");
+				 return false;	 
+			} 
+	
+        }			 
+
+
+	</script>
+	
+	
 
 </body>
 </html>
