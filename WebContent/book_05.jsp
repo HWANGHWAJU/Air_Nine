@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- 
+<script type="text/javascript" src="_nineJs/nineBooking.js"></script>
+
 				<h1 class="hidden-title" name="lblPassengerInput"></h1>
 				<!-- 탑승자정보 (S) -->
 				<div class="booking-passengerinformation">
@@ -133,6 +134,16 @@
 													</span>
 												</li>
 											</ul>
+										</td>
+								</tr>
+								<tr>
+									<th scope="row">여권 번호</th>
+										<td>
+											<div>
+												<span class="inp-txt mgr03">
+													<input type="text" id="passportNumberAdt1" style="width:324px;">
+												</span>
+											</div>
 										</td>
 								</tr>
 								<tr>
@@ -484,6 +495,7 @@
 <form name="GoBook06"id="GoBook06" method="post">
 <input type="hidden" name ="jsBookingCondition" id="jsBookingCondition" value="">
 <input type="hidden" name="jsFlightInfo"					 id="jsFlightInfo" value="">
+<input type="hidden" name="jsReservationPerson" id="jsReservationPerson" value="">
 <input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" value="">
 </form>
 

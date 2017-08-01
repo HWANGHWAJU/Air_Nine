@@ -38,14 +38,14 @@ request.getSession().setAttribute("first",first);
   <link rel="stylesheet" type="text/css" href="stylesheets/sub/swiper.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/sub/air_booking.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/sub/booking.css">    
-	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
+
 	  
     <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
     <script type="text/javascript" src="javascripts/moment.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="_nineJs/nine.js"></script>
-	<script type="text/javascript" src="_nineJs/nineBooking.js"></script>
+
 </head>
 
 
@@ -343,7 +343,9 @@ function fn_changeBookingStep(bookingStep, data) {
 			fn_setBookingStep("passenger", data);
 			
 			$("#liBookingStepJourney, #liBookingStepDate, #liBookingStepPassenger, #liBookingStepAirline, #liBookingStepPassegnerInfo").addClass("success");
-			
+		
+			$("#liBookingStepPassegnerInfo").removeClass('active');
+		
 			$liBookingStepExtraService.addClass("active").find("a").append($liBookingStepJourney.find("[name=lblHiddenTitleCurrent]"));
 			
 			$divBookingStep_li.not("#liBookingStepExtraService").find("[name=lblHiddenTitleCurrent]").remove();
@@ -356,6 +358,7 @@ function fn_changeBookingStep(bookingStep, data) {
 			fn_setBookingStep("passenger", data);
 			
 			$divBookingStep_li.addClass("success").find("[name=lblHiddenTitleCurrent]").remove();
+			$("#liBookingStepExtraService").removeClass('active');
 			
 		}
 	}

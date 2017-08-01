@@ -1,3 +1,15 @@
+var PassengerDetailDatas = function(){
+	this.passengerDetailInfo = [];
+}
+
+var PassengerDetailInfo = function(){
+	this.paxType = "";
+	this.lastName = "";
+	this.firstName = "";
+	this.passportNumber = "";
+	this.gender = "";
+	this.price = "";
+}
 $(document).ready(function(){
 	jsRadiobox01();
 
@@ -51,6 +63,20 @@ $(document).ready(function(){
 		}
 	});
 	
+	/*
+	 * 
+	 * var PassengerDetailInfo = function(){
+	this.paxType = "";
+	this.lastName = "";
+	this.firstName = "";
+	this.gender = "";
+	this.price = "";
+}
+	 * 
+	 * 
+	 * */
+	
+	
 	$(window).click(function(){
 	
 		var type=$("#type").val();
@@ -61,49 +87,136 @@ $(document).ready(function(){
 	
 		console.log("adt : "+adt+"  chd :"+chd+"  inf :"+inf);
 
+		var jsPassengerDetailDatas = new PassengerDetailDatas();
+		jsPassengerDetailDatas.passengerDetailInfo = [];
 		
 		for(var i=1; i<=adt;i++){
+			
+			var AdtDetail = new PassengerDetailInfo();
+			
 			var last = $("#lastNameAdt"+i).val();
 			var first = $("#firstNameAdt"+i).val();
+			var gender = "";
+			var price = "";
 			
-			var inputLat = $("#tdAdt"+i).find('span').text(last+first);
+			var $wRA = $("#radioSexWomanAdt"+i).parent('label');
+			var $mRA = $("#radioSexManAdt"+i).parent('label');
 		
+			if($wRA.hasClass('active')){ 	gender = "F"; 	}
+			else if($mRA.hasClass('active')){ 	gender = 'M'; }
+			
+//			console.log(gender);
+			$("#tdAdt"+i).find('span').text(last+first);
+			var inputLat = $("#tdAdt"+i).find('span').text();
+			
+			price = $("#ad"+i).find('strong[name="strongPrice4"]').text();
+			
 			if(type=='RT'){
-				var inputLat = $("#tdAdt"+i).find('span');
 				$("#RTtdAdt"+i).text(last+first);
+				price = Number(price)+Number($("#RTad"+i).find('strong[name="strongPrice4"]').text());			
 			}
-			
 		
+			AdtDetail.paxType='Adt';
+			AdtDetail.lastName = last;
+			AdtDetail.firstName = first;
+			AdtDetail.passportNumber = $("#passportNumberAdt"+i).val();
+			AdtDetail.gender = 	gender;
+			AdtDetail.price =price;
+			
+//			console.log(AdtDetail.price);
+//			console.log(inputLat);
+	
+	//		PassengerDetailDatas.push(AdtDetail);
+			jsPassengerDetailDatas.passengerDetailInfo.push(AdtDetail);	
 		}
 		
 		if(chd > 0){
 			for(var i=1; i<=chd ; i++){
+				
+				var ChdDetail = new PassengerDetailInfo();
+				
 				var last = $("#lastNameChd"+i).val();
 				var first = $("#firstNameChd"+i).val();
+				var gender = "";
+				var price = "";
 				
-				var inputLat = $("#tdChd"+i).find('span').text(last+first);
-		
+				var $wRA = $("#radioSexWomanChd"+i).parent('label');
+				var $mRA = $("#radioSexManChd"+i).parent('label');
+				
+				if($wRA.hasClass('active')){	gender = "F";	}
+				else if($mRA.hasClass('active')){	gender = 'M';	}
+//				console.log(gender);
+				
+				 $("#tdChd"+i).find('span').text(last+first);
+				 var inputLat = $("#tdChd"+i).find('span').text();
+				 
+				 price =  $("#ch"+i).find('strong[name="strongPrice4"]').text();
+				 
 				if(type=='RT'){
-					var inputLat = $("#tdChd"+i).find('span');
 					$("#RTtdChd"+i).text(last+first);
+					price = Number(price) + Number($("#RTch"+i).find('strong[name="strongPrice4"]').text());
 				}
 				
+				ChdDetail.paxType='Chd';
+				ChdDetail.lastName = last;
+				ChdDetail.firstName = first;
+				ChdDetail.passportNumber = $("#passportNumberChd"+i).val();
+				ChdDetail.gender = 	gender;
+				ChdDetail.price = price;
+				
+//				console.log(ChdDetail.price);
+//				console.log(inputLat);
+				
+	//			PassengerDetailDatas.push(ChdDetail);
+				jsPassengerDetailDatas.passengerDetailInfo.push(ChdDetail);
 			}
+			
 		}
 		
 		if(inf > 0){
 			for(var i=1; i<=inf ; i++){
+				
+				var InfDetail = new PassengerDetailInfo();
+				
 				var last = $("#lastNameInf"+i).val();
 				var first = $("#firstNameInf"+i).val();
+				var gender = "";
+				var price = "";
 				
-				var inputLat = $("#tdInf"+i).find('span').text(last+first);
+				var $wRA = $("#radioSexWomanInf"+i).parent('label');
+				var $mRA = $("#radioSexManInf"+i).parent('label');
+				
+				if($wRA.hasClass('active')){	gender = "F";	}
+				else if($mRA.hasClass('active')){	gender = 'M';	}
+//				console.log(gender);
+				$("#tdInf"+i).find('span').text(last+first);
+				
+				var inputLat = $("#tdInf"+i).find('span').text();
 			
+				price = $("#in"+i).find('strong[name="strongPrice4"]').text();
+				
 				if(type=='RT'){
-					var inputLat = $("#tdInf"+i).find('span');
 					$("#RTtdInf"+i).text(last+first);
+					price = Number(price)+Number($("#RTin"+i).find('strong[name="strongPrice4"]').text());
 				}
+				
+				InfDetail.paxType='Inf';
+				InfDetail.lastName = last;
+				InfDetail.firstName = first;
+				InfDetail.passportNumber = $("#passportNumberInf"+i).val();
+				InfDetail.gender = 	gender;
+				InfDetail.price = price;
+				
+//				console.log(InfDetail.price);
+//				console.log(inputLat);
+				
+	//			PassengerDetailDatas.push(InfDetail);
+				jsPassengerDetailDatas.passengerDetailInfo.push(InfDetail);
 			}
 		}
+		
+		console.log(jsPassengerDetailDatas);
+		document.GoBook06.jsPassengerDetail.value = JSON.stringify(jsPassengerDetailDatas);
 	});
 	
 	

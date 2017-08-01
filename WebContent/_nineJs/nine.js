@@ -31,18 +31,54 @@ var PassengerDataObject = function(){
 	this.paxType = ""; //승객 탑승 종류 (성인, 소아, 유아)
 }
 
+/*예약자 정보*/
 var ReservationPersonInfo = function(){
 	this.phoneType="";
 	this.phoneNumber = "";
 	this.email = "";
 }
 
+/* 탑승객 정보 (배열) */
+var PassengerDetailDatas = function(){
+	this.passengerDetailInfo = [];
+}
+/*각 탑승객 정보*/
 var PassengerDetailInfo = function(){
 	this.paxType = "";
-	this.name = "";
+	this.lastName = "";
+	this.firstName = "";
+	this.passportNumber = "";
 	this.gender = "";
 	this.price = "";
-	
+}
+
+/*	선택 옵션 (배열)	*/
+var OptionService = function(){
+	this.seatDatas =[];
+	this.bagDatas = [];
+	this.mealDats = [];
+}
+/* 좌석 */
+var OptionSeat = function(){
+	this.SeattripType = "";
+	this.planeName = "";
+	this.planeType = "";
+	this.seatNum = "";
+	this.price = "";
+}
+
+/* 수화물 */
+var OptionBag = function(){
+	this.BagtripType = "";
+	this.BagCount = "";
+	this.Bagprice = "";
+}
+
+/* 기내식 */
+var OptionMeal = function(){
+	this.MealtripType = "";
+	this.MealName = "";
+	this.Mealprice = "";
 }
 
 $(function(){
@@ -793,6 +829,8 @@ $(document).ready(function(){
 				
 			});
 			
+			/*	날짜 선택 후 확인	*/
+			
 			$("#btnDateConfirm").on("click",function(){
 				var $bookingDate = $(".booking-date");
 				var $bookingPassenger = $(".booking-passenger");
@@ -820,6 +858,8 @@ $(document).ready(function(){
 			 * 
 			 * */
 			
+			
+			/*	탑승 인원 선택 후 확인 버튼	*/
 			$("#btnPaxCntConfirm").on("click", function(){
 				var jsAdult = $("#txtSelAdtPaxCnt").val();
 				var jsChd = $("#txtSelChdPaxCnt").val();
@@ -866,6 +906,7 @@ $(document).ready(function(){
 			});
 		
 		
+			/*	메인 페이지에서 확인 버튼	*/
 			$("#goItinerary").on("click", function(){
 			
 				var jsBookConditionDataObject = new BookingConditionDataObject();
@@ -942,6 +983,10 @@ $(document).ready(function(){
 				
 			});
 			
+			
+			
+			/* 5단계에서 탑승객의 정보를 입력한 후 확인 버튼 */
+			
 			$("#BtnComplete").on("click", function(){
 				
 				// 항공기 정보 포함
@@ -952,14 +997,21 @@ $(document).ready(function(){
 				var jsFlightDetailInfo = new FlightDetailInfo();
 				var jsBookingCondition = new BookingConditionDataObject();
 				
+				var jsPassengerDatas = new PassengerDataObject();
+				jsPassengerDatas = [];
+	
+				
 				jsFlightDetailInfo = jQuery.parseJSON(detailFlightCondition);
 				jsBookingCondition = jQuery.parseJSON(detailBookingCondition);
+			
+				jsPassengerDatas = jsBookingCondition.passengerDatas;
+				
+				console.log(jsPassengerDatas);
 				
 				console.log('Flight ');
 				console.log(jsFlightDetailInfo);
 				console.log('Booking');
 				console.log(jsBookingCondition);
-				
 			
 				var rePhoneType = $(".single").find(".active").find("input:radio").val();
 				console.log(rePhoneType);
@@ -980,13 +1032,49 @@ $(document).ready(function(){
 				/* 예약자의 정보 저장. 필요하다면 나중에 아이디값  */
 				console.log(jsReservationPerson);
 				
-				fn_changeBookingStep("6", jsBookingCondition);
-				
+				document.GoBook06.jsBookingCondition.value = JSON.stringify(jsBookingCondition);
+				document.GoBook06.jsFlightInfo.value = JSON.stringify(jsFlightDetailInfo);
+				document.GoBook06.jsReservationPerson.value= JSON.stringify(jsReservationPerson);
 				document.GoBook06.action="./GoBook06.bo";
 				document.GoBook06.submit();
 			});
 			
+			$("#Go_Pay").on("click", function(){
+				
+				var jsOptionService = new OptionService();
+				
+					jsOptionService.seatDatas =[];
+					jsOptionService.bagDatas = [];
+					jsOptionService.mealDats = [];
+				
+				var jsOptionSeat = new OptionSeat();
+				var jsOptionBag = new OptionBag();
+				var jsOptionMeal = new OptionMeal();
+				
+				alert("부가 서비스는 출발 48 시간 전까지 변경 가능 합니다.");
+				
+				
+				
+				document.GoBook07.jsOption.value = JSON.stringity(jsOptionService);
+				document.GoBook07.action = "./GoPaymentPage.bo";
+				document.GoBook07.submit();
+				
+			});
 			
+			$("#btnPayment").on("click", function(){
+				
+				
+				if(confirm("결제 하시겠습니까?")){
+					document.GoBook07.action = "./GoReservationAndPay.bo";
+					document.submit();
+				}else{
+					return false;
+				}
+				
+			});
+			
+			
+		
 			
 
 }); // document.ready 함수 끝 
@@ -1172,6 +1260,29 @@ function GoBook_05(data){
 	fn_changeBookingStep("5", jsBookConditionDataObject);
 	
 }
+
+function GoBook_06(data){
+	var jsBookConditionDataObject = jQuery.parseJSON(data);
+	
+	fn_changeBookingStep("1", jsBookConditionDataObject);
+	fn_changeBookingStep("2", jsBookConditionDataObject);
+	fn_changeBookingStep("3", jsBookConditionDataObject);
+	fn_changeBookingStep("4", jsBookConditionDataObject);
+	fn_changeBookingStep("5", jsBookConditionDataObject);
+	fn_changeBookingStep("6", jsBookConditionDataObject);
+	
+}
+function GoBook_07(data){
+	var jsBookConditionDataObject = jQuery.parseJSON(data);
+	
+	fn_changeBookingStep("1", jsBookConditionDataObject);
+	fn_changeBookingStep("2", jsBookConditionDataObject);
+	fn_changeBookingStep("3", jsBookConditionDataObject);
+	fn_changeBookingStep("4", jsBookConditionDataObject);
+	fn_changeBookingStep("5", jsBookConditionDataObject);
+	fn_changeBookingStep("6", jsBookConditionDataObject);
+	fn_changeBookingStep("7", jsBookConditionDataObject);
+}
 /*var BookingInfo = function(){
 	this.tripType = "";
 	this.departureAirport="";
@@ -1263,7 +1374,7 @@ function ShowBookingCondition(data){
 }
 
 
-/*		Book_05.jsp 우측 안내 셋팅 	*/
+/*		Book_05.jsp, Book_06.jsp 우측 안내 셋팅 	*/
 function SettingDataBook05(detailFlight, detailBooking){
 
 	var jsFlight = new FlightInfo();
@@ -1702,29 +1813,38 @@ function fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice){
 	/*	편도 (갈 때)	*/
 	
 	for(var j =1; j<=adcnt ; j++){
-			PriceSTR += "<tr><td id='tdAdt"+j+"' style='text-transform:uppercase'><span></span></td>"
+			PriceSTR += "<tr id='ad"+j+"'><td id='tdAdt"+j+"' style='text-transform:uppercase'><span></span></td>"
 									+"<td class='tbl-price' name='strongPrice1'>"+jsADT.price+"</td>"
 									+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 									+"<td class='tbl-price' name='strongPrice3'>"+jsADT.tax+"</td>"
 									+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-									+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsADT.perPerson+"</strong></td></tr>";
+									+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsADT.perPerson+"</strong></td></tr>"
+									+"<input type='hidden' id='tdLastAdt"+j+"' name='tdLastAdt"+j+"'>"
+									+"<input type='hidden' id='tdFirstAdt"+j+"' name='tdFirstAdt"+j+"'>"
+									+"<input type='hidden' id='tdPriceAdt"+j+"' name='tdPriceAdt"+j+"'value='"+jsADT.perPerson+"'>";
 		}
 	for(var j=1; j<=chdcnt; j++){
-		PriceSTR += "<tr><td id='tdChd"+j+"' style='text-transform:uppercase'><span></span></td>"
+		PriceSTR += "<tr id='ch"+j+"'><td id='tdChd"+j+"' style='text-transform:uppercase'><span></span></td>"
 		+"<td class='tbl-price' name='strongPrice1'>"+jsCHD.price+"</td>"
 		+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 		+"<td class='tbl-price' name='strongPrice3'>"+jsCHD.tax+"</td>"
 		+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-		+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsCHD.perPerson+"</strong></td></tr>"; 
+		+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsCHD.perPerson+"</strong></td></tr>"
+		+"<input type='hidden' id='tdLastChd"+j+"' name='tdLastChd"+j+"'>"
+		+"<input type='hidden' id='tdFirstChd"+j+"' name='tdFirstChd"+j+"'>"
+		+"<input type='hidden' id='tdPriceChd"+j+"' name='tdPriceChd"+j+"' value='"+jsCHD.perPerson+"'>";
 	}
 	
 	for(var j=1; j<=infcnt; j++){
-		PriceSTR += "<tr><td id='tdInf"+j+"' style='text-transform:uppercase'><span></span></td>"
+		PriceSTR += "<tr id='in"+j+"'><td id='tdInf"+j+"' style='text-transform:uppercase'><span></span></td>"
 		+"<td class='tbl-price' name='strongPrice1'>"+jsINF.price+"</td>"
 		+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 		+"<td class='tbl-price' name='strongPrice3'>"+jsINF.tax+"</td>"
 		+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-		+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsINF.perPerson+"</strong></td></tr>"; 
+		+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+jsINF.perPerson+"</strong></td></tr>"
+		+"<input type='hidden' id='tdLastInf"+j+"' name='tdLastInf"+j+"'>"
+		+"<input type='hidden' id='tdFirstInf"+j+"' name='tdFirstInf"+j+"'>"
+		+"<input type='hidden' id='tdPriceInf"+j+"' name='tdPriceInf"+j+"'value='"+jsINF.perPerson+"'>";
 	}
 	
 
@@ -1739,29 +1859,38 @@ function fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice){
 	var RpriceSTR = "";
 	
 	for(var j =1; j<=Radcnt ; j++){
-				RpriceSTR += "<tr><td id='RTtdAdt"+j+"' style='text-transform:uppercase'><span></span></td>"
+				RpriceSTR += "<tr id='RTad"+j+"'><td id='RTtdAdt"+j+"' style='text-transform:uppercase'><span></span></td>"
 								+"<td class='tbl-price' name='strongPrice1'>"+RjsADT.price+"</td>"
 								+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 								+"<td class='tbl-price' name='strongPrice3'>"+RjsADT.tax+"</td>"
 								+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsADT.perPerson+"</strong></td></tr>";
+								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsADT.perPerson+"</strong></td></tr>"
+								+"<input type='hidden' id='RTtdLastAdt"+j+"' name='RTtdLastAdt"+j+"'>"
+								+"<input type='hidden' id='RTtdFirstAdt"+j+"' name='RTtdFirstAdt"+j+"'>"
+								+"<input type='hidden' id='RTtdPriceAdt"+j+"' name='RTtdPriceAdt"+j+"' value='"+RjsADT.perPerson+"'>";
 	}
 	for(var j=1; j<=Rchdcnt; j++){
-				RpriceSTR += "<tr><td id='RTtdChd"+j+"' style='text-transform:uppercase'><span></span></td>"
+				RpriceSTR += "<tr id='RTch"+j+"'><td id='RTtdChd"+j+"' style='text-transform:uppercase'><span></span></td>"
 								+"<td class='tbl-price' name='strongPrice1'>"+RjsCHD.price+"</td>"
 								+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 								+"<td class='tbl-price' name='strongPrice3'>"+RjsCHD.tax+"</td>"
 								+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsCHD.perPerson+"</strong></td></tr>"; 
+								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsCHD.perPerson+"</strong></td></tr>"
+								+"<input type='hidden' id='RTtdLastChd"+j+"' name='RTtdLastChd"+j+"'>"
+								+"<input type='hidden' id='RTtdFirstChd"+j+"' name='RTtdFirstChd"+j+"'>"
+								+"<input type='hidden' id='RTtdPriceChd"+j+"' name='RTtdPriceChd"+j+"' value='"+RjsCHD.perPerson+"'>";
 	}
 	
 	for(var j=1; j<=Rinfcnt; j++){
-				RpriceSTR += "<tr><td id='RTtdInf"+j+"' style='text-transform:uppercase'><span></span></td>"
+				RpriceSTR += "<tr id='RTin"+j+"'><td id='RTtdInf"+j+"' style='text-transform:uppercase'><span></span></td>"
 								+"<td class='tbl-price' name='strongPrice1'>"+RjsINF.price+"</td>"
 								+"<td class='tbl-price' name='strongPrice2'>"+0+"</td>"
 								+"<td class='tbl-price' name='strongPrice3'>"+RjsINF.tax+"</td>"
 								+"<td class='tbl-price'><strong class='point-color02' name='strongCoupon'>"+0+"</strong></td>"
-								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsINF.perPerson+"</strong></td></tr>"; 
+								+"<td class='tbl-price'><strong class='point-color02' name='strongPrice4'>"+RjsINF.perPerson+"</strong></td></tr>"
+								+"<input type='hidden' id='RTtdLastInf"+j+"' name='RTtdLastInf"+j+"'>"
+								+"<input type='hidden' id='RTtdFirstInf"+j+"' name='RTtdFirstInf"+j+"'>"
+								+"<input type='hidden' id='RTtdPriceInf"+j+"' name='RTtdPriceInf"+j+"' value='"+RjsINF.perPerson+"'>";
 	}
 	
 	$("#RTpassengerList").html(RpriceSTR);
@@ -1802,6 +1931,10 @@ function fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice){
 		 			  				"</label>"+
 		 			  				"</span></li>"+
 		 			  				"</ul></td></tr>"+
+		 			  			"<tr><th scope='row'>여권번호</th>"+
+		 			  			"<td><div><span class='inp-txt mgr03'>"+
+		 			  			"<input type='text' id='passportNumberAdt"+(j+1)+"' style='width:324px;'>"+
+		 			  			"</span></div></td></tr>"+
 		 			  			"<tr><th scope='row'>"+
 		 			  			"<label for='coupon'>쿠폰할인</label></th>"+
 		 			  			"<td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
@@ -1813,25 +1946,58 @@ function fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice){
 		 	}
 	for(var j=1; j<=chdcnt; j++){
 		PassengerSTR += "<div class='booking-table-title mgt20'><h3 class='table-title-mid mgr25'>소아 "+j+"</h3></div>"+
-	  "<div class='tbl-input-row01 mgt50' id='dvChd"+j+"' paxno='"+j+"'>"+
-		  "<table><caption>영문 성명, 성별, 쿠폰할인으로 구성된 탑승자 정보입력표입니다.</caption>"+
-		  "<colgroup><col style='width:20%'><col></colgroup>"+
-		  "<tbody><tr><th scope='row'>영문 성명</th><td>"+
-		  "<div><span class='inp-txt mgr03'>" +
-		  "<input type='text' id='lastNameChd"+j+"' name='lastName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='Last Name(성) 입력' placeholder='Last Name(성)'  maxlength='30' >"+
-		  "</span><span class='inp-txt mgr03'>"+
-		  "<input type='text' id='firstNameChd"+j+"' name='firstName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='First Name(이름) 입력' placeholder='First Name(이름)'  maxlength='30' >"+
-		  "</span></div></td></tr>"+
-		  "<tr><th scope='row'>성별</th><td><ul class='radio_list'>"+
-		  "<li><span class='radiobox01 js-radiobox01'><label for='radioSexManChd"+j+"' >"+
-		  "<input type='radio' id='radioSexManChd"+j+"' name='radioSexChd"+j+"' value='M'><span>남</span>"+ 
-		  "</label></span></li><li><span class='radiobox01 js-radiobox01'>"+
-		  "<label for='radioSexWomanChd"+j+"'><input type='radio' id='radioSexWomanChd"+j+"' name='radioSexChd"+j+"' value='F' ><span>여</span>"+
-		  "</label></span></li></ul></td></tr><tr><th scope='row'>"+
-		  "<label for='coupon'>쿠폰할인</label></th><td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
-		  "<span class='txt ex'></span><select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
-		  "<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option></select></span></div></td>"+
-		  "</tr></tbody></table></div>";
+							"<div class='tbl-input-row01 mgt50' id='dvChd"+j+"' paxno='"+j+"'>"+
+								"<table><caption>영문 성명, 성별, 쿠폰할인으로 구성된 탑승자 정보입력표입니다.</caption>"+
+										"<colgroup><col style='width:20%'><col></colgroup>"+
+										"<tbody>"+
+										"<tr><th scope='row'>영문 성명</th>"+
+										"<td>"+
+										"<div><span class='inp-txt mgr03'>" +
+											"<input type='text' id='lastNameChd"+j+"' name='lastName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='Last Name(성) 입력' placeholder='Last Name(성)'  maxlength='30' >"+
+											"</span>"+
+											"<span class='inp-txt mgr03'>"+
+											"<input type='text' id='firstNameChd"+j+"' name='firstName' style='width: 224px; ime-mode:disabled; text-transform:uppercase;' title='First Name(이름) 입력' placeholder='First Name(이름)'  maxlength='30' >"+
+										"</span></div>"+
+										"</td>"+
+										"</tr>"+
+										"<tr><th scope='row'>성별</th>"+
+										"<td>"+
+											"<ul class='radio_list'>"+
+												"<li>"+
+													"<span class='radiobox01 js-radiobox01'>"+
+														"<label for='radioSexManChd"+j+"' >"+
+														"<input type='radio' id='radioSexManChd"+j+"' name='radioSexChd"+j+"' value='M'><span>남</span>"+ 
+														"</label>"+
+													"</span>"+
+												"</li>"+
+												"<li>"+
+													"<span class='radiobox01 js-radiobox01'>"+
+														"<label for='radioSexWomanChd"+j+"'>"+
+														"<input type='radio' id='radioSexWomanChd"+j+"' name='radioSexChd"+j+"' value='F' ><span>여</span>"+
+														"</label>"+
+													"</span>"+
+												"</li>"+
+											"</ul>"+
+										"</td>"+
+										"</tr>"+
+										"<tr><th scope='row'>여권번호</th>"+
+											"<td><div><span class='inp-txt mgr03'>"+
+											"<input type='text' id='passportNumberChd"+j+"' style='width:324px;'>"+
+											"</span></div></td></tr>"+
+										"<tr><th scope='row'>"+
+											"<label for='coupon'>쿠폰할인</label>"+
+											"</th>"+
+											"<td>"+
+											"<div>"+
+											"<span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
+											"<span class='txt ex'></span>"+
+												"<select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
+												"<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option>"+
+												"</select>"+
+											"</span>"+
+											"</div>"+
+											"</td>"+
+										"</tr></tbody></table></div>";
 	}
 	
 	for(var j=1; j<=infcnt; j++){
@@ -1850,7 +2016,12 @@ function fn_SetUnitPrice(type, OWpersonPrice, RTpersonPrice, FinallyPrice){
 		  "<input type='radio' id='radioSexManInf"+j+"' name='radioSexInf"+j+"' value='M'><span>남</span>"+ 
 		  "</label></span></li><li><span class='radiobox01 js-radiobox01'>"+
 		  "<label for='radioSexWomanInf"+j+"'><input type='radio' id='radioSexWomanInf"+j+"' name='radioSexInf"+j+"' value='F' ><span>여</span>"+
-		  "</label></span></li></ul></td></tr><tr><th scope='row'>"+
+		  "</label></span></li></ul></td></tr>"+
+		  "<tr><th scope='row'>여권번호</th>"+
+		  "<td><div><span class='inp-txt mgr03'>"+
+		  "<input type='text' id='passportNumberInf"+j+"' style='width:324px;'>"+
+		  "</span></div></td></tr>"+
+		  "<tr><th scope='row'>"+
 		  "<label for='coupon'>쿠폰할인</label></th><td><div><span class='selectbox01 js-selectbox01' id='Span_Coupon'>"+
 		  "<span class='txt ex'></span><select id='coupon' title='쿠폰할인선택' style='width: 324px;'>"+
 		  "<option value='' selected='selected' class='ex'>사용 가능한 쿠폰이 없습니다.</option></select></span></div></td>"+

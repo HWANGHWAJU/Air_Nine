@@ -12,16 +12,17 @@
     <title>06. 부가서비스 &lt; 항공권예약 &lt; AIR SEOUL</title>
     <link rel="shortcut icon" type="image/x-icon" href="images/common/favicon.ico">
     
-    <link rel="stylesheet" type="text/css" href="css/company.css">  
-    <link rel="stylesheet" type="text/css" href="css/common.css">
-    <link rel="stylesheet" type="text/css" href="css/board.css">  
-    <link rel="stylesheet" type="text/css" href="css/service.css">
-    <link rel="stylesheet" type="text/css" href="css/utile.css">
-    <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
-    <link rel="stylesheet" type="text/css" href="css/myreservation.css">
-    <link rel="stylesheet" type="text/css" href="css/airs_booking.css">
-    <link rel="stylesheet" type="text/css" href="css/booking.css">
+ <link rel="stylesheet" type="text/css" href="stylesheets/main/main.css">
     
+  <link rel="stylesheet" type="text/css" href="stylesheets/sub/company.css">  
+  <link rel="stylesheet" type="text/css" href="stylesheets/common/common.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/sub/board.css">  
+  <link rel="stylesheet" type="text/css" href="stylesheets/sub/service.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/sub/utile.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/sub/swiper.min.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/sub/air_booking.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/sub/booking.css">    
+	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
     <!-- 20160722 추가 -->
     <link rel="icon" href="images/common/favi_16x16.png" type="image/gif" sizes="16x16">
     <link rel="icon" href="images/common/favi_32x32.png" type="image/gif" sizes="32x32">

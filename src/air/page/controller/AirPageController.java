@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import air.page.action.Action;
 import air.page.action.ActionForward;
+import air.schedule.action.JsonGoAdditionalChoiceAction;
 import air.schedule.action.JsonGoPassengerAction;
+import air.schedule.action.JsonGoPayAndReservateAction;
+import air.schedule.action.JsonGoPaymentPageAction;
 import air.schedule.action.JsonScheduleAction;
 import air.schedule.action.SAction;
 import air.schedule.action.SJsonAction;
@@ -79,6 +82,10 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./Info_0_FlightMain.jsp?Info=Info_schedule.jsp"); 
+		}else if(command.equals("/Info_seat.bo")){
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./Info_0_FlightMain.jsp?Info=Info_Seat.jsp"); 
 		}
 		
 		else if(command.equals("/Event_Main.bo")){ // 이벤트 메인 페이지로 이동
@@ -146,9 +153,14 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			SJsonAction sjaction = new JsonGoPassengerAction();
 			sjaction.execute(request, response);
 		}else if(command.equals("/GoBook06.bo")){
-			forward = new ActionForward();
-			forward.setRedirect(false);
-			forward.setPath("./book_00_Main.jsp?book=book_06_1.jsp");
+			SJsonAction sjaction = new JsonGoAdditionalChoiceAction();
+			sjaction.execute(request, response);
+		}else if(command.equals("/GoPaymentPage.bo")){
+			SJsonAction sjaction = new JsonGoPaymentPageAction();
+			sjaction.execute(request, response);
+		}else if(command.equals("/GoReservationAndPay.bo")){
+			SJsonAction sjaction =  new JsonGoPayAndReservateAction();
+			sjaction.execute(request, response);
 		}
 		
 	/*		민정, 추가			*/	

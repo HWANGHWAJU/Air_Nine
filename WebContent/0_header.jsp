@@ -87,7 +87,7 @@
 					           <a href="/CW/ko/online-check-in.do">공항 서비스</a>
 					       </li>
 						       <li class="depth02Lists">
-					           <a href="/CW/ko/cabin.do">기내 서비스</a>
+					           <a href="Info_seat.bo">기내 서비스</a>
 					       </li>
 						       <li class="depth02Lists">
 						           <a href="/CW/ko/infant.do">도움이 필요한 고객</a>

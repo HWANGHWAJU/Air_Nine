@@ -39,8 +39,9 @@ function fn_ajax(){
 	$.ajax({
 		type:"post",
 		url:"0_ajaxHtml.jsp",
-		data : "html",
+		dataType : "html",
 		success : function(data){
+			alert(data);
 			$("#AjaxBody").html(data);
 			
 		}
@@ -84,6 +85,8 @@ function fn_ajax2(){
 	
 		});
 	}
+	
+	
 </script>
 </body>
 </html>
