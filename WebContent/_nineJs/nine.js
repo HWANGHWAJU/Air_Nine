@@ -1055,7 +1055,7 @@ $(document).ready(function(){
 				
 				
 				
-				document.GoBook07.jsOption.value = JSON.stringity(jsOptionService);
+				document.GoBook07.jsOption.value = JSON.stringify(jsOptionService);
 				document.GoBook07.action = "./GoPaymentPage.bo";
 				document.GoBook07.submit();
 				
@@ -1063,10 +1063,26 @@ $(document).ready(function(){
 			
 			$("#btnPayment").on("click", function(){
 				
+				var payType = $("input:radio:checked").val();
+				var total = $(".total-price").find(".price").text();
+				console.log(payType);
+				console.log(total);
+				
+				var PayInfo = function(){
+					this.payType ="";
+					this.totalPrice = "";
+				}
+				
+				var jsPay = new PayInfo();
+				jsPay.payType = payType;
+				jsPay.totalPrice = total;
+				
+				console.log(jsPay);
 				
 				if(confirm("결제 하시겠습니까?")){
+					document.GoBook07.jsPay.value = JSON.stringify(jsPay);
 					document.GoBook07.action = "./GoReservationAndPay.bo";
-					document.submit();
+					document.GoBook07.submit();
 				}else{
 					return false;
 				}

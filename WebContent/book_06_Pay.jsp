@@ -651,6 +651,7 @@
 <input type="hidden" name="jsReservationPerson" id="jsReservationPerson" value='${requestScope.jsR }'>
 <input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" 		value='${requestScope.jsP}'>
 <input type="hidden" name="jsOption" 						id="jsOption" 							value='${request.jsO }'>
+<input type="hidden" name="jsPay" 								id="jsPay"									value="">
 </form>				
 					
 
@@ -677,13 +678,6 @@ $(document).ready(function(){
 	jsPassengerDataObject = JSbookingCondition.passengerDatas; //이미 Json으로 변형되었음
 	SettingFinalPrice(jsFlightInfo,jsPassengerDataObject);
 
-	$("input:radio").on("click", function(){
-		var $this = $(this);
-		var $label = $($(this).)
-	});
-	
-	
-	
 });
 
 

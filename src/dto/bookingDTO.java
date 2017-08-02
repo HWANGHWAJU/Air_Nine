@@ -3,9 +3,10 @@ package dto;
 import java.sql.Date;
 
 public class bookingDTO {
+	
 	private int booking_number;			
 	private String booking_reserveinfo_email;	
-	private String pay_uni_number;		
+	private String booking_reservation_code;		
 	private String booking_start;	
 	private Date booking_start_date;
 	private String booking_start_time;		
@@ -23,6 +24,32 @@ public class bookingDTO {
 	private String booking_eng_firstname;	
 	private String booking_age;	
 	private String booking_total_price;	
+	
+	public bookingDTO(){}
+	
+	public bookingDTO(int n, String e, String pn, String dep, Date depdate, String deptime, String arr, Date arrdate, String arrtime, String flightname, String opseat, String opfood, Date bookdate, String bookway, String check, String pass, String last, String first, String age, String total){
+		this.booking_number = n;
+		this.booking_reserveinfo_email = e;
+		this.booking_reservation_code = pn;
+		this.booking_start = dep;
+		this.booking_start_date = depdate;
+		this.booking_start_time = deptime;
+		this.booking_arr = arr;
+		this.booking_arr_date = arrdate;
+		this.booking_arr_time = arrtime;
+		this.booking_flight_name = flightname;
+		this.booking_optseat = opseat;
+		this.booking_optfood = opfood;
+		this.booking_date = bookdate;
+		this.booking_way = bookway;
+		this.booking_check = check;
+		this.booking_passportnumber = pass;
+		this.booking_eng_lastname = last;
+		this.booking_eng_firstname = first;
+		this.booking_age = age;
+		this.booking_total_price = total;
+	}
+	
 	public int getBooking_number() {
 		return booking_number;
 	}
@@ -35,11 +62,11 @@ public class bookingDTO {
 	public void setBooking_reserveinfo_email(String booking_reserveinfo_email) {
 		this.booking_reserveinfo_email = booking_reserveinfo_email;
 	}
-	public String getPay_uni_number() {
-		return pay_uni_number;
+	public String getbooking_reservation_code() {
+		return booking_reservation_code;
 	}
-	public void setPay_uni_number(String pay_uni_number) {
-		this.pay_uni_number = pay_uni_number;
+	public void setbooking_reservation_code(String booking_reservation_code) {
+		this.booking_reservation_code = booking_reservation_code;
 	}
 	public String getBooking_start() {
 		return booking_start;
