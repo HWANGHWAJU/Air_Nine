@@ -57,7 +57,7 @@
 		<!-- 회원 정보 입력 -->
 		
 		
-		<form id="memberInfo" name="memberInfo" method="post" style="margin:40px 0 0;">
+		<form action="./MemberJoinAction.bo"  id="memberInfo" name="memberInfo" method="post" style="margin:40px 0 0;">
 			<div class="content_box input_type">
 				<div class="input_section">
 					<div class="title_section">
@@ -161,18 +161,18 @@
 											<span class="inp-txt mgr03">
 												<input type="text" name="" style=" width: 226px;" id="txtParentCountry" class="txtParentCountry" value="" >
 											</span>
-											<button style="height: 35px;" type="button" id="I/KO/viewLayerCountrySearch" data-opener="code2" onclick="viewLayerCountrySearch();" class="btn-type02-col02 jsOpenLayer">검색</button>
+											<button style="height: 35px;" type="button" id="I/KO/CountrySearch" data-opener="code2" onclick="viewLayerCountrySearch();" class="btn-type02-col02 jsOpenLayer">검색</button>
 										</div>
 									</td>
 								</tr>
 								<tr>
-									<th scope="row" id="ResidenceCountryTH"><label for="txtResidenceCountry" style="font-weight: bold;">거주국가</label><span class="important">*</span></th>
+									<th scope="row" id="ResidenceCountryTH"><label for="" style="font-weight: bold;">거주국가</label><span class="important">*</span></th>
 									<td colspan="3" headers="ResidenceCountryTH">
 										<div>
 											<span class="inp-txt mgr03">
 												<input type="text" name="" style=" width: 226px;" id="txtResidenceCountry" class="txtResidenceCountry" value="" >
 											</span>
-											<button style="height: 35px;" type="button" id="I/KO/viewLayerCountrySearch" data-opener="code2" class="btn-type02-col02 jsOpenLayer">검색</button>
+											<button style="height: 35px;" type="button" id="I/KO/liveCountrySearch" data-opener="code2" onclick="viewLayerliveCountrySearch()" class="btn-type02-col02 jsOpenLayer">검색</button>
 										</div>
 									</td>
 								</tr>
@@ -183,7 +183,7 @@
 										<div class="call_number" style="padding-bottom:10px;">
 											<span class="middle_txt">휴대폰 번호</span> <span class="inp-txt mgr03">
 											<input type="text" id="txtMobileNO0" name="txtMobileNO0" style=" width: 74px;" title="휴대폰번호 국가번호 입력" value="" ></span> 
-											<button type="button"  style="margin-top:2px; height: 35px;" onclick="" class="btn-type02-col02 mgr03 jsOpenLayer">국가번호 검색</button> 
+											   <button type="button"  style="margin-top:2px; height: 35px;" onclick="viewLayerCountryNumSearch()" class="btn-type02-col02 mgr03 jsOpenLayer">국가번호 검색</button> 
 											<span class="inp-txt mgr03"> 
 											<select name="txtMobileNO1" id="txtMobileNO1" title="휴대폰번호 처음자리" style=" width: 80px; padding: 7px; font-size: 15px; ">
 													<option value="010" selected="selected">010</option>
@@ -221,7 +221,7 @@
 												<input type="text" name=""  style=" width: 168px;; ime-mode: disabled" id="txtEmailDomain" class="mustBeFilled" title="도메인 입력">
 											</span>
 											<span class="selectbox01 js-selectbox01"> 
-											<span class="txt ex">직접입력</span> 
+											<span class="txt ex"></span> 
 												<select name="selEmailDomain" id="selEmailDomain" title="도메인 선택란" style="width: 80px; padding: 7px; font-size: 15px; width: 178px;" >
 														<option value="" selected="selected" class="ex">직접입력</option>
 														<option value="naver.com">naver.com</option>
@@ -318,7 +318,7 @@
 				</div>
 				<div class="btn_article">
 					<ul>
-					<li><button style="height: 35px;" type="button" id="btnJoin" class="btn-type01-col01" data-toggle="modal" data-target="#myModal" onclick="">가입하기</button></li>
+					<li><button style="height: 35px;" type="button" id="btnJoin" class="btn-type01-col01"  onclick="submit();">가입하기</button></li>
 						<!-- 가입하기 버튼 클릭 후 작성된 데이터 제이쿼리를 활용하여 팝업창으로 출력 -->
 					</ul>
 				</div>
@@ -326,7 +326,7 @@
 			</div>
 		</form>
 		
-		<div id="divLayerPopup0" class="layer countrySearch open" style="display:none;">
+		<div id="divLayerPopup0" class="layer Search open" style="display:none;">
 			<div class="layer_center_type midium_type">
 				<div class="layer_area">
 					<div class="layer_inner">
@@ -371,6 +371,103 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 거주국가 검색창 -->
+		
+		<div id="divLayerPopup1" class="layer countrySearch open" style="display:none;">
+			<div class="layer_center_type midium_type">
+				<div class="layer_area">
+					<div class="layer_inner">
+						<div class="layer_title">
+							<h2 class="title" id="CountrySearch">거주국가 검색</h2>
+						</div>
+						<div class="layer_content" style="height:464px; overflow-y:hidden;">
+						<p class="list_type1 mgt25" id="msgCountrySearchInfo">찾으시려는  거주국가명을 입력해 주시기 바랍니다.</p>
+						<div class="search_area">
+							<span class="inp-txt mgr03">
+								<input type="text" id="txtliveCountrySearch" name="txtliveCountrySearch" style="width:338px;" title="거주국가명 입력" id="txtliveCountrySearch"> 
+							</span>
+							<button type="submit" id="btnSearch1" class="btn-type02-col01">검색</button>
+						</div>
+						<div class="result_area">
+							<div class="title_group">
+								<p class="country" id="NameOfCountry">거주국가명</p>
+								<p class="en_country" id="enNameOfCountry">영어 국가명</p>
+							</div>
+							<div class="result_box">
+								<div id="result_list" class="result_list" style="display:none;">
+								
+								</div>
+								<div id="none_data" class="none_data" style="margin:0; padding:90px;">
+								<p id="msgNoData">검색 결과가 없습니다.</p>
+								</div>
+							</div>
+
+						</div>
+							<div class="btn_article">
+								<ul>
+									<li>
+										<button type="button" id="btnConfirm" class="btn-type02-col03">확인</button>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<p class="btn_close">
+							<a href="javascript:void(0);" onclick="closeliveCountryLayer(); return false;" class="jsCloseBtn" id="jsCloseBtn"></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>	
+		
+		<!-- 국가번호 검색 -->
+		
+		<div id="divLayerPopup2" class="layer countrySearch open" style="display:none;">
+			<div class="layer_center_type midium_type">
+				<div class="layer_area">
+					<div class="layer_inner">
+						<div class="layer_title">
+							<h2 class="title" id="CountrySearch">국가번호 검색</h2>
+						</div>
+						<div class="layer_content" style="height:464px; overflow-y:hidden;">
+						<p class="list_type1 mgt25" id="msgCountrySearchInfo">찾으시려는 국가를 입력해 주시기 바랍니다.</p>
+						<div class="search_area">
+							<span class="inp-txt mgr03">
+								<input type="text" id="txtCountryNumSearch" name="txtCountryNumSearch" style="width:338px;" title="거주국가명 입력" id="txtliveCountrySearch"> 
+							</span>
+							<button type="submit" id="btnSearch2" class="btn-type02-col01">검색</button>
+						</div>
+						<div class="result_area">
+							<div class="title_group">
+								<p class="country" id="NameOfCountry">국가명</p>
+								<p class="en_country" id="CountryNum">국가 번호</p>
+							</div>
+							<div class="result_box">
+								<div id="result_list" class="result_list NumofCountry" style="display:none;">
+								
+								</div>
+								<div id="none_data" class="none_data" style="margin:0; padding:90px; display:block;">
+									<p id="msgNoData">검색 결과가 없습니다.</p>
+								</div>
+							</div>
+
+						</div>
+							<div class="btn_article">
+								<ul>
+									<li>
+										<button type="button" id="btnConfirm" class="btn-type02-col03">확인</button>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<p class="btn_close">
+							<a href="javascript:void(0);" onclick="closeCountryNumLayer(); return false;" class="jsCloseBtn" id="jsCloseBtn"></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 	</div><!-- container -->
 	<jsp:include page="0_footer.jsp"/>
@@ -380,6 +477,11 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/sub/member.css">
 <script type="text/javascript">
 /* alert("d"); */
+  function submit(){
+		alert("dddd");
+		document.getElementById('memberInfo').submit();
+	}
+
 </script>
 </body>
 </html>

@@ -8,43 +8,36 @@ import com.google.gson.JsonArray;
 
 import Service.JsonNationService;
 
+/* ±¹Àû°Ë»ö  */
 public class JsonAllNationAction implements JsonAction{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		
-		
-		//ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ í†µí•´ ì˜¨ action. í•œê¸€ ì¸ì½”ë”©ì„ í•˜ê¸° ìœ„í•œ êµ¬ë¬¸
-		
-		
+
+		//ÄÁÆ®·Ñ·¯¸¦ ÅëÇØ ¿Â action. ÇÑ±Û ÀÎÄÚµùÀ» ÇÏ±â À§ÇÑ ±¸¹®
+				
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
-		
-		
-		
-		//  ajax ë³€ìˆ˜ë¥¼ í†µí•´ ë°›ì•„ì˜¨ ë°ì´í„°ë¥¼ ì´ìš©í•˜ì—¬ í•¨ìˆ˜ ì‹¤í–‰ 
-		
+
+		//  ajax º¯¼ö¸¦ ÅëÇØ ¹Ş¾Æ¿Â µ¥ÀÌÅÍ¸¦ ÀÌ¿ëÇÏ¿© ÇÔ¼ö ½ÇÇà 		
 		String word = (String)request.getParameter("worldWord");
-		System.out.println("ì•¡ì…˜ :"+word);
 		
-		System.out.println("í•¨ ë“¤ì˜¤ê°€ë³´ìŸˆ ì—¬ê¸°ëŠ” action");
+		System.out.println("¾×¼Ç :"+word);		
+		System.out.println("ÇÔ µé¿À°¡º¸Àğ ¿©±â´Â action");
 		
 		JsonNationService service = new JsonNationService();
 		
-		//ë¹„ìŠ·í•œ ì‘ì—…ì„ í•˜ëŠ” í•¨ìˆ˜ë¥¼ ëª¨ì•„ë‘” service í•¨ìˆ˜ë¥¼ ì„ ì–¸í•œ í›„, í•„ìš”í•œ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ ë°ì´í„°ë¥¼ ë°›ì•„ì˜¨ë‹¤. 
-		
+		//ºñ½ÁÇÑ ÀÛ¾÷À» ÇÏ´Â ÇÔ¼ö¸¦ ¸ğ¾ÆµĞ service ÇÔ¼ö¸¦ ¼±¾ğÇÑ ÈÄ, ÇÊ¿äÇÑ ÇÔ¼ö¸¦ È£ÃâÇÏ¿© µ¥ÀÌÅÍ¸¦ ¹Ş¾Æ¿Â´Ù. 		
 		JsonArray jsNationArr = service.getSearchWorld(word);
 		
-		// ì œì´ìŠ¨ í˜•íƒœëŠ” ë°˜ë“œì‹œ í´ë¼ì´ì–¸íŠ¸ ì°½(jsp, jquery)ë¡œ ë³´ë‚¼ë•Œ, string í˜•ìœ¼ë¡œ ë³€í™˜ í•´ì„œ ë³´ë‚´ì•¼í•¨. 
-		
+		// Á¦ÀÌ½¼ ÇüÅÂ´Â ¹İµå½Ã Å¬¶óÀÌ¾ğÆ® Ã¢(jsp, jquery)·Î º¸³¾¶§, string ÇüÀ¸·Î º¯È¯ ÇØ¼­ º¸³»¾ßÇÔ. 		
 		String jsNationSTR = new Gson().toJson(jsNationArr);
-		// Gson ì´ë¼ëŠ” êµ¬ê¸€ì—ì„œ ì œê³µí•˜ëŠ” json í´ë˜ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ json ê°ì²´ë¡œ ë§Œë“¤ì–´ì§„ ë°ì´í„°ë¥¼ string í˜•ìœ¼ë¡œ ë³€í™˜.
+		// Gson ÀÌ¶ó´Â ±¸±Û¿¡¼­ Á¦°øÇÏ´Â json Å¬·¡½º¸¦ ÀÌ¿ëÇÏ¿© json °´Ã¼·Î ¸¸µé¾îÁø µ¥ÀÌÅÍ¸¦ string ÇüÀ¸·Î º¯È¯.
 		
 		System.out.println("In Action :"+jsNationSTR);
 		
-		// ajaxëŠ” í˜ì´ì§€ ì´ë™ì´ ì—†ëŠ” ë°ì´í„° ì „ì†¡ì´ê¸°ì— ë³„ë„ë¡œ ì´ë™í•  í˜ì´ì§€ì˜ ì„ ì–¸ì´ í•„ìš”í•˜ì§€ ì•Šë‹¤.
-		// ajaxê°€ í˜¸ì¶œëœ ê·¸ í˜ì´ì§€ì— ê·¸ëŒ€ë¡œ ì¶œë ¥í•˜ëŠ” êµ¬ë¬¸. 
+		// ajax´Â ÆäÀÌÁö ÀÌµ¿ÀÌ ¾ø´Â µ¥ÀÌÅÍ Àü¼ÛÀÌ±â¿¡ º°µµ·Î ÀÌµ¿ÇÒ ÆäÀÌÁöÀÇ ¼±¾ğÀÌ ÇÊ¿äÇÏÁö ¾Ê´Ù.
+		// ajax°¡ È£ÃâµÈ ±× ÆäÀÌÁö¿¡ ±×´ë·Î Ãâ·ÂÇÏ´Â ±¸¹®. 
 		response.getWriter().write(jsNationSTR);
 		
 	}

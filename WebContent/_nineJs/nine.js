@@ -874,7 +874,8 @@ $(document).ready(function(){
 				
 				console.log("jsBookConditionDataObject TRIPTYPE :"+jsBookConditionDataObject.TRIPTYPE);
 				console.log("Dep : "+jsBookConditionDataObject.segmentDatas[0].departureAirport);
-			
+				console.log("Dep Date :"+jsBookConditionDataObject.segmentDatas[0].departureDateTime);
+				
 				var setPaxNo = 1; // 전체 탑승 인원 수 
 				
 				jsBookConditionDataObject.passengerDatas = []; //성인, 소아, 유아 
@@ -1150,7 +1151,8 @@ function fn_ClickConfirmBtn(){
 	
 	
 	var $departureAirport=$("#departureAirport").val();
-	var $departureDate = moment($("#departureDateTime").val()).format('YYYY.MM.DD [(]dd[)]' );
+//	var $departureDate = moment($("#departureDateTime").val()).format('YYYY.MM.DD [(]dd[)]' );
+	var $departureDate = $("#departureDateTime").val();
 	var $departureTime = $("#deptime").text();
 	var $arrivalTime = $("#arrtime").text();
 	var $arrivalAirport = $("#arrivalAirport").val();
@@ -1299,15 +1301,6 @@ function GoBook_07(data){
 	fn_changeBookingStep("6", jsBookConditionDataObject);
 	fn_changeBookingStep("7", jsBookConditionDataObject);
 }
-/*var BookingInfo = function(){
-	this.tripType = "";
-	this.departureAirport="";
-	this.departureDateTime="";
-	this.arrivalAirport="";
-	this.adtPaxCnt="";
-	this.chdPaxCnt="";
-	this.infPaxCnt="";
-}*/
 
 function goSelectSchedule(Object){
 	var bookingInfo = new BookingInfo();

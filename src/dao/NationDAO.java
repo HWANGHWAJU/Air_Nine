@@ -17,7 +17,7 @@ public class NationDAO {
 
 	
 	
-	// ì „ì²´ êµ­ê°€ë¥¼ ì¡°íšŒëŠ”ë° í•„ìš”í•œ ì·¨í•­ì§€ ì „ì²´ì˜ ê³ ìœ  ë²ˆí˜¸ë¥¼ ì¡°íšŒí•˜ëŠ” í•¨ìˆ˜ 
+	// ÀüÃ¼ ±¹°¡¸¦ Á¶È¸´Âµ¥ ÇÊ¿äÇÑ ÃëÇ×Áö ÀüÃ¼ÀÇ °íÀ¯ ¹øÈ£¸¦ Á¶È¸ÇÏ´Â ÇÔ¼ö 
 	@SuppressWarnings("null")
 	public List<Map<String, Object>> getNationNumber(Connection conn) throws SQLException{
 		String sql="";
@@ -60,8 +60,8 @@ public class NationDAO {
 	}
 	
 	
-	// ì¶œë°œì§€ë¥¼ ì„ íƒí•˜ê³ , í˜„ì¬ ë“±ë¡ë˜ì–´ ìˆëŠ” ë…¸ì„ ì„ ê¸°ì¤€ìœ¼ë¡œ ê°ˆ ìˆ˜ ìˆëŠ” ë„ì°©ì§€ë¥¼ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜ (ë„ì°©ì§€ê°€ ë‹´ê¸´ ë¦¬ìŠ¤íŠ¸ë¥¼ ë¦¬í„´)
-	// ë„ì°©ì§€ì˜ ê³µí•­ ê°’ê³¼, êµ­ê°€ë¥¼ ë¦¬í„´
+	// Ãâ¹ßÁö¸¦ ¼±ÅÃÇÏ°í, ÇöÀç µî·ÏµÇ¾î ÀÖ´Â ³ë¼±À» ±âÁØÀ¸·Î °¥ ¼ö ÀÖ´Â µµÂøÁö¸¦ °¡Á®¿À´Â ÇÔ¼ö (µµÂøÁö°¡ ´ã±ä ¸®½ºÆ®¸¦ ¸®ÅÏ)
+	// µµÂøÁöÀÇ °øÇ× °ª°ú, ±¹°¡¸¦ ¸®ÅÏ
 	public List<Map<String, String>> getFromDepToArr(Connection conn, String n) throws SQLException{
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -99,7 +99,7 @@ public class NationDAO {
 		return null;
 	}
 	
-	// ì¶œë°œì§€ ê¸°ì¤€ìœ¼ë¡œ ë°›ì•„ì˜¨ ë„ì°©ì§€ë“¤ì˜ êµ­ê°€ì •ë³´ë§Œì„ ê°€ì§€ê³  ì¹´ìš´íŒ… í•˜ì—¬, êµ­ê°€ë§Œ ë”°ë¡œ ì €ì¥ 
+	// Ãâ¹ßÁö ±âÁØÀ¸·Î ¹Ş¾Æ¿Â µµÂøÁöµéÀÇ ±¹°¡Á¤º¸¸¸À» °¡Áö°í Ä«¿îÆÃ ÇÏ¿©, ±¹°¡¸¸ µû·Î ÀúÀå 
 	public List<String> getArrNation(Connection conn, String dep) throws SQLException{
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -128,7 +128,7 @@ public class NationDAO {
 		return null;
 	}
 	
-	 //ê°€ì ¸ì˜¨ ë„ì°©ì§€ ê³µí•­ì´ ì¡´ì¬í•˜ëŠ” êµ­ê°€ ë¦¬ìŠ¤íŠ¸ì˜ ê°’ë“¤ì„ ìˆœì°¨ì ìœ¼ë¡œ ë°›ì•„ì™€, ë„ì°©ì§€ ê³µí•­
+	 //°¡Á®¿Â µµÂøÁö °øÇ×ÀÌ Á¸ÀçÇÏ´Â ±¹°¡ ¸®½ºÆ®ÀÇ °ªµéÀ» ¼øÂ÷ÀûÀ¸·Î ¹Ş¾Æ¿Í, µµÂøÁö °øÇ×
 	public List<AirportDTO> getArrNationAriportInfo(Connection conn, String DepValue, String DepNation) throws SQLException{
 		String sql="";
 		PreparedStatement pstmt = null;
@@ -157,7 +157,7 @@ public class NationDAO {
 		return null;
 	}
 
-	//ê³µí•­ì˜ ì •ë³´ë¥¼ ë‚˜ë¼ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ê²€ìƒ‰
+	//°øÇ×ÀÇ Á¤º¸¸¦ ³ª¶ó¸¦ ±âÁØÀ¸·Î °Ë»ö
 	public List<AirportDTO> getAirportByNationNum(Connection conn, int ncnum) throws SQLException{
 		String sql = "";
 		
@@ -184,15 +184,13 @@ public class NationDAO {
 		return null;
 	}
 	
-	
+	/* ±¹Àû,°ÅÁÖ±¹°¡ */
 	public List<NationDTO> getNation(Connection conn, String w) throws SQLException{
 		String sql="";
 		
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		
-		
+		ResultSet rs = null;	
+		System.out.println("¾Æ¹«°Å³ª");
 		try{
 			sql = "select * from allnation where allnation_kor like '%"+w+"%' ";
 			pstmt = conn.prepareStatement(sql);
@@ -210,9 +208,10 @@ public class NationDAO {
 		}catch(Exception e){e.printStackTrace();}
 		finally { JdbcUtil.close(pstmt); JdbcUtil.close(rs); }
 		return null;
-	}
+	} //getNation() ³¡.
 	
-	// ë¦¬í„´ëœ ê°’ì„ ê³µí•­ ì •ë³´ ê°ì²´ë¡œ ë¦¬í„´í•˜ëŠ” ê³¼ì •
+	
+	// ¸®ÅÏµÈ °ªÀ» °øÇ× Á¤º¸ °´Ã¼·Î ¸®ÅÏÇÏ´Â °úÁ¤
 	public AirportDTO convertA(ResultSet rs) throws SQLException{
 		return new AirportDTO( rs.getString("airport"), rs.getString("city"), rs.getString("value"));
 	}
@@ -222,14 +221,48 @@ public class NationDAO {
 		return new NationDTO( rs.getString("allnation_code"), rs.getInt("allnation_number"), rs.getString("allnation_kor"), rs.getString("allnation_eng"));
 	}
 	
-}
+
+    /* ±¹°¡¹øÈ£  */
+	public List<NationDTO> getNationNum(Connection conn, String w)throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql ="";
+		System.out.println("±¹°¡¹øÈ£ DAO±îÁö µé¾î¿È");
+		
+		try {
+			
+			sql = "select * from allnation where allnation_kor like '%"+w+"%' ";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			List<NationDTO> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				list.add(convertN(rs));
+			}
+			
+			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("getNationNum()¿¡¼­ DB¿À·ù :"+e);
+		}
+		finally {JdbcUtil.close(pstmt); JdbcUtil.close(rs);}
+
+		return null;
+	} //getNationNum() ³¡
+	
+	
+} // NationDAO ³¡
  
 
 
 
 
 
-/*	// ê°’ì´ ë„˜ì–´ì˜¨ ë‚˜ë¼ì˜ ê³ ìœ  ë²ˆí˜¸ì™€, í•œê¸€ëª…, ì˜ë¬¸ëª…ì„ ê°€ì ¸ì™€ Mapì— ì €ì¥
+/*	// °ªÀÌ ³Ñ¾î¿Â ³ª¶óÀÇ °íÀ¯ ¹øÈ£¿Í, ÇÑ±Û¸í, ¿µ¹®¸íÀ» °¡Á®¿Í Map¿¡ ÀúÀå
 public Map<String, Object> getOneNationNum(Connection conn, int n) throws SQLException{
 	String sql = "";
 	PreparedStatement pstmt = null;
@@ -262,7 +295,7 @@ public Map<String, Object> getOneNationNum(Connection conn, int n) throws SQLExc
 	return null;
 }*/
 
-/*	// ê³µí•­ì´ ìœ„ì¹˜í•˜ëŠ” ë„ì‹œì˜ ë²ˆí˜¸ë¥¼ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜
+/*	// °øÇ×ÀÌ À§Ä¡ÇÏ´Â µµ½ÃÀÇ ¹øÈ£¸¦ °¡Á®¿À´Â ÇÔ¼ö
 public int getCityNumber(Connection conn,String n) throws SQLException{
 	String sql = "";
 	PreparedStatement pstmt = null;
@@ -286,7 +319,7 @@ public int getCityNumber(Connection conn,String n) throws SQLException{
 	return 0;
 }
 
-//ê³µí•­ì— ëŒ€í•œ ì •ë³´ë¥¼ ê³µí•­ì˜ ê°’ìœ¼ë¡œ ê²€ìƒ‰
+//°øÇ×¿¡ ´ëÇÑ Á¤º¸¸¦ °øÇ×ÀÇ °ªÀ¸·Î °Ë»ö
 public AirportDTO getAirportByValue(Connection conn, String value) throws SQLException{
 	String sql = "";
 	

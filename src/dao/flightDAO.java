@@ -18,7 +18,7 @@ public class flightDAO {
 	PreparedStatement pstmt;
 	ResultSet rs;
 
-	public Vector<flightschedule> getFlightScheduleList(Connection conn, String flightschedule_dep, String flightschedule_arr) {
+	public Vector<flightschedule> getFlightScheduleList(Connection conn, String flightschedule_dep, String flightschedule_arr, String startDate) {
 
 		Vector<flightschedule> v = new Vector<flightschedule>();
 
@@ -26,16 +26,20 @@ public class flightDAO {
 
 		try {
 
-			String sql = "select t.plane_seat_flight_name,t.flightschedule_dep_time,t.flightschedule_arr_time,r.route_baseprice,t.flightschedule_dep,t.flightschedule_arr"
+			String sql = 
+					" select t.plane_seat_flight_name, t.flightschedule_dep_time, t.flightschedule_arr_time,r.route_baseprice,t .flightschedule_dep, t.flightschedule_arr,t.flightschedule_op_startdate, t.flightschedule_op_enddate"
 					+ " from flightschedule t inner join route r" + " on t.route_number = r.route_number"
-					+ " where t.flightschedule_dep=? and t.flightschedule_arr=? order by t.flightschedule_dep_time asc";
-
+					+ " where t.flightschedule_dep=? and t.flightschedule_arr=?  and t.flightschedule_op_startdate <= ? and t.flightschedule_op_enddate >= ?"
+					+ " order by t.flightschedule_dep_time asc";
+		
 			pstmt = conn.prepareStatement(sql);
 
 
 			pstmt.setString(1, flightschedule_dep);
 			pstmt.setString(2, flightschedule_arr);
-
+			pstmt.setString(3, startDate);
+			pstmt.setString(4, startDate);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -48,7 +52,9 @@ public class flightDAO {
 				ttable.setRoute_baseprice(rs.getInt(4));// �⺻���
 				ttable.setFlightschedule_dep(rs.getString(5)); // �����
 				ttable.setFlightschedule_arr(rs.getString(6));// ������
-
+				ttable.setFlightschedule_op_startdate(rs.getDate(7));
+				ttable.setFlightschedule_op_enddate(rs.getDate(8));
+				
 				ttable.setSale_price(getSalePrice(rs.getTime(2), rs.getInt(4)));
 				System.out.println(ttable.getSale_price());
 				v.add(ttable);
@@ -90,23 +96,26 @@ public class flightDAO {
 	}
 
 
-	public Vector<flightschedule> getFlightScheduleRound(Connection conn, String flightschedule_arr, String flightschedule_dep) {
+	public Vector<flightschedule> getFlightScheduleRound(Connection conn, String flightschedule_arr, String flightschedule_dep, String endDate) {
 
 		Vector<flightschedule> vec = new Vector<flightschedule>();
 
 		flightschedule ttable = null;
 
 		try {
-			String sql = "select t.plane_seat_flight_name,t.flightschedule_dep_time,t.flightschedule_arr_time,r.route_baseprice,t.flightschedule_dep,t.flightschedule_arr"
-					+ " from flightschedule t inner join route r" + " on t.route_number = r.route_number"
-					+ " where t.flightschedule_dep=? and t.flightschedule_arr=? order by t.flightschedule_dep_time asc";
+			String sql = "select t.plane_seat_flight_name,t.flightschedule_dep_time,t.flightschedule_arr_time,r.route_baseprice,t.flightschedule_dep,t.flightschedule_arr, t.flightschedule_op_startdate, t.flightschedule_op_enddate"
+					+ " from flightschedule t join route r" + " on t.route_number = r.route_number"
+					+ " where t.flightschedule_dep=? and t.flightschedule_arr=?  and t.flightschedule_op_startdate <= ? and t.flightschedule_op_enddate >= ?"
+					+ " order by t.flightschedule_dep_time asc";
 
 			pstmt = conn.prepareStatement(sql);
 
 			// ��� ���� �� ����
 			pstmt.setString(1, flightschedule_arr);
 			pstmt.setString(2, flightschedule_dep);
-
+			pstmt.setString(3, endDate);
+			pstmt.setString(4, endDate);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -119,7 +128,8 @@ public class flightDAO {
 				ttable.setRoute_baseprice(rs.getInt(4));// �⺻���
 				ttable.setFlightschedule_dep(rs.getString(5)); // �����
 				ttable.setFlightschedule_arr(rs.getString(6));// ������
-
+				ttable.setFlightschedule_op_startdate(rs.getDate(7));
+				ttable.setFlightschedule_op_enddate(rs.getDate(8));
 				
 				ttable.setSale_price(getSalePrice(rs.getTime(2), rs.getInt(4)));
 				System.out.println(ttable.getSale_price());

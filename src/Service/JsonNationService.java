@@ -130,6 +130,44 @@ public class JsonNationService {
 		return jsArr;
 	}
 	
+	public JsonArray getSearchWorldNum(String w)throws SQLException {
+		
+		NationDAO dao = new NationDAO();
+		
+		String word = w;  //
+		
+		System.out.println("service Num �ܾ�:"+word);
+		
+		// ���������� �������� ��ü�� (�ڵ�,��ȣ,�ѱ۸�,������)�� ��üȭ �Ǿ��ִ� JsonArray
+		JsonArray jsArr = new JsonArray();
+		
+		try(Connection conn = ConnectionProvider.getConnection()){
+		     // tryâ���� Connection�� �������ָ� �������� Connection �ڿ��� ������ ������ �ʿ䰡 ����.
+			
+			List<NationDTO> nationNumList = dao.getNationNum(conn,word);
+			
+			for (int i = 0; i < nationNumList.size(); i++) {
+				// DAO�� ���� ���ϵ� ��ü�� List<NationDTO>�̴�.�� �迭 �ȿ� �ִ� NationDTO���� JsonObject�� ��ȯ�Ͽ� JsonArray�� ��ƾ� �Ѵ�.
+				JsonObject jsNation = new JsonObject();
+				// NationDTO�� ��ȯ�Ͽ� JsonObject ��� ���� ��ü ����
+				
+				// JsonŬ�������� �����ϴ� addProperty�Լ��� �̿��Ͽ�, ��ü �ȿ� ����� key���� value���� �־���.
+				jsNation.addProperty("code", nationNumList.get(i).getNation_code());
+				jsNation.addProperty("number", nationNumList.get(i).getNation_uni_number());
+				jsNation.addProperty("kor", nationNumList.get(i).getNation_kor());
+				jsNation.addProperty("eng", nationNumList.get(i).getNation_eng());
+				
+				// ��ȯ�� JsonObject�� JsonArray �迭�� �־��־� ����!!
+				jsArr.add(jsNation);
+				
+			}
+		}	
+		return jsArr;
+	}
+
+
+	
+	
 	public JsonArray convertJsonObject(List<AirportDTO> list){
 		// List안에 담긴 공항 정보 객체를 JsonObject로 변환하여 JsonArray로 List전체를 변환하여 리턴한다. 
 		JsonArray jsAirportlist = new JsonArray();

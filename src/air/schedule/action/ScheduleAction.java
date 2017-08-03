@@ -87,9 +87,9 @@ public class ScheduleAction implements SAction {
 
 			conn.setAutoCommit(false);
 
-			Vector<flightschedule> v = fdao.getFlightScheduleList(conn, flightschedule_dep, flightschedule_arr);
+			Vector<flightschedule> v = fdao.getFlightScheduleList(conn, flightschedule_dep, flightschedule_arr, depDate);
 
-			Vector<flightschedule> vec = fdao.getFlightScheduleRound(conn, flightschedule_arr, flightschedule_dep);
+			Vector<flightschedule> vec = fdao.getFlightScheduleRound(conn, flightschedule_arr, flightschedule_dep, arrDate);
 		
 			
 			conn.commit();

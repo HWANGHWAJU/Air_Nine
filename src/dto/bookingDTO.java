@@ -4,9 +4,12 @@ import java.sql.Date;
 
 public class bookingDTO {
 	
-	private int booking_number;			
+	private Integer booking_number;			
 	private String booking_reserveinfo_email;	
 	private String booking_reservation_code;		
+	
+	private String type;
+	
 	private String booking_start;	
 	private Date booking_start_date;
 	private String booking_start_time;		
@@ -14,23 +17,28 @@ public class bookingDTO {
 	private Date booking_arr_date;			
 	private String booking_arr_time;		
 	private String booking_flight_name;	
+	
 	private String booking_optseat;			
 	private String booking_optfood;		
+	
 	private Date booking_date;		
 	private String booking_way;	
 	private String booking_check;	
+	
 	private String booking_passportnumber;
 	private String booking_eng_lastname;	
 	private String booking_eng_firstname;	
 	private String booking_age;	
-	private String booking_total_price;	
+	
+	 private String booking_total_price;	
 	
 	public bookingDTO(){}
 	
-	public bookingDTO(int n, String e, String pn, String dep, Date depdate, String deptime, String arr, Date arrdate, String arrtime, String flightname, String opseat, String opfood, Date bookdate, String bookway, String check, String pass, String last, String first, String age, String total){
+	public bookingDTO(Integer n, String e, String code, String type, String dep, Date depdate, String deptime, String arr, Date arrdate, String arrtime, String flightname, String opseat, String opfood, Date bookdate, String bookway, String check, String pass, String last, String first, String age, String total){
 		this.booking_number = n;
 		this.booking_reserveinfo_email = e;
-		this.booking_reservation_code = pn;
+		this.booking_reservation_code = code;
+		this.type = type;
 		this.booking_start = dep;
 		this.booking_start_date = depdate;
 		this.booking_start_time = deptime;
@@ -50,10 +58,10 @@ public class bookingDTO {
 		this.booking_total_price = total;
 	}
 	
-	public int getBooking_number() {
+	public Integer getBooking_number() {
 		return booking_number;
 	}
-	public void setBooking_number(int booking_number) {
+	public void setBooking_number(Integer booking_number) {
 		this.booking_number = booking_number;
 	}
 	public String getBooking_reserveinfo_email() {
@@ -67,6 +75,12 @@ public class bookingDTO {
 	}
 	public void setbooking_reservation_code(String booking_reservation_code) {
 		this.booking_reservation_code = booking_reservation_code;
+	}
+	public String getType(){
+		return type;
+	}
+	public void setType(String type){
+		this.type = type;
 	}
 	public String getBooking_start() {
 		return booking_start;

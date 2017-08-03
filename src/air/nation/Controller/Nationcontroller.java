@@ -14,7 +14,9 @@ import air.nation.action.Action;
 import air.nation.action.ActionForward;
 import air.nation.action.JsonAllNationAction;
 import air.nation.action.JsonArrNationAction;
+import air.nation.action.JsonLiveNationAction;
 import air.nation.action.JsonNationAction;
+import air.nation.action.JsonNationNumAction;
 
 
 public class Nationcontroller extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet{
@@ -42,10 +44,17 @@ public class Nationcontroller extends javax.servlet.http.HttpServlet implements 
 		}else if(command.equals("/searchArr.na")){
 			JsonArrNationAction action = new JsonArrNationAction();
 			action.execute(request,response);
-		}else if(command.equals("/AllsearchNation.na")){
+		}else if(command.equals("/AllsearchNation.na")){ // ���� �˻�
 			JsonAllNationAction action = new JsonAllNationAction();
 			action.execute(request, response);
+		}else if (command.equals("/AllsearchLiveNation.na")) {  //���ֱ��� �˻�
+			JsonLiveNationAction action = new JsonLiveNationAction();
+			action.execute(request, response);
+		}else if (command.equals("/AllsearchNationNum.na")) {  //������ȣ �˻�
+			JsonNationNumAction action = new JsonNationNumAction();
+			action.execute(request, response);
 		}
+	
 	
 		
 		if(forward!=null){

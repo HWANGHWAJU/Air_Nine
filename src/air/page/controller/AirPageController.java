@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import air.page.action.Action;
 import air.page.action.ActionForward;
+import air.page.action.MemberJoinAction;
+import air.page.action.MemberLoginAction;
+import air.page.action.MemberLogoutAction;
 import air.schedule.action.JsonGoAdditionalChoiceAction;
 import air.schedule.action.JsonGoPassengerAction;
 import air.schedule.action.JsonGoPayAndReservateAction;
@@ -51,7 +54,90 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./Join_01.jsp");
+		}else if (command.equals("/MemberLoginAction.bo")) {			
+			//�ʱ��� ó���� ����  MemberLoginAction��ü ����
+			action = new MemberLoginAction();
+			
+			try {
+				
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();	
+				System.out.println("���⼭ ����");
+			}
+			
+			
+		/* 0_header.jsp���� .. "�α׾ƿ�" ��ũ�� Ŭ���Ͽ� ���ǰ� �ʱ�ȭ�ϰ� ..   "OK" */
+		// 0_mainIndex.jsp������ ȭ������ �̵��϶� ��� ��û�� ��� ������..	
+		}else if (command.equals("/MemberLogout.bo")) {		
+			
+			//�α׾ƿ� ó���� ���� MemberLogoutAction��ü ����
+			action = new MemberLogoutAction();
+			
+			try {		
+				// top.jsp���� �α׾ƿ� ��û�� ��������, ���ǰ� �ʱ�ȭ�� '�α׾ƿ�' �޼���â ����ְ�
+				// 0_mainIndex.jsp�������� �̵��ϴ� execute()�޼ҵ� ȣ����
+				forward = action.execute(request, response);
+								
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
+			
+		
+		/* 01_LoginMain.jsp���� �ű�ȸ������ Ŭ���Ҷ� ȸ�������������� �̵�!   "OK" */
+		}else if (command.equals("/MemberJoin.bo")) {
+			
+			forward = new ActionForward();			
+			forward.setRedirect(false);			
+			forward.setPath("./Join_01.jsp");
+			
+			
+		/* Join_02.jspȸ������ ������, Join_03.jsp�� ������ �̵�!	  "OK" */
+		}else if (command.equals("/Join_03.bo")) {
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./Join_03.jsp");
+			
+		
+		/* ���������� - ȸ���������� (�ѷ��ֱ�)    "OK" */
+		}else if (command.equals("/MemberModify.bo")) {
+			String id= (String)request.getParameter("member_id");
+			System.out.println("In Controller, Requesting Member ID : "+ id);
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("/memberConfirmController.bo");
+		
+		/* ������ ����,���̵� �ѷ��ֱ�	"OK" */
+		}else if (command.equals("/joinConfirm.bo")) {
+//			String id= (String)req.getParameter("member_id");
+			String id = (String)request.getAttribute("member_id");
+			System.out.println("controller id:"+id);
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("/joinConfirmController.bo");
+			
+		}else if (command.equals("/MemberJoinAction.bo")) {
+			
+			//ȸ������ ó���� ���� MemberJoinAction��ü ����
+			action = new MemberJoinAction();
+			
+			try {
+				//Join_02.jsp���� �Է��� ȸ������ ������ ����ִ�
+				//request������ execute�޼ҵ� �Ű������� �����Ͽ�
+				//ȸ������ DB�۾��� ȸ������ �����ϸ�..
+				//������ �̵���� ���ΰ� true��
+				//�̵��� ������ �ּ� (./01_LoginMain.jsp)�� ��� �ִ�
+				//new ActionForward()��ü�� ���� �޴´�.
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();				
+			}
+		
 		}
+		
+		
 		else if(command.equals("/viewReservationList.bo")){	//예약 조회 변경 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
