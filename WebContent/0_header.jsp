@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+    pageEncoding="utf-8" session="false"%>
+<%@ page import="dto.*" %>
+	<%	
+
+	HttpSession sess = request.getSession();
+	
+	LoginUser user = (LoginUser)sess.getAttribute("User");
+	request.getSession().setAttribute("User", user);
+%>
 <!DOCTYPE html>
 
 <div id="header" >
@@ -7,8 +15,12 @@
 		<div class="hgroup" style="display:block;">
 		 	<h1 class="logo">
 		 	<a href="mainIndex.bo"><img src="./images/common/img_logo01.png" alt="AIR NINE"></a></h1>
-		 
+
+<%if(user!=null){ %>
+<input type="hidden" id="userId" value="<%=user.getMember_id()%>">
+<%} %>
 			 <div class="hrgroup" id="flagLogin">
+			 	<% if(user == null){ %>	 
 			 	<span class="login" id="loginSpan"><a href="LoginJoin.bo">로그인</a></span>
 			 	<span class="member jsHrgroup"> 
 			 		<a href="#this">마이 페이지</a>
@@ -18,6 +30,17 @@
 			 			<li><a href="#this">회원 탈퇴</a></li>
 			 		</ul>
 			 	</span>
+			 	<%}else if(user != null){ 	String id = user.getMember_id();	%>
+			 <span class="login" id="loginSpan"><%=id %>님 &nbsp;&nbsp;<a href="LogOut.bo">로그아웃</a></span>
+			 	<span class="member jsHrgroup"> 
+			 		<a href="#this">마이 페이지</a>
+			 		<ul class="hrgroup-list">
+			 			<li><a href="#this">나의 스탬프</a></li>
+			 			<li><a href="MemberModify.bo">회원정보 수정</a></li>
+			 			<li><a href="#this">회원 탈퇴</a></li>
+			 		</ul>
+			 	</span>
+			 	<%} %>
 			 	<span class="customer jsHrgroup">
 			 		<a href="Company.bo">회사 소개</a>
 			 		<ul class="hrgroup-list">
@@ -84,36 +107,36 @@
 					           <a href="Opt_Main.bo">부가 서비스 구매</a>
 					       </li>
 						       <li class="depth02Lists">
-					           <a href="/CW/ko/online-check-in.do">공항 서비스</a>
+					           <a href="#this">공항 서비스</a>
 					       </li>
 						       <li class="depth02Lists">
 					           <a href="Info_seat.bo">기내 서비스</a>
 					       </li>
 						       <li class="depth02Lists">
-						           <a href="/CW/ko/infant.do">도움이 필요한 고객</a>
+						           <a href="#this">도움이 필요한 고객</a>
 					       </li>
    				       <li class="depth02Lists">
-						           <a href="/CW/ko/mobile.do">모바일 서비스</a>
+						           <a href="#this">모바일 서비스</a>
 					       </li>
 					       <li class="depth02Lists">
-					           <a href="/CW/ko/download.do">양식 다운로드</a>
+					           <a href="#this">양식 다운로드</a>
 					       </li>
 	 			</ul>
  		</li>
 		          <li class="depth01Lists">
-		              <a href="/CW/ko/mint_story.do">Travel Information</a>
+		              <a href="#this">Travel Information</a>
 			<ul class="depth02" style="display: none;">
  					       <li class="depth02Lists">
-			           <a href="/CW/ko/mint_story.do">취항지 소개</a>
+			           <a href="#this">취항지 소개</a>
 					       </li>
 						       <li class="depth02Lists">
-					           <a href="javascript:hotel();" title="호텔홈페이지바로가기[새창열림]">호텔</a>
+					           <a href="#this">호텔</a>
 					       </li>
 							       <li class="depth02Lists">
-					           <a href="javascript:rentcar();" title="렌터카홈페이지바로가기[새창열림]">렌터카</a>
+					           <a href="#this">렌터카</a>
 					       </li>
 					       <li class="depth02Lists">
-					           <a href="/I/ko/viewTravelInsurance.do">여행자보험</a>
+					           <a href="#this">여행자보험</a>
 					       </li>
 	 			</ul>
  		</li>
@@ -127,10 +150,10 @@
 					           <a href="Event_specialprice.bo">특가존</a>
 					       </li>
 						       <li class="depth02Lists">
-					           <a href="/CW/ko/noticeList.do">공지사항</a>
+					           <a href="#this">공지사항</a>
 					       </li>
       				       <li class="depth02Lists">
-					           <a href="/CW/ko/printList.do">미디어룸</a>
+					           <a href="#this">미디어룸</a>
 					       </li>
 			</ul>
  		</li>
@@ -146,3 +169,7 @@
 
 	</div>
 </div>
+
+<script>
+console.log($("#userId").val());
+</script>

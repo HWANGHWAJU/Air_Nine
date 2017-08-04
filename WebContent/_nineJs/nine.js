@@ -81,6 +81,48 @@ var OptionMeal = function(){
 	this.Mealprice = "";
 }
 
+var FlightInfo = function(){
+	this.triptype = "";
+	this.flightDetailInfo = [];
+}
+
+var FlightDetailInfo = function(){
+	this.depflight = "";
+	this.dep="";
+	this.arr="";
+	this.depDate = "";
+	this.depTime = "";
+	this.arrTime = "";
+	this.baseprice = "";
+	this.saleprice = "";
+}
+ 
+function fn_ShowDatas(){
+	var strFlight = $("#jsFlightInfo").val();
+	var strPassengerDetail = $("#jsPassengerDetail").val();
+	var strOption = $("#jsOption").val();
+	var strPay = $("#jsPay").val();
+	
+	var jsFlight = new FlightInfo();
+		jsFlight = jQuery.parseJSON(strFlight);
+	var jsPassengerDetail = new PassengerDetailInfo();
+		jsPassengerDetail = jQuery.parseJSON(strPassengerDetail);
+	var jsOption = new OptionService();
+		jsOption = jQuery.parseJSON(strOption);
+
+	var PayInfo = function(){
+			this.payType ="";
+			this.totalPrice = "";
+		}
+	var jsPay = new PayInfo(); 
+		jsPay = jQuery.parseJSON(strPay);
+	
+	var totalPrice = jsPay.totalPrice;
+	
+	$("#RouteLine").val();
+	
+}
+
 $(function(){
     jsGnb();
     jsHrgroup();
@@ -1105,22 +1147,6 @@ $(document).ready(function(){
  * 	6. 각 인원의 금액과 총 금액, 세금, 유류할증료 등. 
  * 
  * */
-
-var FlightInfo = function(){
-	this.triptype = "";
-	this.flightDetailInfo = [];
-}
-
-var FlightDetailInfo = function(){
-	this.depflight = "";
-	this.dep="";
-	this.arr="";
-	this.depDate = "";
-	this.depTime = "";
-	this.arrTime = "";
-	this.baseprice = "";
-	this.saleprice = "";
-}
 
 // 여행 조건을 전부 입력후 5단계, 탑승자 정보를 입력하는 페이지로 이동할 데이터들 
 

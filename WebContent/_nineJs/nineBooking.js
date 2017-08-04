@@ -292,8 +292,7 @@ $(document).ready(function(){
 		});
 		
 	});
-	
-	
+
 });
 
 /*function fn_ClickConfirmBtn(){

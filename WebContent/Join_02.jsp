@@ -57,7 +57,7 @@
 		<!-- 회원 정보 입력 -->
 		
 		
-		<form action="./MemberJoinAction.bo"  id="memberInfo" name="memberInfo" method="post" style="margin:40px 0 0;">
+		<form action="./MemberJoin.me"  id="memberInfo" name="memberInfo" method="post" style="margin:40px 0 0;">
 			<div class="content_box input_type">
 				<div class="input_section">
 					<div class="title_section">
@@ -79,7 +79,7 @@
 									<th scope="row"><label for="txtUserId" id="TBID" style="font-weight: bold;">아이디</label><span class="important">*</span></th>
 									<td>
 										<div>
-											<span class="inp-txt"><input type="text" name="txtUserId" style=" width: 226px;" id="txtUserId" autocomplete="off"></span>
+											<span class="inp-txt"><input type="text" name="member_id" style=" width: 226px;" id="txtUserId" autocomplete="off"></span>
 											<p class="tbl-info2" id="TBIDNoti">6~15자의 영문 소문자, 숫자만 사용 가능</p>
 										</div>
 									</td>
@@ -89,7 +89,7 @@
 									<td>
 										<div>
 											<span class="inp-txt">
-												<input type="password" name="txtUserPw1" style=" width: 226px;" id="txtUserPw1" class="mustBeFilled" autocomplete="off">
+												<input type="password" name="member_pw" style=" width: 226px;" id="txtUserPw1" class="mustBeFilled" autocomplete="off">
 											</span>
 											<p class="tbl-info2" id="TBPWNoti" style="letter-spacing: 1px;">
 												8~15자의 영문, 숫자, 특수문자 필수 조합으로 가능<br>사용가능한 특수문자 : ` ~ ! @ # $ % ^ * ( ) \ - _ = + | [ ] { } ; : ' , . / ?<br>(단 한글, 공백, 생년월일, 동일숫자, 연속숫자 입력 불가)
@@ -120,14 +120,14 @@
 							<tbody>
 								<tr>
 									<th scope="row" id="KorNameTH"><label for="txtUserKoname" style="font-weight: bold;">한글 성명</label><span class="important">*</span></th>
-									<td headers="KorNameTH"><span class="inp-txt" id="korName"><input type="text" name="txtUserKoname" style=" width: 226px;  ime-mode: inactive; ime-mode: disabled" id="korName"   title="한글성명 입력란" placeholder="성명(한글)"></span></td>
+									<td headers="KorNameTH"><span class="inp-txt" id="korName"><input type="text" name="member_kor" style=" width: 226px;  ime-mode: inactive; ime-mode: disabled" id="korName"   title="한글성명 입력란" placeholder="성명(한글)"></span></td>
 									<th scope="row" id="GenderTH"><label style="font-weight: bold;">성별</label><span class="important">*</span></th>
 									<td headers="GenderTH">
-											<select name="GenderTH" id="GenderTH" title="성별 선택" style="width: 120px; padding: 10px; font-size: 15px;">
+											<select name="member_gender" id="GenderTH" title="성별 선택" style="width: 120px; padding: 10px; font-size: 15px;">
 													<option value="" selected="selected" class="ex">성별 선택</option>
-													<option value="male">남자</option>
-													<option value="female">여자</option>
-													<option value="another">그 외</option>
+													<option value="F">여자</option>
+													<option value="M">남자</option>
+													<option value="AN">그 외</option>
 											</select>
 									</td>		
 								</tr>
@@ -138,39 +138,39 @@
 									<td colspan="3" headers="EngNameTH">
 										<div>
 											<span class="inp-txt mgr03">
-												<input type="text" name="txtLastName" style=" width: 226px; text-transform: uppercase; ime-mode: inactive; ime-mode: disabled" id="txtLastName" class="mustBeFilled" title="성 (Last Name) 입력란" placeholder="성 (Last Name)">
+												<input type="text" name="member_eng_lastname" style=" width: 226px; text-transform: uppercase; ime-mode: inactive; ime-mode: disabled" id="txtLastName" class="mustBeFilled" title="성 (Last Name) 입력란" placeholder="성 (Last Name)">
 											</span>
 											<span class="inp-txt">
-												<input type="text" name="" style=" width: 226px; text-transform: uppercase; ime-mode: inactive; ime-mode: disabled" id="txtFirstName" class="mustBeFilled" title="이름 (First Name) 입력란" placeholder="이름 (First Name)">
+												<input type="text" name="member_eng_firstname" style=" width: 226px; text-transform: uppercase; ime-mode: inactive; ime-mode: disabled" id="txtFirstName" class="mustBeFilled" title="이름 (First Name) 입력란" placeholder="이름 (First Name)">
 											</span>
 										</div>
 										<p class="tbl-info">여권상의 영문 이름과 동일하게 기재해 주시기 바랍니다.</p>
 									</td>
 								</tr>
 								<tr>
-									<th scope="row" id="BirthdayTH"><label for="UserBirth" style="font-weight: bold;">생년월일</label><span class="important">*</span></th>
+									<th scope="row" id="BirthdayTH"><label for="member_birthdate" style="font-weight: bold;">생년월일</label><span class="important">*</span></th>
 									<td colspan="3" headers="BirthdayTH">
-										<span class="inp-txt"><input type="text" name="UserBirth" style=" width: 226px; text-transform: uppercase; ime-mode: inactive; ime-mode: disabled" id="dateOfBirth" class="normal_txt" title="생년월일" placeholder=""></span>
+										<span class="inp-txt"><input type="text" name="member_birthdate" style=" width: 226px; text-transform: uppercase; ime-mode: inactive; ime-mode: disabled" id="dateOfBirth" class="normal_txt" title="생년월일" placeholder=""></span>
 										<p class="tbl-info">주민등록증상의 생년월일 8자리를 입력해 주세요. 예) 940402-1865430 -> 19940402 </p>										
 									</td>
 								</tr>
 								<tr>
-									<th scope="row" id="NationalityTH"><label for="txtParentCountry" style="font-weight: bold;">국적</label><span class="important">*</span></th>
+									<th scope="row" id="NationalityTH"><label for="member_nationality" style="font-weight: bold;">국적</label><span class="important">*</span></th>
 									<td colspan="3" headers="NationalityTH">
 										<div>
 											<span class="inp-txt mgr03">
-												<input type="text" name="" style=" width: 226px;" id="txtParentCountry" class="txtParentCountry" value="" >
+												<input type="text" name="member_nationality" style=" width: 226px;" id="txtParentCountry" class="txtParentCountry" value="" >
 											</span>
 											<button style="height: 35px;" type="button" id="I/KO/CountrySearch" data-opener="code2" onclick="viewLayerCountrySearch();" class="btn-type02-col02 jsOpenLayer">검색</button>
 										</div>
 									</td>
 								</tr>
 								<tr>
-									<th scope="row" id="ResidenceCountryTH"><label for="" style="font-weight: bold;">거주국가</label><span class="important">*</span></th>
+									<th scope="row" id="ResidenceCountryTH"><label for="member_livenationality" style="font-weight: bold;">거주국가</label><span class="important">*</span></th>
 									<td colspan="3" headers="ResidenceCountryTH">
 										<div>
 											<span class="inp-txt mgr03">
-												<input type="text" name="" style=" width: 226px;" id="txtResidenceCountry" class="txtResidenceCountry" value="" >
+												<input type="text" name="member_livenationality" style=" width: 226px;" id="txtResidenceCountry" class="txtResidenceCountry" value="" >
 											</span>
 											<button style="height: 35px;" type="button" id="I/KO/liveCountrySearch" data-opener="code2" onclick="viewLayerliveCountrySearch()" class="btn-type02-col02 jsOpenLayer">검색</button>
 										</div>

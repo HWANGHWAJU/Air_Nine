@@ -1,5 +1,7 @@
+<%@page import="dao.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -247,6 +249,7 @@ tbody {
 </style>
 </head>
 <body>
+
 	<div id="wrap">
 	<header><jsp:include page="0_header.jsp"/></header>
 
@@ -273,27 +276,32 @@ tbody {
 			<!-- 회원가입 완료창 시작 -->
 			<div class="content_box complete_type">
 				<div class="introduce_box complete">
-					<p class="noti" id="noti1">에어서울 회원가입을 축하합니다!</p>
+					<p class="noti" id="noti1">AIR N9NE 회원가입을 축하합니다 : )</p>
 					<p id="noti2">항공권 특가 정보와 이벤트 소식을 이메일로 받아보실 수 있습니다.</p>
 				</div>
 				<div class="tbl-input-row01">
 					<table style="width: 100%">
+					  <c:set var="c" value="${requestScope.mdto }"/>
+<%-- 					  <c:forEach var="mdto" items="${requestScope.mdto }"> --%>
+					
 						<tr>
 						<td class="td1">성명</td>
-						<td id="userName" class="td2">asdfsadfasdf</td>
+						<td id="userName" class="td2">${c.member_kor }</td>
 						</tr>
 						<tr>
 						<td class="td1" style="border-top: 1px solid #d9d9d9;">아이디</td>
-						<td id="userId" class="td2">asdfsadfasd</td>
+						<td id="userId" class="td2">${c.member_id }</td>
 						</tr>
+						
+<%-- 					  </c:forEach> --%>
 					</table>
 				</div>
 				<div class="btn_article">
 					
-						<a href="#"
-							class="btn-type01-col01 jsOpenLayer" id="LogIn"
+						<a href="./LoginJoin.bo"
+							class="btn-type01-col01" id="LogIn"
 							title="로그인 레이어 팝업">로그인</a>
-						<a href="#"
+						<a href="./mainIndex.bo"
 							class="btn-type01-col02" id="btnMain">메인으로 가기</a>
 					
 				</div>

@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ page import="dto.*" %>    
+	<%	
 
+	HttpSession sess = request.getSession();
+	
+	LoginUser user = (LoginUser)sess.getAttribute("User");
+	request.getSession().setAttribute("User", user);
+%>
 <!DOCTYPE html>
 <html>
 <head>

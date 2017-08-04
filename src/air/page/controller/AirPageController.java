@@ -6,11 +6,10 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import air.page.action.Action;
 import air.page.action.ActionForward;
-import air.page.action.MemberJoinAction;
-import air.page.action.MemberLoginAction;
 import air.page.action.MemberLogoutAction;
 import air.schedule.action.JsonGoAdditionalChoiceAction;
 import air.schedule.action.JsonGoPassengerAction;
@@ -20,6 +19,7 @@ import air.schedule.action.JsonScheduleAction;
 import air.schedule.action.SAction;
 import air.schedule.action.SJsonAction;
 import air.schedule.action.ScheduleAction;
+import dto.LoginUser;
 
 public class AirPageController extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet{
 	
@@ -33,6 +33,16 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 		
 		ActionForward forward = null;
 		Action action = null;
+		System.out.println("*****************************************************");
+			
+		HttpSession sess = request.getSession();
+		LoginUser user = (LoginUser) sess.getAttribute("User");
+		
+		if(user != null){
+			System.out.println("User ID :"+user.getMember_id());
+		}
+		
+		System.out.println("Session : "+sess);
 		
 		System.out.println("RequestURI : "+RequestURI);
 		System.out.println("ContextPath :"+contextPath);
@@ -50,34 +60,17 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			forward.setRedirect(false);
 			forward.setPath("./01_LoginMain.jsp");
 		}
-		else if(command.equals("/JoinView.bo")){
+		else if(command.equals("/JoinView.bo")){	// 회원 가입 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./Join_01.jsp");
-		}else if (command.equals("/MemberLoginAction.bo")) {			
-			//�ʱ��� ó���� ����  MemberLoginAction��ü ����
-			action = new MemberLoginAction();
-			
-			try {
-				
-				forward = action.execute(request, response);
-				
-			} catch (Exception e) {
-				e.printStackTrace();	
-				System.out.println("���⼭ ����");
-			}
-			
-			
-		/* 0_header.jsp���� .. "�α׾ƿ�" ��ũ�� Ŭ���Ͽ� ���ǰ� �ʱ�ȭ�ϰ� ..   "OK" */
-		// 0_mainIndex.jsp������ ȭ������ �̵��϶� ��� ��û�� ��� ������..	
 		}else if (command.equals("/MemberLogout.bo")) {		
 			
-			//�α׾ƿ� ó���� ���� MemberLogoutAction��ü ����
+
 			action = new MemberLogoutAction();
 			
 			try {		
-				// top.jsp���� �α׾ƿ� ��û�� ��������, ���ǰ� �ʱ�ȭ�� '�α׾ƿ�' �޼���â ����ְ�
-				// 0_mainIndex.jsp�������� �̵��ϴ� execute()�޼ҵ� ȣ����
+
 				forward = action.execute(request, response);
 								
 			} catch (Exception e) {
@@ -85,22 +78,7 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			}			
 			
 		
-		/* 01_LoginMain.jsp���� �ű�ȸ������ Ŭ���Ҷ� ȸ�������������� �̵�!   "OK" */
-		}else if (command.equals("/MemberJoin.bo")) {
-			
-			forward = new ActionForward();			
-			forward.setRedirect(false);			
-			forward.setPath("./Join_01.jsp");
-			
-			
-		/* Join_02.jspȸ������ ������, Join_03.jsp�� ������ �̵�!	  "OK" */
-		}else if (command.equals("/Join_03.bo")) {
-			forward = new ActionForward();
-			forward.setRedirect(false);
-			forward.setPath("./Join_03.jsp");
-			
-		
-		/* ���������� - ȸ���������� (�ѷ��ֱ�)    "OK" */
+	
 		}else if (command.equals("/MemberModify.bo")) {
 			String id= (String)request.getParameter("member_id");
 			System.out.println("In Controller, Requesting Member ID : "+ id);
@@ -108,33 +86,15 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			forward.setRedirect(false);
 			forward.setPath("/memberConfirmController.bo");
 		
-		/* ������ ����,���̵� �ѷ��ֱ�	"OK" */
+
 		}else if (command.equals("/joinConfirm.bo")) {
-//			String id= (String)req.getParameter("member_id");
+
 			String id = (String)request.getAttribute("member_id");
 			System.out.println("controller id:"+id);
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("/joinConfirmController.bo");
 			
-		}else if (command.equals("/MemberJoinAction.bo")) {
-			
-			//ȸ������ ó���� ���� MemberJoinAction��ü ����
-			action = new MemberJoinAction();
-			
-			try {
-				//Join_02.jsp���� �Է��� ȸ������ ������ ����ִ�
-				//request������ execute�޼ҵ� �Ű������� �����Ͽ�
-				//ȸ������ DB�۾��� ȸ������ �����ϸ�..
-				//������ �̵���� ���ΰ� true��
-				//�̵��� ������ �ּ� (./01_LoginMain.jsp)�� ��� �ִ�
-				//new ActionForward()��ü�� ���� �޴´�.
-				forward = action.execute(request, response);
-				
-			} catch (Exception e) {
-				e.printStackTrace();				
-			}
-		
 		}
 		
 		

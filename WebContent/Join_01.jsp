@@ -1,33 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
 
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-
-<!-- <script type="text/javascript" src="js/jquery-3.1.1.js"></script> -->
-
- <link rel="stylesheet" type="text/css" href="stylesheets/main/main.css">
-    
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/company.css">  
-  <link rel="stylesheet" type="text/css" href="stylesheets/common/common.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/board.css">  
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/service.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/utile.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/swiper.min.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/myreservation.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/air_booking.css">
-    
-    <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
-    <script type="text/javascript" src="javascripts/designCommon_onServer.js" ></script>
-    <script type="text/javascript" src="javascripts/moment.js"></script>
-    <script type="text/javascript" src="javascripts/airs_booking.js"></script>
-    <script type="text/javascript" src="javascripts/airs_common.js"></script>
-
 
 <style type="text/css">
 
@@ -260,12 +234,8 @@ color: red;
 font-style: normal;
 }
 </style>
-</head>
-<body>
+
 <div id="wrap">
-<header>
-<jsp:include page="0_header.jsp"/>
-</header>
 
 
 <div id="container" style="padding-top: 110px;">
@@ -289,7 +259,7 @@ font-style: normal;
 
 				</ol>
 			</div>
-         <form action="Join_02.jsp" method="post" name="form">
+         <form action="JoinView.me" method="post" name="form">
 			<div class="agree_all">
 				<div class="agree_list">
 					<ul>
@@ -700,7 +670,7 @@ font-style: normal;
    </div>
 
 	</div>
-	<jsp:include page="0_footer.jsp"/>
+
 	
 <script type="text/javascript">
         $(document).ready(function(){
@@ -747,7 +717,3 @@ font-style: normal;
 
 	</script>
 	
-	
-
-</body>
-</html>

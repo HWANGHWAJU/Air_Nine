@@ -117,7 +117,7 @@ span.loginInp{display:inline-block;}
 			<div class="content_inner">
 				<h1 class="pagetitle">로그인</h1>
 					<div style="height: 30px;"></div>
-					<center>로그인을 위한 회원 정보를 입력 해주세요.</span>
+					<center><span>로그인을 위한 회원 정보를 입력 해주세요.</span>
 					</center>
 					
 			<div class="loginLayout newLayout170303">	
@@ -128,7 +128,7 @@ span.loginInp{display:inline-block;}
                     	<fieldset>
                         <legend>로그인</legend>
                        
-                        <form id="login" action="/web/common/loginApi/memberLoginProc" method="post" novalidate="novalidate" data-progressclass="">
+                        <form id="login" action="MemberLoginAction.me" method="post" novalidate="novalidate" data-progressclass="">
                          <div class="mgt12 mgb15">
                          <label class="radioBox on"><input type="radio" id="" name="loginType" value="1" checked="checked"> 아이디 로그인</label>
                          </div>
