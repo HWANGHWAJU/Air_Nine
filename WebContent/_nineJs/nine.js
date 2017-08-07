@@ -98,28 +98,99 @@ var FlightDetailInfo = function(){
 }
  
 function fn_ShowDatas(){
-	var strFlight = $("#jsFlightInfo").val();
-	var strPassengerDetail = $("#jsPassengerDetail").val();
-	var strOption = $("#jsOption").val();
-	var strPay = $("#jsPay").val();
+	var strReservation = $("#jsReservation").val();
+	var ReservationCode = $("#ReservationCode").val();
 	
-	var jsFlight = new FlightInfo();
-		jsFlight = jQuery.parseJSON(strFlight);
-	var jsPassengerDetail = new PassengerDetailInfo();
-		jsPassengerDetail = jQuery.parseJSON(strPassengerDetail);
-	var jsOption = new OptionService();
-		jsOption = jQuery.parseJSON(strOption);
-
-	var PayInfo = function(){
-			this.payType ="";
-			this.totalPrice = "";
-		}
-	var jsPay = new PayInfo(); 
-		jsPay = jQuery.parseJSON(strPay);
+	console.log(ReservationCode);
+	console.log(strReservation);
 	
-	var totalPrice = jsPay.totalPrice;
+	var jsReservation = function(){
+		this.flight = [];
+		this.person = [];
+		this.pay = "";
+	}
 	
-	$("#RouteLine").val();
+	jsReservation = jQuery.parseJSON(strReservation);
+	var FlightData = function(){
+		this.tripType = "";
+		this.Dep = "";
+		this.Arr = "";
+		this.Dep_date = "";
+		this.Dep_time = "";
+		this.Arr_date = "";
+		this.Arr_time = "";
+		this.Booking_date = "";
+	};
+	
+	var jsFlight = new FlightData();
+	jsFlight = [];
+	jsFlight = jsReservation.FlightData;
+	
+	console.log(jsFlight);
+	var tripType = "";
+	if(jsFlight.length == 2) {tripType="RT";}
+	else {tripType = "OW";}
+	
+	console.log(tripType);
+	var Person = function(){
+		this.paxType = "";
+		this.EngName = "";
+		this.passport = "";
+	}
+	
+	var jsPerson = new Person();
+	jsPerson = [];
+	jsPerson = jsReservation.BoardP;
+		
+	var Pay = function(){
+		this.payKind = "";
+		this.payTotal = "";
+	}
+	
+	var jsPay = new Pay();
+	jsPay = jsReservation.PayData;
+	jsPay.payTotal = jsReservation.PayData.paytotal;
+	
+	console.log(jsFlight);
+	console.log(jsPerson);
+	console.log(jsPay);
+	
+	$("#ReservationNumber").val(ReservationCode);
+	$("#ReservationDate").val(jsReservation.FlightData[0].Booking_Date);
+	$("#FlightName").val(jsReservation.FlightData[0].FlightName);
+	$("#DepName").val(jsReservation.FlightData[0].Dep);
+	$("#DepDate").val(jsReservation.FlightData[0].Dep_Date);
+	$("#DepTime").val(jsReservation.FlightData[0].Dep_Time);
+	$("#ArrName").val(jsReservation.FlightData[0].Arr);
+	$("#ArrDate").val(jsReservation.FlightData[0].Arr_Date);
+	$("#ArrTime").val(jsReservation.FlightData[0].Arr_Time);
+	
+	if(tripType=="RT"){
+		$("#RTReservationNumber").val(ReservationCode);
+		$("#RTReservationDate").val(jsReservation.FlightData[1].Booking_Date);
+		$("#RTFlightName").val(jsReservation.FlightData[1].FlightName);
+		$("#RTDepName").val(jsReservation.FlightData[1].Dep);
+		$("#RTDepDate").val(jsReservation.FlightData[1].Dep_Date);
+		$("#RTDepTime").val(jsReservation.FlightData[1].Dep_Time);
+		$("#RTArrName").val(jsReservation.FlightData[1].Arr);
+		$("#RTArrDate").val(jsReservation.FlightData[1].Arr_Date);
+		$("#RTArrTime").val(jsReservation.FlightData[1].Arr_Time);
+	}
+	
+	var pSTR = "";
+	var type="";
+	for(var i=0; i<jsPerson.length; i++){
+		if(jsPerson[i].tripType=='RT') {type ="RT";}
+		else{type='OW';}
+		pSTR += "<tr><th scope='row'>성명</th>"+
+				"<td><span>"+jsPerson[i].EngName+"("+type+")</span></td>"+
+				"<th scope='row'>성별</th><td><span>"+jsPerson[i].gender+"</span></td>"+
+				"<th scope='row'>여권 번호</th>"+
+				"<td><span>"+jsPerson[i].passPort+"</span></td></tr>";
+	}
+	console.log(pSTR);
+	$("#Reservation_PersonData>tbody").html(pSTR);
+	$(".price").text(jsPay.payTotal);
 	
 }
 
@@ -1165,6 +1236,8 @@ function fn_ClickConfirmBtn(){
 	var $tripType = $("#triptype").val();
 	var $depflight = $("#depFlight").text();
 	
+	var $owFlightNum = $("#OWscheduleNum").val();
+	var $rtFlightNum = $("#RTscheduleNum").val();
 
 	
 	

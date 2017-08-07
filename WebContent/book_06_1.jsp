@@ -42,8 +42,8 @@
 								
 								<div class="In_LayerTop">
 									<ul class="seat_section_selected" id="seat_section_selected">
-										<li id="OWlist"  ><span class="active"><a href="">가는 여정</a></span></li>
-										<li id="RTlist" style="display:block;"><span><a href="">오는 여정</a></span></li>
+										<li id="OWlist"  ><span class="active"><a href="#this">가는 여정</a></span></li>
+										<li id="RTlist" style="display:block;"><span><a href="#this">오는 여정</a></span></li>
 										<li class="planeName" style="float: right;"><span id="flightNum" style="margin-right: 20px;"></span><span id="TypeName"></span></li>
 									</ul>
 								</div>
@@ -95,6 +95,9 @@
 								</div>
 								
 								<div class="In_LayerContents">
+									<div class="seat-box-top">
+									뜹
+									</div>
 								</div>
 								
 							</div>
@@ -321,6 +324,7 @@
 <input type="hidden" name="jsFlightInfo"					 id="jsFlightInfo" value='${requestScope.jsF }'>
 <input type="hidden" name="jsReservationPerson" id="jsReservationPerson" value='${requestScope.jsR }'>
 <input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" value='${requestScope.jsP}'>
+<input type="hidden" name="jsScheduleNum" 			id="jsScheudleNum"		value='${requestScope.jsSC }'>
 <input type="hidden" name="jsOption" 						id="jsOption">
 </form>
 
@@ -372,6 +376,7 @@ if(RTflight.substring(0,2)=='RS'){
 
 $("#flightNum").text(OWflight);
 $("#TypeName").text(OWflightType);
+
 if(type=='RT'){
 	$("#divJourney_2").css("display","block");
 	$("#RTlist").css("display","block");

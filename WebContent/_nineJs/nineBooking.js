@@ -164,6 +164,8 @@ $(document).ready(function(){
 				ChdDetail.gender = 	gender;
 				ChdDetail.price = price;
 				
+				console.log(ChdDetail.passportNumber);
+				
 //				console.log(ChdDetail.price);
 //				console.log(inputLat);
 				
@@ -292,6 +294,10 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	
+
+	
 
 });
 

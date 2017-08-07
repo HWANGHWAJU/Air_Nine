@@ -118,7 +118,8 @@
 									<input type="hidden" id="dep_time" name="dep_time" value="${v.flightschedule_dep_time }">
 									<input type="hidden" id="arr_time" name="arr_time"	 value="${v.flightschedule_arr_time }">
 									<input type="hidden" id="base_price" name="base_price" value="${v.route_baseprice }">
-									<input type="hidden" id="sale_price" name="sale_price" value="${v.sale_price }">			
+									<input type="hidden" id="sale_price" name="sale_price" value="${v.sale_price }">
+									<input type="hidden" id="flight_number" name="flight_number" value='${v.flightschedule_number }'>			
 								</label>
 							</span>
 						</td>
@@ -287,7 +288,8 @@
 									<input type="hidden" id="dep_time" name="dep_time" value="${vec.flightschedule_dep_time }">
 									<input type="hidden" id="arr_time" name="arr_time"	 value="${vec.flightschedule_arr_time }">
 									<input type="hidden" id="base_price" name="base_price" value="${vec.route_baseprice }">
-									<input type="hidden" id="sale_price" name="sale_price" value="${vec.sale_price }">	
+									<input type="hidden" id="sale_price" name="sale_price" value="${vec.sale_price }">
+									<input type="hidden" id="flight_number" name="flight_number" value='${vec.flightschedule_number }'>	
 								</label>
 							</span>
 						</td>
@@ -475,9 +477,12 @@
 </div>
 <div id="hidden-priceArr">
 </div>
+
 <form id="goPassengerInfoView"  name="goPassengerInfoView" method="post" target="_self">
 <input type="hidden" name="detailBooking">
 <input type="hidden" name="jsDetailBooking">
+<input type="hidden" id="OWscheduleNum" name="OWscheduleNum">
+<input type="hidden" id="RTscheduleNum" name="RTscheduleNum">
 </form>
 		<!-- ---------------★민정수정완료★----------------------- -->
 
@@ -502,7 +507,8 @@ $(document).ready(function(){
 		
 		var mainBooking = $("#mainBookingCondition").val();
 
-
+		var OWscheduleNum = "";
+		var RTscheduleNum = "";
 		
 //		console.log("$adult :"+$adult);
 		
@@ -555,15 +561,21 @@ $(document).ready(function(){
  				
  			 console.log("Dep Radio INDEX :"+i);
  					var $this = $(this);
+ 					
  			    	$this.on("change", function(){
+ 			    		
  			    		var $label = $this.parent('label');
  			    		 flight=$label.find("#flight").val();
  			    		dep_time =$label.find("#dep_time").val();
  			    		 arr_time =$label.find("#arr_time").val();
  			    		 base_price =$label.find("#base_price").val();
  			    		 sale_price =$label.find("#sale_price").val();
+ 			    		 OWscheduleNum = $label.find("#flight_number").val();
+ 			    		 
+ 			    		 $("#OWscheduleNum").val( OWscheduleNum);
+ 			    		 
  			        	console.log("flight :"+flight+"  dep_time :"+dep_time+"  arr_time : "+arr_time+"  base_price :"+base_price+"  sale_price :"+sale_price);
- 			        	
+ 			        	console.log("Flight_Number :"+OWscheduleNum);
  			        
  			        	
  			        	var seg = 
@@ -615,16 +627,21 @@ $(document).ready(function(){
 					
 				 console.log("Arr Radio INDEX :"+i);
 						var $this = $(this);
+						
 				    	$this.on("change", function(){
+				    		
 				    		var $label = $this.parent('label');
 				    		 flight=$label.find("#flight").val();
 				    		 dep_time =$label.find("#dep_time").val();
 				    		 arr_time =$label.find("#arr_time").val();
 				    		 base_price =$label.find("#base_price").val();
 				    		 sale_price =$label.find("#sale_price").val();
+				    		 RTscheduleNum = $label.find("#flight_number").val();
 				        	console.log("flight :"+flight+"  dep_time :"+dep_time+"  arr_time : "+arr_time+"  base_price :"+base_price+"  sale_price :"+sale_price);
-  			      
+  			      			console.log("RT Flight Number :"+RTscheduleNum);
 	 			        	
+  			      		 $("#RTscheduleNum").val( RTscheduleNum);
+  			      			
 	 			        	pArr.base_price = base_price;
 	 			        	pArr.sale_price = sale_price;
 		   	

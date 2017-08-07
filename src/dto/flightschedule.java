@@ -7,7 +7,7 @@ public class flightschedule {
 
 	
 	//Ÿ�����̺�
-	private String flightschedule_number; 
+	private int flightschedule_number; 
 	private int route_number;		
 	private String plane_seat_flight_name;	
 	private String flightschedule_dep;		
@@ -37,10 +37,10 @@ public class flightschedule {
 		this.sale_price = p;
 	}
 	
-	public String getFlightschedule_number() {
+	public int getFlightschedule_number() {
 		return flightschedule_number;
 	}
-	public void setFlightschedule_number(String flightschedule_number) {
+	public void setFlightschedule_number(int flightschedule_number) {
 		this.flightschedule_number = flightschedule_number;
 	}
 	public int getRoute_number() {

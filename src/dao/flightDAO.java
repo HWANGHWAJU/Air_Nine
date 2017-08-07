@@ -27,7 +27,7 @@ public class flightDAO {
 		try {
 
 			String sql = 
-					" select t.plane_seat_flight_name, t.flightschedule_dep_time, t.flightschedule_arr_time,r.route_baseprice,t .flightschedule_dep, t.flightschedule_arr,t.flightschedule_op_startdate, t.flightschedule_op_enddate"
+					" select t.flightschedule_number, t.plane_seat_flight_name, t.flightschedule_dep_time, t.flightschedule_arr_time,r.route_baseprice,t .flightschedule_dep, t.flightschedule_arr,t.flightschedule_op_startdate, t.flightschedule_op_enddate"
 					+ " from flightschedule t inner join route r" + " on t.route_number = r.route_number"
 					+ " where t.flightschedule_dep=? and t.flightschedule_arr=?  and t.flightschedule_op_startdate <= ? and t.flightschedule_op_enddate >= ?"
 					+ " order by t.flightschedule_dep_time asc";
@@ -45,17 +45,18 @@ public class flightDAO {
 			while (rs.next()) {
 
 				ttable = new flightschedule();
-
-				ttable.setPlane_seat_flight_name(rs.getString(1));// �װ����
-				ttable.setFlightschedule_dep_time(rs.getTime(2));// ��߽ð�
-				ttable.setFlightschedule_arr_time(rs.getTime(3));// �����ð�
-				ttable.setRoute_baseprice(rs.getInt(4));// �⺻���
-				ttable.setFlightschedule_dep(rs.getString(5)); // �����
-				ttable.setFlightschedule_arr(rs.getString(6));// ������
-				ttable.setFlightschedule_op_startdate(rs.getDate(7));
-				ttable.setFlightschedule_op_enddate(rs.getDate(8));
 				
-				ttable.setSale_price(getSalePrice(rs.getTime(2), rs.getInt(4)));
+				ttable.setFlightschedule_number(rs.getInt(1));
+				ttable.setPlane_seat_flight_name(rs.getString(2));// �װ����
+				ttable.setFlightschedule_dep_time(rs.getTime(3));// ��߽ð�
+				ttable.setFlightschedule_arr_time(rs.getTime(4));// �����ð�
+				ttable.setRoute_baseprice(rs.getInt(5));// �⺻���
+				ttable.setFlightschedule_dep(rs.getString(6)); // �����
+				ttable.setFlightschedule_arr(rs.getString(7));// ������
+				ttable.setFlightschedule_op_startdate(rs.getDate(8));
+				ttable.setFlightschedule_op_enddate(rs.getDate(9));
+				
+				ttable.setSale_price(getSalePrice(rs.getTime(3), rs.getInt(5)));
 				System.out.println(ttable.getSale_price());
 				v.add(ttable);
 			}
@@ -103,7 +104,7 @@ public class flightDAO {
 		flightschedule ttable = null;
 
 		try {
-			String sql = "select t.plane_seat_flight_name,t.flightschedule_dep_time,t.flightschedule_arr_time,r.route_baseprice,t.flightschedule_dep,t.flightschedule_arr, t.flightschedule_op_startdate, t.flightschedule_op_enddate"
+			String sql = "select t.flightschedule_number, t.plane_seat_flight_name,t.flightschedule_dep_time,t.flightschedule_arr_time,r.route_baseprice,t.flightschedule_dep,t.flightschedule_arr, t.flightschedule_op_startdate, t.flightschedule_op_enddate"
 					+ " from flightschedule t join route r" + " on t.route_number = r.route_number"
 					+ " where t.flightschedule_dep=? and t.flightschedule_arr=?  and t.flightschedule_op_startdate <= ? and t.flightschedule_op_enddate >= ?"
 					+ " order by t.flightschedule_dep_time asc";
@@ -121,17 +122,18 @@ public class flightDAO {
 			while (rs.next()) {
 
 				ttable = new flightschedule();
-
-				ttable.setPlane_seat_flight_name(rs.getString(1));// �װ����
-				ttable.setFlightschedule_dep_time(rs.getTime(2));// ��߽ð�
-				ttable.setFlightschedule_arr_time(rs.getTime(3));// �����ð�
-				ttable.setRoute_baseprice(rs.getInt(4));// �⺻���
-				ttable.setFlightschedule_dep(rs.getString(5)); // �����
-				ttable.setFlightschedule_arr(rs.getString(6));// ������
-				ttable.setFlightschedule_op_startdate(rs.getDate(7));
-				ttable.setFlightschedule_op_enddate(rs.getDate(8));
 				
-				ttable.setSale_price(getSalePrice(rs.getTime(2), rs.getInt(4)));
+				ttable.setFlightschedule_number(rs.getInt(1));
+				ttable.setPlane_seat_flight_name(rs.getString(2));// �װ����
+				ttable.setFlightschedule_dep_time(rs.getTime(3));// ��߽ð�
+				ttable.setFlightschedule_arr_time(rs.getTime(4));// �����ð�
+				ttable.setRoute_baseprice(rs.getInt(5));// �⺻���
+				ttable.setFlightschedule_dep(rs.getString(6)); // �����
+				ttable.setFlightschedule_arr(rs.getString(7));// ������
+				ttable.setFlightschedule_op_startdate(rs.getDate(8));
+				ttable.setFlightschedule_op_enddate(rs.getDate(9));
+				
+				ttable.setSale_price(getSalePrice(rs.getTime(3), rs.getInt(5)));
 				System.out.println(ttable.getSale_price());
 				
 				vec.add(ttable);

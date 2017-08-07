@@ -29,12 +29,13 @@ public class bookingDTO {
 	private String booking_eng_lastname;	
 	private String booking_eng_firstname;	
 	private String booking_age;	
+	private String booking_gender;
 	
 	 private String booking_total_price;	
 	
 	public bookingDTO(){}
 	
-	public bookingDTO(Integer n, String e, String code, String type, String dep, Date depdate, String deptime, String arr, Date arrdate, String arrtime, String flightname, String opseat, String opfood, Date bookdate, String bookway, String check, String pass, String last, String first, String age, String total){
+	public bookingDTO(Integer n, String e, String code, String type, String dep, Date depdate, String deptime, String arr, Date arrdate, String arrtime, String flightname, String opseat, String opfood, Date bookdate, String bookway, String check, String pass, String last, String first, String age, String gender,String total){
 		this.booking_number = n;
 		this.booking_reserveinfo_email = e;
 		this.booking_reservation_code = code;
@@ -55,9 +56,17 @@ public class bookingDTO {
 		this.booking_eng_lastname = last;
 		this.booking_eng_firstname = first;
 		this.booking_age = age;
+		this.booking_gender = gender;
 		this.booking_total_price = total;
 	}
 	
+	
+	public String getBooking_gender(){
+		return booking_gender;
+	}
+	public void setBooking_gender(String booking_gender){
+		this.booking_gender = booking_gender;
+	}
 	public Integer getBooking_number() {
 		return booking_number;
 	}

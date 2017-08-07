@@ -650,7 +650,7 @@
 <input type="hidden" name="jsFlightInfo"					 id="jsFlightInfo"					value='${requestScope.jsF }'>
 <input type="hidden" name="jsReservationPerson" id="jsReservationPerson" value='${requestScope.jsR }'>
 <input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" 		value='${requestScope.jsP}'>
-<input type="hidden" name="jsOption" 						id="jsOption" 							value='${request.jsO }'>
+<input type="hidden" name="jsOption" 						id="jsOption" 							value='${requestScope.jsO }'>
 <input type="hidden" name="jsPay" 								id="jsPay"									value="">
 </form>				
 					

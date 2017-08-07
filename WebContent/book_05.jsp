@@ -497,6 +497,7 @@
 <input type="hidden" name="jsFlightInfo"					 id="jsFlightInfo" value="">
 <input type="hidden" name="jsReservationPerson" id="jsReservationPerson" value="">
 <input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" value="">
+<input type="hidden" name="jsScheduleNum" 			id="jsScheduleNum" 		value='${requestScope.SCnum }'>
 </form>
 
 
