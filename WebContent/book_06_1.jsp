@@ -36,7 +36,7 @@
 							</div>
 						</div>
 						<!-- 좌석 표 -->
-						<div class="booking-extraservice-list"  id="seatSelectedLayer" style="display:none;;">
+						<div class="booking-extraservice-list"  id="seatSelectedLayer" style="display:block;;">
 							<div class="contents-seat-area">
 								<h2 class="hidden-title">좌석 선택 area</h2>
 								
@@ -44,11 +44,132 @@
 									<ul class="seat_section_selected" id="seat_section_selected">
 										<li id="OWlist"  ><span class="active"><a href="#this">가는 여정</a></span></li>
 										<li id="RTlist" style="display:block;"><span><a href="#this">오는 여정</a></span></li>
-										<li class="planeName" style="float: right;"><span id="flightNum" style="margin-right: 20px;"></span><span id="TypeName"></span></li>
+										<li class="planeName" style="float: right; right: 0px;"><span id="flightNum" style="padding-left: 50px;"></span><span id="TypeName" style="margin-left: 10px"></span></li>
 									</ul>
 								</div>
 								
 								<div class="In_LayerContents">
+									<div class="In_LayerSeatView">
+										<div class="seat-top">
+											<div class="seat-section">
+												<div class="restroom list01">
+													<div class="left-content">
+														<div class="icon-restroom">화장실</div>
+													</div>
+													<div class="right-content"></div>
+												</div>
+												<div class="entrance">
+													<div class="left-content">출입구</div>
+													<div class="right-content">출입구</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="seat-middle">
+											<div class="seat-table" id="seatSectionTable">
+												<table>
+													<colgroup>
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+													</colgroup>
+													
+													<thead>
+														<tr>
+															<th scope="col">A</th>
+															<th scope="col">B</th>
+															<th scope="col">C</th>
+															<th scope="col"></th>
+															<th scope="col">D</th>
+															<th scope="col">E</th>
+															<th scope="col">F</th>
+														</tr>
+													</thead>
+													
+													<tbody id="tbodyseatSectionTable">
+													
+													</tbody>
+													
+													
+												</table>
+											</div>
+										
+										
+										
+										</div>
+										
+										<div class="seat-bottom">
+											<div class="seat-section">
+												<div class="restroom list03">
+													<div class="left-content">
+														<div class="icon-restroom">화장실</div>
+													</div>
+													<div class="right-content"></div>
+												</div>
+												<div class="emergency-exit list03">
+													<div class="left-content">비상구</div>
+													<div class="right-content">비상구</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="In_LayerPriceView">
+										<h3><span>좌석별 운임 가격</span></h3>
+										<div class="In_LayerSeatPriceList">
+											<div class="seats">
+												<img src="images/booking/seat0_enter_seat.PNG" style="width: 34px; height: 34px;">
+													<div class="pricetag">
+														<em class="title">앞 / 비상구 좌석</em>
+														<span>KRW 15,000</span>
+													</div>
+											</div>
+											<div class="seats">
+												<img src="images/booking/seat4_normal_seat.PNG" style="width: 34px; height: 34px;">
+													<div class="pricetag">
+														<em class="title">일반 좌석</em>
+														<span>KRW 5,000</span>
+													</div>
+											</div>												
+											<div class="seats">
+												<img src="images/booking/seat1_Iselected_seat.PNG" style="width: 34px; height: 34px;">
+													<div class="pricetag">
+														<span>좌석 선택</span>
+													</div>
+											</div>
+											<div class="seats">
+												<img src="images/booking/seat2_selected_seat.PNG" style="width: 34px; height: 34px;">
+													<div class="pricetag">
+														<span>선택 불가</span>
+													</div>
+											</div>
+											<div class="seats">
+												<img src="images/booking/seat3_paid_seat.PNG" style="width: 34px; height: 34px;">
+													<div class="pricetag">
+														<span>판매 완료</span>
+													</div>
+											</div>																					
+										</div>
+										
+										<div class="In_LayerSeatSelectedView">
+										
+											<h3><span>선택 좌석</span></h3>
+											<div class="In_LayerSelectedSeatList">
+													<ul>
+														<li><span class="seatNum" ></span><em class="unit"></em><span class="seatPrice" ></span></li>
+													</ul>	
+											</div>
+											
+											<h3><span>좌석 총 금액</span></h3>
+											<div class="SeatTotalPrice">
+												<em class="unit"></em><span class="totalSeatPrice"></span>
+											</div>
+										</div>						
+									</div>
 								</div>
 								
 							</div>
@@ -94,9 +215,9 @@
 									</ul>
 								</div>
 								
-								<div class="In_LayerContents">
-									<div class="seat-box-top">
-									뜹
+								<div class="In_LayerContents" >
+									<div class="seat-top" style="border:1px;">
+									
 									</div>
 								</div>
 								
@@ -272,7 +393,7 @@
 									<tr>
 										<th scope="row" class="" name="lblSeat">좌석</th>
 										<td class="tr tbl-price" id="seatPrice">
-											<span>0</span>
+											<span id="totalSeatPrice"></span>
 										</td>
 									</tr>
 									<tr>
@@ -383,6 +504,8 @@ if(type=='RT'){
 	RTflight = JSflightDetail[1].depflight;
 }
 
-/*	<li class="planeName"><span id="flightNum"></span><span id="TypeName"></span></li>*/
+var scNUM = $("#jsScheudleNum").val();
+Show_Seat(scNUM);
+
 </script>
 

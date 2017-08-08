@@ -40,4 +40,14 @@
     <url-pattern>*.me</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+	    <servlet-name>OptionController</servlet-name>
+	    <servlet-class>air.option.controller.OptionController</servlet-class>
+ 	 </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>OptionController</servlet-name>
+    <url-pattern>*.op</url-pattern>
+  </servlet-mapping>  
+  
 </web-app>
