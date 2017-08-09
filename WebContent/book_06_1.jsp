@@ -36,7 +36,7 @@
 							</div>
 						</div>
 						<!-- 좌석 표 -->
-						<div class="booking-extraservice-list"  id="seatSelectedLayer" style="display:block;;">
+						<div class="booking-extraservice-list"  id="seatSelectedLayer" style="display:none;">
 							<div class="contents-seat-area">
 								<h2 class="hidden-title">좌석 선택 area</h2>
 								
@@ -48,8 +48,8 @@
 									</ul>
 								</div>
 								
-								<div class="In_LayerContents">
-									<div class="In_LayerSeatView">
+								<div class="In_LayerContents" > 
+									<div class="In_LayerSeatView" id="OWseatView">
 										<div class="seat-top">
 											<div class="seat-section">
 												<div class="restroom list01">
@@ -118,6 +118,75 @@
 										</div>
 									</div>
 									
+									<div class="In_LayerSeatView" id="RTseatView" style="display:none;">
+										<div class="seat-top">
+											<div class="seat-section">
+												<div class="restroom list01">
+													<div class="left-content">
+														<div class="icon-restroom">화장실</div>
+													</div>
+													<div class="right-content"></div>
+												</div>
+												<div class="entrance">
+													<div class="left-content">출입구</div>
+													<div class="right-content">출입구</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="seat-middle">
+											<div class="seat-table" id="seatSectionTable">
+												<table>
+													<colgroup>
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+														<col style="width:29px">
+													</colgroup>
+													
+													<thead>
+														<tr>
+															<th scope="col">A</th>
+															<th scope="col">B</th>
+															<th scope="col">C</th>
+															<th scope="col"></th>
+															<th scope="col">D</th>
+															<th scope="col">E</th>
+															<th scope="col">F</th>
+														</tr>
+													</thead>
+													
+													<tbody id="tbodyseatSectionTable">
+													
+													</tbody>
+													
+													
+												</table>
+											</div>
+										
+										
+										
+										</div>
+										
+										<div class="seat-bottom">
+											<div class="seat-section">
+												<div class="restroom list03">
+													<div class="left-content">
+														<div class="icon-restroom">화장실</div>
+													</div>
+													<div class="right-content"></div>
+												</div>
+												<div class="emergency-exit list03">
+													<div class="left-content">비상구</div>
+													<div class="right-content">비상구</div>
+												</div>
+											</div>
+										</div>
+									</div>
+										
 									<div class="In_LayerPriceView">
 										<h3><span>좌석별 운임 가격</span></h3>
 										<div class="In_LayerSeatPriceList">
@@ -158,19 +227,34 @@
 										<div class="In_LayerSeatSelectedView">
 										
 											<h3><span>선택 좌석</span></h3>
-											<div class="In_LayerSelectedSeatList">
+											<div class="seatListSpan"><span id="OWseatSpan"  class='active' style="float:left;">가는 여정</span>&nbsp;<span id="RTseatSpan" style="display:none; float: right; padding-right: 50px;">오는 여정</span></div>
+											<div class="In_LayerSelectedSeatList" id="OWseatList">
 													<ul>
 														<li><span class="seatNum" ></span><em class="unit"></em><span class="seatPrice" ></span></li>
 													</ul>	
 											</div>
+											<div class="In_LayerSelectedSeatList" id="RTseatList" style="display:none;">
+													<ul>
+														<li><span class="seatNum" ></span><em class="unit"></em><span class="seatPrice" ></span></li>
+													</ul>	
+											</div>											
 											
 											<h3><span>좌석 총 금액</span></h3>
 											<div class="SeatTotalPrice">
-												<em class="unit"></em><span class="totalSeatPrice"></span>
+												<div id="OWtotalSeatPrice"><em class="unit" style=" font-size: 18px;"></em><span class="totalSeatPrice"></span></div><br>
+												<div id="RTtotalSeatPrice" style="display:none;"><em class="unit" style=" font-size: 18px;"></em><span class="totalSeatPrice"></span></div>
+											</div>
+											<div style="padding-top: 20px; line-height: 20px;">
+												<span> 유아의 경우 좌석이 필요할 시 <br> 고객 센터로 문의 바랍니다. </span>
+											</div>
+											<div style="padding-top: 20px; margin:0 auto;">
+												<button type="button" class="btn-type05-col01" style="margin-left:20px;" id="SeatResetBtn">선택 초기화</button>
 											</div>
 										</div>						
 									</div>
 								</div>
+
+								
 								
 							</div>
 						</div>
@@ -393,19 +477,19 @@
 									<tr>
 										<th scope="row" class="" name="lblSeat">좌석</th>
 										<td class="tr tbl-price" id="seatPrice">
-											<span id="totalSeatPrice"></span>
+											<span class="totalSeatPrice"></span>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row" class="" name="lblMeal">기내식</th>
 										<td class="tr tbl-price" id="mealPrice">
-											<span>0</span>
+											<span class="totalMealPrice">0</span>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row" class="" name="lblBaggage">수하물</th>
 										<td class="tr tbl-price" id="baggagePrice">
-											<span>0</span>
+											<span class="totalBagPrice">0</span>
 										</td>
 									</tr>
 									</tbody>
@@ -439,14 +523,15 @@
 	
 	
 
-
+<input type="hidden" name="triptype" id="triptype">
 <form name="GoBook07" method="post">
 <input type="hidden" name ="jsBookingCondition" id="jsBookingCondition" value='${requestScope.jsBC }'>
 <input type="hidden" name="jsFlightInfo"					 id="jsFlightInfo" value='${requestScope.jsF }'>
 <input type="hidden" name="jsReservationPerson" id="jsReservationPerson" value='${requestScope.jsR }'>
 <input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" value='${requestScope.jsP}'>
-<input type="hidden" name="jsScheduleNum" 			id="jsScheudleNum"		value='${requestScope.jsSC }'>
+<input type="hidden" name="jsScheduleNum" 			id="jsScheduleNum"		value='${requestScope.jsSC }'>
 <input type="hidden" name="jsOption" 						id="jsOption">
+<input type="hidden" name="jsOptionPrice" 				id="jsOptionPrice" >
 </form>
 
 <script type="text/javascript">
@@ -466,6 +551,7 @@ JSbookingCondition = jQuery.parseJSON(jsBookingCondition);
 jsPassengerDataObject =[];
 
 jsPassengerDataObject = JSbookingCondition.passengerDatas; //이미 Json으로 변형되었음
+
 SettingFinalPrice(jsFlightInfo,jsPassengerDataObject);
 
 var JSflightInfo = new FlightInfo();
@@ -477,7 +563,7 @@ JSflightDetail = [];
 JSflightDetail = JSflightInfo.flightDetailInfo;
 
 var type = JSflightInfo.triptype;
-
+$("#triptype").val(type);
 var OWflight=JSflightDetail[0].depflight;
 var RTflight="";
 
@@ -489,11 +575,7 @@ if(OWflight.substring(0,2)=='RS'){
 }else{
 	OWflightType="P-A321-200";
 }
-if(RTflight.substring(0,2)=='RS'){
-	RTflightType="A321-200";
-}else{
-	RTflightType="P-A321-200";
-}
+
 
 $("#flightNum").text(OWflight);
 $("#TypeName").text(OWflightType);
@@ -501,10 +583,47 @@ $("#TypeName").text(OWflightType);
 if(type=='RT'){
 	$("#divJourney_2").css("display","block");
 	$("#RTlist").css("display","block");
+	$("#RTseatSpan").css("display","block");
+	$("#RTtotalSeatPrice").css("display","block");
+	
 	RTflight = JSflightDetail[1].depflight;
+	
+	if(RTflight.substring(0,2)=='RS'){
+		RTflightType="A321-200";
+	}else{
+		RTflightType="P-A321-200";
+	}
+	
+	$("#RTlist").on("click", function(){
+		$(this).find("span").addClass('active');
+		$("#OWlist").find("span").removeClass('active');
+		$("#OWseatView").css("display","none");
+		$("#OWseatSpan").removeClass('active');
+		$("#RTseatSpan").addClass("active");
+		$("#OWseatList").css("display","none");
+		$("#RTseatList").css("display","block");
+		$("#RTseatView").css("display","block");
+		$("#flightNum").text(RTflight);
+		$("#TypeName").text(RTflightType);
+	});
+	
 }
 
-var scNUM = $("#jsScheudleNum").val();
+$("#OWlist").on("click", function(){
+	$(this).find("span").addClass('active');
+	$("#RTlist").find("span").removeClass('active');
+	$("#RTseatSpan").removeClass("active");
+	$("#OWseatSpan").addClass("active");
+	$("#RTseatList").css("display","none");
+	$("#OWseatList").css("display","block");
+	$("#OWseatView").css("display","block");
+	$("#RTseatView").css("display","none");
+	$("#flightNum").text(OWflight);
+	$("#TypeName").text(OWflightType);
+});
+
+var scNUM = $("#jsScheduleNum").val();
+
 Show_Seat(scNUM);
 
 </script>

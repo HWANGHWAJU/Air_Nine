@@ -54,18 +54,25 @@ var PassengerDetailInfo = function(){
 
 /*	선택 옵션 (배열)	*/
 var OptionService = function(){
-	this.seatDatas =[];
-	this.bagDatas = [];
-	this.mealDats = [];
+	this.seatDatas="";
+	this.bagDatas="";
+	this.mealDats="";
 }
 /* 좌석 */
+var OptionSeatTotal = function(){
+	this.optionSeats = [];
+}
 var OptionSeat = function(){
-	this.SeattripType = "";
-	this.planeName = "";
-	this.planeType = "";
+    this.SeattripType = "";
+    this.SeatArray = [];
+}
+
+var OptionSeatObj = function(){
 	this.seatNum = "";
 	this.price = "";
 }
+
+
 
 /* 수화물 */
 var OptionBag = function(){
@@ -1120,15 +1127,15 @@ $(document).ready(function(){
 			
 				jsPassengerDatas = jsBookingCondition.passengerDatas;
 				
-				console.log(jsPassengerDatas);
+//				console.log(jsPassengerDatas);
 				
-				console.log('Flight ');
-				console.log(jsFlightDetailInfo);
-				console.log('Booking');
-				console.log(jsBookingCondition);
+//				console.log('Flight ');
+//				console.log(jsFlightDetailInfo);
+//				console.log('Booking');
+//				console.log(jsBookingCondition);
 			
 				var rePhoneType = $(".single").find(".active").find("input:radio").val();
-				console.log(rePhoneType);
+//				console.log(rePhoneType);
 				var countryNum = $("#selCountryCode").val();
 				var phoneNumF = $("#phoneFirstNumber").val();
 				var phoneNumM = $("#phoneSecondNumber").val();
@@ -1153,21 +1160,92 @@ $(document).ready(function(){
 				document.GoBook06.submit();
 			});
 			
+			/*
+			 *
+			 * 	var OptionSeatTotal = function(){
+				this.optionSeats = [];
+			}
+			 * var OptionSeatObj = function(){
+				this.seatNum = "";
+				this.price = "";
+			}
+			
+			var OptionSeat = function(){
+			     this.SeattripType = "";
+			     this.SeatArray = [];
+			} * */
+			
+			
 			$("#Go_Pay").on("click", function(){
 				
+				var triptype = $("#triptype").val();
 				var jsOptionService = new OptionService();
 				
-					jsOptionService.seatDatas =[];
+				
+				
 					jsOptionService.bagDatas = [];
 					jsOptionService.mealDats = [];
+
+					var jsOptionBag = new OptionBag();
+					var jsOptionMeal = new OptionMeal();					
+
+					jsOptionService.seatDatas= "";
+					
+				var jsOptionSeatTotal = new OptionSeatTotal();
+				jsOptionSeatTotal.optionSeats = [];
 				
 				var jsOptionSeat = new OptionSeat();
-				var jsOptionBag = new OptionBag();
-				var jsOptionMeal = new OptionMeal();
+				jsOptionSeat.SeatArray = [];
+				
+				var adcnt = Number($("#Summary_ADT").text());
+				var chcnt = Number($("#Summary_CHD").text());
+				
+				var personCnt = adcnt + chcnt ;
+				
+				jsOptionSeat.SeattripType = "OW";
+				for(var i=1; i<=personCnt; i++){
+					var jsOptionSeatObj = new OptionSeatObj();
+					jsOptionSeatObj.seatNum = $("#OWseatNum_"+i).text();
+					jsOptionSeatObj.price = $("#OWseatPrice_"+i).text();
+					
+					if(jsOptionSeatObj.seatNum ==""){
+						alert("좌석을 선택 해주세요");
+						return false;
+					}
+					
+					console.log(jsOptionSeatObj);
+					jsOptionSeat.SeatArray.push(jsOptionSeatObj);
+				}
+				
+				jsOptionSeatTotal.optionSeats.push(jsOptionSeat);
+				
+				
+				if(triptype=='RT'){
+					var RToptionSeat = new OptionSeat();
+					RToptionSeat.SeatArray = [];
+					
+					RToptionSeat.SeattripType="RT";
+					
+					for(var i=1; i<=personCnt; i++){
+						var jsOptionSeatObj = new OptionSeatObj();
+						jsOptionSeatObj.seatNum = $("#RTseatNum_"+i).text();
+						jsOptionSeatObj.price = $("#RTseatPrice_"+i).text();
+					
+						if(jsOptionSeatObj.seatNum ==""){
+							alert("좌석을 선택 해주세요");
+							return false;
+						}
+					
+						RToptionSeat.SeatArray.push(jsOptionSeatObj);
+					}
+					
+					jsOptionSeatTotal.optionSeats.push(RToptionSeat);
+				}
+				
 				
 				alert("부가 서비스는 출발 48 시간 전까지 변경 가능 합니다.");
-				
-				
+
+				jsOptionService.seatDatas = jsOptionSeatTotal;
 				
 				document.GoBook07.jsOption.value = JSON.stringify(jsOptionService);
 				document.GoBook07.action = "./GoPaymentPage.bo";
@@ -1722,7 +1800,30 @@ function SettingFinalPrice(detailFlight, passengerDatas){
 	
 }
 
-
+function Set_OptionTotalPrice(strOptionPrice){
+	var optionPrices = function(){
+		this.seat = "";
+		this.bag = "";
+		this.meal = "";
+	}
+	
+	var jsOptionPrices = new optionPrices();
+	
+	jsOptionPrices = jQuery.parseJSON(strOptionPrice);
+	
+	$("#seatPrice").text(jsOptionPrices.seat);
+	$("#mealPrice").text(jsOptionPrices.meal);
+	$("#bagPrice").text(0);
+	
+	var seatP = Number($("#seatPrice").text());
+	var mealP = Number($("#mealPrice").text());
+	var bagP = Number($("#bagPrice").text());
+	console.log(seatP);
+	
+	var total = $(".total-price .price").text();
+	total = Number(total) + seatP + mealP + bagP;
+	$(".price-area .price").text(total);
+}
 
 function Cal_PassengerPrice(baseP, saleP, adt, chd, inf, type){
 	var flightPrice = ""; //항공 운임 

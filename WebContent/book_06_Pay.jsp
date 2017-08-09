@@ -603,19 +603,19 @@
 									<tr>
 										<th scope="row" class="" name="lblSeat">좌석</th>
 										<td class="tr tbl-price" id="seatPrice">
-											<span></span>
+											<span id="seatPrice"></span>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row" class="" name="lblMeal">기내식</th>
 										<td class="tr tbl-price" id="mealPrice">
-											<span></span>
+											<span id="mealPrice"></span>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row" class="" name="lblBaggage">수하물</th>
 										<td class="tr tbl-price" id="baggagePrice">
-											<span></span>
+											<span id="bagPrice"></span>
 										</td>
 									</tr>
 									</tbody>
@@ -651,6 +651,8 @@
 <input type="hidden" name="jsReservationPerson" id="jsReservationPerson" value='${requestScope.jsR }'>
 <input type="hidden" name="jsPassengerDetail" 		 id="jsPassengerDetail" 		value='${requestScope.jsP}'>
 <input type="hidden" name="jsOption" 						id="jsOption" 							value='${requestScope.jsO }'>
+<input type="hidden" name="jsOptionPrice" 				id="jsOptionPrice" 				value='${requestScope.jsOp }'>
+<input type="hidden" name="jsScheduleNum" 			id="jsScheduleNum" 			value='${requestScope.jsSC }'>
 <input type="hidden" name="jsPay" 								id="jsPay"									value="">
 </form>				
 					
@@ -663,7 +665,9 @@ $(document).ready(function(){
 	var jsFlightInfo = $("#jsFlightInfo").val();
 	var jsReservationPerson = $("#jsReservatonPerson").val();
 	var jsPassengerDetail = $("#jsPassengerDetail").val();
-
+	var jsOption = $("#jsOption").val();
+	var strOptionPrice = $("#jsOptionPrice").val();
+	
 	jsRadiobox01();
 	
 	GoBook_07(jsBookingCondition);
@@ -672,12 +676,13 @@ $(document).ready(function(){
 	var JSbookingCondition = new BookingConditionDataObject();
 	var jsPassengerDataOject = new PassengerDataObject();
 
+	
 	JSbookingCondition = jQuery.parseJSON(jsBookingCondition);
 	jsPassengerDataObject =[];
 
 	jsPassengerDataObject = JSbookingCondition.passengerDatas; //이미 Json으로 변형되었음
 	SettingFinalPrice(jsFlightInfo,jsPassengerDataObject);
-
+	Set_OptionTotalPrice(strOptionPrice);
 });
 
 
