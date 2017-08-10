@@ -7,6 +7,10 @@
 	
 	LoginUser user = (LoginUser)sess.getAttribute("User");
 	request.getSession().setAttribute("User", user);
+	if(user != null){
+	String id = user.getMember_id();
+	request.getSession().setAttribute("id",id);
+	}
 %>
 <!DOCTYPE html>
 
@@ -35,7 +39,7 @@
 			 	<span class="member jsHrgroup"> 
 			 		<a href="#this">마이 페이지</a>
 			 		<ul class="hrgroup-list">
-			 			<li><a href="#this">나의 스탬프</a></li>
+			 			<li><a href="Mypage.bo">나의 스탬프</a></li>
 			 			<li><a href="MemberModify.bo">회원정보 수정</a></li>
 			 			<li><a href="#this">회원 탈퇴</a></li>
 			 		</ul>
@@ -111,15 +115,9 @@
 					       </li>
 						       <li class="depth02Lists">
 					           <a href="Info_seat.bo">기내 서비스</a>
-					       </li>
-						       <li class="depth02Lists">
-						           <a href="#this">도움이 필요한 고객</a>
-					       </li>
-   				       <li class="depth02Lists">
-						           <a href="#this">모바일 서비스</a>
-					       </li>
+					           </li>
 					       <li class="depth02Lists">
-					           <a href="#this">양식 다운로드</a>
+					           <a href="Info_map.bo">항공 노선도</a>
 					       </li>
 	 			</ul>
  		</li>

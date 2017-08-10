@@ -1,7 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
+<!-- 수정 1 -->
+<script>
+  function sub(){
+	  
+	  var radioEx = $("[name$='searchType']:checked").val();
+
+	  
+	  if(radioEx == "R"){
+	        var radio = document.getElementById("searchType01").value;
+	     }else if(radioEx == "T"){
+	        var radio = document.getElementById("searchType02").value;
+	     }
+	  var number = document.getElementById("txtReservationNumber").value;
+	  var lname = document.getElementById("txtLastName").value;
+	  var fname = document.getElementById("txtFirstName").value;
+	  var sday = document.getElementById("txtBoardingday").value;
+	  var iv = document.getElementById("h");
+	  
+	  iv.innerHTML = "<input type='hidden' name='number' value="+number+">";
+	  iv.innerHTML += "<input type='hidden' name='radio' value="+radio+">";
+	  iv.innerHTML += "<input type='hidden' name='lname' value="+lname+">";
+	  iv.innerHTML += "<input type='hidden' name='fname' value="+fname+">";
+	  iv.innerHTML += "<input type='hidden' name='sday' value="+sday+">";
+	  iv.submit();
+  };
+  
+</script>
 
 <!-- wrap -->
 	<div id="container">
@@ -64,7 +92,7 @@
 													<div>
 														<ul class="radio_list">
 															<li><span class="radiobox01 js-radiobox01 reservation-number"><label for="searchType01" class="active"><input type="radio" id="searchType01" name="searchType" value="R" checked="checked"> <span name="lblReservationNo">예약번호</span> </label></span></li>
-															<li><span class="radiobox01 js-radiobox01 electronic-tickets"><label for="searchType02"><input type="radio" id="searchType02" name="searchType" value="T"> <span name="lblFlightTicketNo">항공권번호</span></label></span></li>
+														
 														</ul>
 													</div>
 												</td>
@@ -79,7 +107,7 @@
 												</td>
 											</tr>
 											
-											
+											<!-- 삭제해도 되는 부분 / 항공권 번호 생성 하지 않음 -->
 											<tr class="js-electronic-tickets js-number-ckeck" style="display: none;">
 												<th scope="row"><label for="txtTicketNumber" name="lblFlightTicketNo">항공권번호</label></th>
 												<td colspan="3">
@@ -89,9 +117,10 @@
 													</div>
 												</td>
 											</tr>
+											<!--  -->
 											
 											<tr>
-												<th><label id="EnglishName">영문 성명</label></th>
+												<th><label id="EnglishName">탑승자 영문 성명</label></th>
 												<td colspan="3">
 													<div>
 														<span class="inp-txt mgr03"><input type="text" name="" style="width:226px;text-transform: uppercase;;ime-mode:disabled" title="Last Name(성) 입력란" id="txtLastName" placeholder="Last Name(성)"></span>
@@ -115,321 +144,9 @@
 																<button type="button" class="booking-date-layer-btnleft"><span id="spanDateLayerPrevMonthButton">이전달</span></button>
 																<button type="button" class="booking-date-layer-btnright"><span id="spanDateLayerNextMonthButton">다음달</span></button>
 															</div>
-															<div id="onlineDatePicker" class="datePickerLayer hasDatepicker">
-															    <h2 class="hidden-title">탑승일 선택</h2>
-															       <div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-datepicker-multi" style="display: block;">
-															       <div class="ui-datepicker-group ui-datepicker-group-first">
-															       <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-left">
-															        <a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="Prev">
-															         <span class="ui-icon ui-icon-circle-triangle-w">Prev</span>
-															        </a>
-															       <div class="ui-datepicker-title">
-															        <span class="ui-datepicker-year">2017.</span>&nbsp;<span class="ui-datepicker-month">07</span>
-															       </div>
-															      </div>
-															 <table class="ui-datepicker-calendar">
-															      <thead>
-															       <tr>
-															         <th scope="col" class="ui-datepicker-week-end">
-															           <span title="일">일</span>
-															         </th>
-															         <th scope="col">
-															          <span title="월">월</span>
-															         </th><th scope="col">
-															          <span title="화">화</span>
-															         </th>
-															         <th scope="col">
-															          <span title="수">수</span>
-															         </th>
-															         <th scope="col">
-															          <span title="목">목</span>
-															         </th>
-															         <th scope="col">
-															          <span title="금">금</span>
-															         </th>
-															         <th scope="col" class="ui-datepicker-week-end">
-															          <span title="토">토</span>
-															         </th>
-															        </tr>
-															       </thead>
-															   <tbody>
-															   <tr>
-															    <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															    <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															    <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															    <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															    <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															    <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															    <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.01">
-															     <span class="ui-state-default">1</span>
-															    </td>
-															   </tr>
-															   <tr>
-															     <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.02">
-															       <span class="ui-state-default">2</span>
-															     </td>
-															     <td class=" ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.03">
-															       <span class="ui-state-default">3</span>
-															     </td>
-															     <td class=" ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.04">
-															       <span class="ui-state-default">4</span>
-															     </td>
-															     <td class=" ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.05">
-															       <span class="ui-state-default">5</span>
-															     </td>
-															     <td class=" ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.06">
-															       <span class="ui-state-default">6</span>
-															     </td>
-															     <td class=" ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.07">
-															       <span class="ui-state-default">7</span>
-															     </td>
-															     <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.08">
-															       <span class="ui-state-default">8</span>
-															     </td>
-															   </tr>
-															   <tr>
-															     <td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled " data-date="2017.07.09">
-															       <span class="ui-state-default">9</span>
-															     </td>
-															     <td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" title="오늘 날짜" data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.10">
-															        <a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">10</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.11">
-															        <a class="ui-state-default" href="#">11</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.12">
-															        <a class="ui-state-default" href="#">12</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.13">
-															        <a class="ui-state-default" href="#">13</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.14">
-															        <a class="ui-state-default" href="#">14</a>
-															     </td>
-															     <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.15">
-															        <a class="ui-state-default" href="#">15</a>
-															     </td>
-															   </tr>
-															   <tr>
-															     <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.16">
-															       <a class="ui-state-default" href="#">16</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.17">
-															       <a class="ui-state-default" href="#">17</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.18">
-															       <a class="ui-state-default" href="#">18</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.19">
-															       <a class="ui-state-default" href="#">19</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.20">
-															       <a class="ui-state-default" href="#">20</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.21">
-															       <a class="ui-state-default" href="#">21</a>
-															     </td>
-															     <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.22">
-															       <a class="ui-state-default" href="#">22</a>
-															     </td>
-															   </tr>
-															   <tr>
-															     <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.23">
-															       <a class="ui-state-default" href="#">23</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.24">
-															       <a class="ui-state-default" href="#">24</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.25">
-															       <a class="ui-state-default" href="#">25</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.26">
-															       <a class="ui-state-default" href="#">26</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.27">
-															       <a class="ui-state-default" href="#">27</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.28">
-															       <a class="ui-state-default" href="#">28</a>
-															     </td>
-															     <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.29">
-															       <a class="ui-state-default" href="#">29</a>
-															     </td>
-															   </tr>
-															   <tr>
-															     <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.30">
-															       <a class="ui-state-default" href="#">30</a>
-															     </td>
-															     <td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2017" data-date="2017.07.31">
-															       <a class="ui-state-default" href="#">31</a>
-															     </td>
-															     <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															     <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															     <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															     <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															     <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-															   </tr>
-															 </tbody>
-														</table>
-												    </div>
-												    <div class="ui-datepicker-group ui-datepicker-group-last">
-												      <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-right">
-												        <a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="Next">
-												          <span class="ui-icon ui-icon-circle-triangle-e">Next</span>
-												        </a>
-												      <div class="ui-datepicker-title">
-												        <span class="ui-datepicker-year">2017.</span>&nbsp;<span class="ui-datepicker-month">08</span>
-												      </div>
-												      </div>
-												  <table class="ui-datepicker-calendar">
-												     <thead>
-												       <tr>
-												         <th scope="col" class="ui-datepicker-week-end">
-												           <span title="일">일</span>
-												         </th>
-												         <th scope="col">
-												           <span title="월">월</span>
-												         </th>
-												         <th scope="col">
-												           <span title="화">화</span>
-												         </th>
-												         <th scope="col">
-												           <span title="수">수</span>
-												         </th>
-												         <th scope="col">
-												           <span title="목">목</span>
-												         </th>
-												         <th scope="col">
-												           <span title="금">금</span>
-												         </th>
-												         <th scope="col" class="ui-datepicker-week-end">
-												           <span title="토">토</span>
-												         </th>
-												       </tr>
-												     </thead>
-												   <tbody>
-												     <tr>
-												       <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.01">
-												         <a class="ui-state-default" href="#">1</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.02">
-												         <a class="ui-state-default" href="#">2</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.03">
-												         <a class="ui-state-default" href="#">3</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.04">
-												         <a class="ui-state-default" href="#">4</a>
-												       </td>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.05">
-												         <a class="ui-state-default" href="#">5</a>
-												       </td>
-												     </tr>
-												     <tr>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.06">
-												         <a class="ui-state-default" href="#">6</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.07">
-												         <a class="ui-state-default" href="#">7</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.08">
-												         <a class="ui-state-default" href="#">8</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.09">
-												         <a class="ui-state-default" href="#">9</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.10">
-												         <a class="ui-state-default" href="#">10</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.11">
-												         <a class="ui-state-default" href="#">11</a>
-												       </td>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.12">
-												         <a class="ui-state-default" href="#">12</a>
-												       </td>
-												     </tr>
-												     <tr>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.13">
-												         <a class="ui-state-default" href="#">13</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.14">
-												         <a class="ui-state-default" href="#">14</a>
-												       </td>
-												       <td class=" ui-datepicker-holiday " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.15">
-												         <a class="ui-state-default" href="#">15</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.16">
-												         <a class="ui-state-default" href="#">16</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.17">
-												         <a class="ui-state-default" href="#">17</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.18">
-												         <a class="ui-state-default" href="#">18</a>
-												       </td>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.19">
-												         <a class="ui-state-default" href="#">19</a>
-												       </td>
-												     </tr>
-												     <tr>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.20">
-												         <a class="ui-state-default" href="#">20</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.21">
-												         <a class="ui-state-default" href="#">21</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.22">
-												         <a class="ui-state-default" href="#">22</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.23">
-												         <a class="ui-state-default" href="#">23</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.24">
-												         <a class="ui-state-default" href="#">24</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.25">
-												         <a class="ui-state-default" href="#">25</a>
-												       </td>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.26">
-												         <a class="ui-state-default" href="#">26</a>
-												       </td>
-												     </tr>
-												     <tr>
-												       <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.27">
-												         <a class="ui-state-default" href="#">27</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.28">
-												         <a class="ui-state-default" href="#">28</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.29">
-												         <a class="ui-state-default" href="#">29</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.30">
-												         <a class="ui-state-default" href="#">30</a>
-												       </td>
-												       <td class=" " data-handler="selectDay" data-event="click" data-month="7" data-year="2017" data-date="2017.08.31">
-												         <a class="ui-state-default" href="#">31</a>
-												       </td>
-												       <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												     </tr>
-												     <tr>
-												       <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												       <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
-												     </tr>
-												   </tbody>
-												 </table>
-											</div>
-											<div class="ui-datepicker-row-break"></div>
-									</div>
-								</div>
+															<div id="onlineDatePicker"  >
+					
+														</div>
 															<div class="layer-close-area">
 																<!-- 2016-02-26 접근성 추가 (S) -->
 																<div class="date-layer-info">
@@ -450,7 +167,7 @@
 									</div>
 									<div class="btn_article">
 										<ul>
-											<li><button type="button" class="btn-type01-col01" id="btnNonMemeber" name="lblConfirm">확인</button></li>
+											<li><button type="button" class="btn-type01-col01" id="btnNonMemeber" name="lblConfirm" onclick="sub();">확인</button></li>
 										</ul>
 									</div>
 
@@ -474,10 +191,33 @@
 												<th scope="col" name="lblOnlineCheckInItineraryTH3">여정</th>
 												<th scope="col" name="lblOnlineCheckInItineraryTH4">출발</th>
 												<th scope="col" name="lblOnlineCheckInItineraryTH5">도착</th>
-												<th scope="col" name="lblOnlineCheckInItineraryTH6">예약자</th>
+												<th scope="col" name="lblOnlineCheckInItineraryTH6">탑승자</th>
 												<th scope="col" name="lblOnlineCheckInItineraryTH7">체크인 상태</th>
 											</tr>
 											</thead>
+											
+											<tbody>
+											
+											</tbody>
+														
+											 <c:choose>
+									             <c:when test="${requestScope.vsize != 0 }">
+												  <c:forEach var="v" items="${requestScope.v}">
+													  <tbody>
+													    <tr>
+													      <td class="tc">${v.booking_number}</td>
+													      <td class="tc">${v.booking_flight_name}</td>
+													      <td class="tc">${v.booking_start} -> ${v.booking_arr}</td>
+													      <td class="tc">${v.booking_start_date}</td>
+													      <td class="tc">${v.booking_arr_date}</td>
+													      <td class="tc">${v.booking_eng_firstname}</td>
+													      <td class="tc">${v.booking_check}</td>
+													      </tr>
+													  </tbody>
+												</c:forEach>
+											</c:when>
+								     	     <c:otherwise>
+								     	     
 											<tbody id="tblNonMemberSeg0">
 											<!-- 데이터가 없는경우 (S) -->
 											<tr>
@@ -485,7 +225,11 @@
 											</tr>
 											<!-- 데이터가 없는경우 (E) -->
 											</tbody>
+											 </c:otherwise>
+										</c:choose>
+											
 										</table>
+										
 									</div>
 
 									<div class="mgt30 tr" id="btnBox0" style="display:none;">
@@ -511,7 +255,7 @@
 
 							</div>
 						</li>
-						<li>
+						<li id="trueonline" class="">
 							<div class="tab_area">
 								<h2 class="tab_title" confirmfunc="fn_isLogin"><a href="#none" id="MemberCheckIn">회원 체크인</a></h2>
 								<div class="tab_content country" id="tabMemberCheckIn">
@@ -548,11 +292,16 @@
 												<th scope="col" name="lblOnlineCheckInItineraryTH7">체크인 상태</th>
 											</tr>
 											</thead>
-											<tbody id="tblMemberSeg_0">
+											
+											<tbody>
+											
+											</tbody>
+											
+										<!-- 	<tbody id="tblMemberSeg_0">
 											<tr>
 												<td colspan="7" class="tbl-null" name="lblDontHaveAnyReservations">예약하신 내역이 없습니다.</td>
 											</tr>
-											</tbody>
+											</tbody> -->
 										</table>
 									</div>
 
@@ -581,8 +330,132 @@
 		</div>
 	</div>
 	<p name="viewLayerLogin" href="I/KO/viewOneLogin" class="jsOpenLayer" style="display:none;"></p>
-
-
-
-
     <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+
+    <form action="bookingCheckController.cK" method="post"  name="h"  id="h">
+			
+	</form>
+	<form action="bookingCheckController2.cK" method="post"  name="i"  id="i">
+			
+	</form>
+
+<script type="text/javascript">
+var memid = $("#memID").val(); //id 값 가져와서 저장
+
+$("#onlineDatePicker").datepicker({
+		minDate : moment().toDate(),
+		maxDate : moment().add(323,'days').endOf('month').toDate(),
+		numberOfMonths : 2,
+		onSelect : function(valueDate,key){
+	/* 			alert("key :"+$(this).attr("class") +" valueDate: "+valueDate); */
+			var d = moment(valueDate).format("YYYY.MM.DD");
+	//		alert(d);
+			$("#txtBoardingday").val(d);
+			$("#bookingDateLayer01").slideUp(1); 
+		}
+	});
+	
+$(".btn_booking").on("click", function(){
+	var $this = $(this);
+	var $target = $($(this).attr("data-target"));
+
+/*  	$("#onlineDatePicker").find("div").css("width","inherit");  */
+		$(".ui-datepicker-inline").css("width","700px");
+
+	if($this.hasClass("active")){
+		$this.removeClass("active");
+		$target.slideUp(200);
+	}else{
+/* 		$("#onlineDatePicker").find("div").css("width","inherit");  */
+		$this.addClass("active");
+		$target.slideDown(200);
+	}
+
+	$(".layer-close").on("click", function(){
+		$this.removeClass("active");
+		$target.slideUp(200);
+	});
+
+});
+
+
+
+
+$("#MemberCheckIn").click(function(){
+  alert(memid);
+	if(memid != ""){
+		
+		$.ajax({
+			      type:"POST",
+			      url:"./bookingCheckController2.cK",
+			      dataType : "JSON",
+			      data : {"Userld" : memid},
+			      contextType : "application/x-www-form-urlencoded; charset=UTF-8",
+			      success : function(data){
+			    	  console.log(data);
+			    	  alert("아이고");
+			    	  if (data.length == 0) {
+							alert("해당하는 정보가 없습니다.");
+
+						} else {
+							var CheckStr = "";
+							
+							for(var i=0; i< data.length; i++){
+								CheckStr += "<tr>"
+									+ "<td class='tc'>"
+									+ data[i].number
+									+ "</td>"
+									+ "<td class='tc'>"
+									+ data[i].name
+									+ "</td>"
+									+ "<td class='tc'>"
+									+ data[i].bst + '->'
+									+ data[i].barr
+									+ "</td>"
+									+ "<td class='tc'>"
+									+ data[i].sday
+									+ "</td>"
+									+ "<td class='tc'>"
+									+ data[i].aday
+									+ "</td>" 
+									+ "<td class='tc'>"
+									+ data[i].efname
+									+ "</td>" 
+									+ "<td class='tc'>"
+									+ data[i].check
+									+ "</td>" +
+
+									"</tr>";
+
+								
+								
+							}
+							var $table = $("#OnlineCheckList").find('tbody');
+
+				    		$table.html(CheckStr);
+				    		
+				    			$("#trueonline").addClass("on");
+				    			$("#falseonline").removeClass('on');
+							
+			           }
+			
+			    		
+			      }
+			
+		});//ajax끝
+		
+		
+	
+	}else{
+		alert("로그인 페이지로 이동시켜라");
+	}
+		
+});
+$("#NonmemberCheckIn").click(function(){
+	$("#falseonline").addClass("on");
+	$("#trueonline").removeClass('on');	
+	
+});
+
+</script>
+    

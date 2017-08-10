@@ -25,10 +25,14 @@
     
     <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
-    <script type="text/javascript" src="javascripts/designCommon_onServer.js" ></script>
+    
+<!--   
+  <script type="text/javascript" src="javascripts/jquery/jquery-ui-1.11.4-custom.js" integrity="sha256-pSvgu2Sa7p+rRCgBgb/POfgj2H75UHLVO2Tb2m5KHGo=" crossorigin="anonymous"></script>
+ -->  
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="javascripts/moment.js"></script>
-    <script type="text/javascript" src="javascripts/airs_booking.js"></script>
-    <script type="text/javascript" src="javascripts/airs_common.js"></script>
+	<script type="text/javascript" src="_nineJs/nine.js"></script>
+	
     <!-- 20160722 추가 -->
     <link rel="icon" href="images/common/favi_16x16.png" type="image/gif" sizes="16x16">
     <link rel="icon" href="images/common/favi_32x32.png" type="image/gif" sizes="32x32">

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import air.page.action.Action;
 import air.page.action.ActionForward;
 import air.page.action.MemberLogoutAction;
+import air.page.action.MypagestapmAction;
+import air.page.action.WeatherAction;
 import air.schedule.action.JsonGoAdditionalChoiceAction;
 import air.schedule.action.JsonGoPassengerAction;
 import air.schedule.action.JsonGoPayAndReservateAction;
@@ -50,6 +52,9 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 		System.out.println("*****************************************************");
 		
 		if(command.equals("/mainIndex.bo")){
+			System.out.println("=================컨트롤러탐");
+			WeatherAction weatherAction = new WeatherAction(); // 날씨 파싱 객체 생성
+			weatherAction.execute(request, response); // 날씨 파싱 호출
 			//메인 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
@@ -132,7 +137,18 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./Info_0_FlightMain.jsp?Info=Info_Seat.jsp"); 
+		}else if(command.equals("/Info_map.bo")){ //항공기 노선도 
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./Info_0_FlightMain.jsp?Info=Info_map.jsp");
+			
+		}else if(command.equals("/Info_booking.bo")){ //노선별 조회 
+			forward = new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("./Info_0_FlightMain.jsp?Info=info_booking.jsp"); 
 		}
+		
+		
 		
 		else if(command.equals("/Event_Main.bo")){ // 이벤트 메인 페이지로 이동
 			forward = new ActionForward();
@@ -236,6 +252,19 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./Company_0_Main.jsp?com=Company_hang.jsp");
+		}
+		
+		else if(command.equals("/Mypage.bo")){ //회사의 항공기 정보
+
+			action = new MypagestapmAction();
+
+			try {
+				forward = action.execute(request, response);
+				forward.setRedirect(false);
+				forward.getPath();
+			} catch (Exception e) {
+				System.out.println();
+			}
 		}
 		
 		

@@ -17,10 +17,8 @@
     
     <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
-    <script type="text/javascript" src="javascripts/designCommon_onServer.js" ></script>
     <script type="text/javascript" src="javascripts/moment.js"></script>
-    <script type="text/javascript" src="javascripts/airs_booking.js"></script>
-    <script type="text/javascript" src="javascripts/airs_common.js"></script>
+	<script type="text/javascript" src="_nineJs/nine.js"></script>
 </head>
 <body style="zoom:1;">
 <div id="skipNavigation">

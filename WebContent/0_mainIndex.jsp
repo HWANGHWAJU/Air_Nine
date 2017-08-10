@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="dto.*" %>    
 	<%	
 
@@ -30,7 +31,43 @@
  -->  
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="javascripts/moment.js"></script>
+	<script type="text/javascript" src="javascripts/jquery.oLoader.js"></script>
+    <script type="text/javascript" src="javascripts/jquery.oLoader.min.js"></script>
 	<script type="text/javascript" src="_nineJs/nine.js"></script>
+	<!-- 날씨 파싱부분 style 지정 -->	
+	<style>
+		.weather{
+			width: 1000px;
+			height: 100%;
+			margin: 15px auto;
+			text-align: center;
+		}
+		.weather tr{
+			width: 100%;
+			height: 100px;
+		}
+		.weather tr td{
+			width: 250px;
+			border: 1px solid lightgray
+		}
+		.WeatherTitle{
+			font-size: 20px;
+			text-align: center;
+			color: #5D5D5D;
+			letter-spacing: 10px
+		}
+		.font_head{
+			margin: 10px;
+			font-size: 16px;
+		}
+		.font_m{
+			margin: 10px;
+			font-size: 14px
+		}
+		
+	</style>
+	<!-- 날씨 파싱부분 style 지정 끝 -->	
+	
 </head>
 <body>
 <div id="skipNavigation">
@@ -50,6 +87,53 @@
  <script type="text/javascript" src="javascripts/mainBanner.js"></script>
 
 
+ <script type="text/javascript">
+
+
+ 
+ jQuery(document).ready(function($){
+
+	 
+	 $(function()
+			 {
+			     var page = $(".page");
+			     var pageindex = -1;
+
+			     function showQuote(change)
+			     {
+			         pageindex += change;
+			         if (pageindex < 0)
+			         {
+			             pageindex += page.length;
+			         }
+			         else if (pageindex >= page.length)
+			         {
+			             pageindex -= page.length;
+			         }
+			         page.stop(true, true).hide().eq(pageindex)
+			             .fadeIn(1000)
+			             .delay(1000)
+			             .fadeOut(1000)
+			             .queue(function() { showQuote(1); });
+			     }  
+			     showQuote(1);
+
+			     $('.prev').on('click', function()
+			     {
+			         showQuote(-1);
+			     });
+
+			     $('.next').on('click', function()
+			     {
+			         showQuote(1);
+			     });
+			 });
+	 
+	
+ });
+
+
+ </script>
 <link rel="stylesheet" type="text/css" href="stylesheets/main/main02.css">
 <div id="container">
 	<div id="content">
@@ -64,37 +148,25 @@
 						<div class="banner-slider">
 							<ul id="banner-img">
 							 	<li>
-									<a href="#"><img src="images/mainbanner/main_event_20170629_ko.jpg"></a>
+									<a href="#"><img src="images/mainbanner/main_event_20170629_ko.jpg" class="page"></a>
 								</li>
 								<li >
-									<a href="#"><img src="images/mainbanner/main_event_20170613_ko_1.jpg"></a>
+									<a href="#"><img src="images/mainbanner/main_event_20170613_ko_1.jpg"class="page"></a>
 								</li>
 								<li >
-									<a href="#"><img src="images/mainbanner/main_event_20170613_ko_2.jpg"></a>
+									<a href="#"><img src="images/mainbanner/main_event_20170613_ko_2.jpg"class="page"></a>
 								</li>
 								<li >
-									<a href="#"><img src="images/mainbanner/main_event_20170627_01_ko.jpg"></a>
+									<a href="#"><img src="images/mainbanner/main_event_20170627_01_ko.jpg"class="page"></a>
 								</li>
 								<li >
-									<a href="#"><img src="images/mainbanner/main_event_20170627_02_ko.jpg"></a>
-								</li>
-								
-
-								
+									<a href="#"><img src="images/mainbanner/main_event_20170627_02_ko.jpg"class="page"></a>
+								</li>						
 							</ul>
 						</div>
 						
 						<div class="indicator">
-							<div class="bg_bot">
-								<ul class="number">
-									<li><span>1</span></li>
 
-								</ul>
-								<ul class="control">
-									<li class="on"><button type="button" class="stop"><span>STOP</span></button></li>
-									<li><button type="button" class="play"><span>PLAY</span></button></li>
-								</ul>
-							</div>
 							<div class="control_group">
 								<button type="button" class="prev"><span>이전</span></button>
 								<button type="button" class="next"><span>다음</span></button>
@@ -459,28 +531,36 @@
 	<!-- 특가 -->
 	<div class="special">
 		<div class="wrap">
-			<h2>특가존 국제선 최저가</h2>
-				<div class="special-section">
-					<div class="special-banner">
-						<div class="banner-slider">
-							<ul class="banner-img" id="ulSpecial">
-								<li></li>
-							</ul>
-						</div><!-- banner-slider -->
-						
-						<div class="indicator">
-							<div class="control-group">
-								<button type="button" class="prev"><span>이전</span></button>
-								<button type="button" class="next"><span>다음</span></button>
-								<button type="button" class="more"><span>MORE</span></button>
-							</div><!-- control-group -->
-							
-						</div><!-- indicator -->
-					</div><!-- special-banner -->
-					
-				</div><!-- special-section -->
-				<p>유류할증료, 세금 및 제반 요금을 포함한 운임이며, 구매일 환율에 따라 변경될 수 있습니다.</p>
-				<p>특가 운임은 선착순 한정 판매로 조기 마감될 수 있습니다.</p>
+				<p class="WeatherTitle">내일 날씨정보</p>
+			<table class="weather">
+				<tr>					
+				<c:forEach items="${weathers1}" var="list">
+					<td>
+						<p class="font_head">${list.names}</p><br>
+						<p class="font_m"><img src="${list.imgs}"></p>
+						<p class="font_m">${list.weathers}</p>
+						<p class="font_m">최저기온 : ${list.lows}</p>
+						<p class="font_m">최고기온 : ${list.highs}</p>
+					</td>
+				</c:forEach>
+				</tr>
+			</table>
+			<!-- 날씨2 -->
+			<table class="weather">
+				<tr>					
+				<c:forEach items="${weathers2}" var="list">
+					<td>
+						<p class="font_head">${list.names}</p><br>
+						<p class="font_m"><img src="${list.imgs}"></p>
+						<p class="font_m">${list.weathers}</p>
+						<p class="font_m">최저온도 : ${list.lows}</p>
+						<p class="font_m">최고온도 : ${list.highs}</p>
+					</td>
+				</c:forEach>
+				</tr>
+			</table>
+			<!-- 파싱  끝 -->
+
 		</div><!-- wrap -->
 	</div><!-- special -->
 		
@@ -542,6 +622,9 @@
 		</div><!-- quickLink -->
 		
 	</div><!-- serviceList -->
+
+
+
 	
 	<!-- 이벤트, 게시판 -->
 	
@@ -581,6 +664,13 @@
 			</ul>
 			
 		</div><!-- evnet -->
+
+
+
+
+
+
+
 		
 		<div class="notice">
 			<ul class="tabMenu">

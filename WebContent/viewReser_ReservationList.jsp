@@ -1,8 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
+<script>
+	function sub() {
+		if (document.getElementById("txtLastName").value == "") {
+			alert("성을 입력해 주세요");
+		} else if (document.getElementById("txtFirstName").value == "") {
+			alert("이름을 입력해 주세요");
+		} else if (document.getElementById("txtReservationNumber").value == "") {
+			alert("예약번호를 입력해 주세요");
+		} else if (document.getElementById("txtDepAirport").value == "") {
+			alert("출발지를 선택해 주세요");
+		} else if (document.getElementById("txtArrAirport").value == "") {
+			alert("도착지를 선택해 주세요");
+		} else if (document.getElementById("txtOnlineDepartureDate3").value == "") {
+			alert("탑승일을 선택해 주세요");
+		} else {
+			var lname = document.getElementById("txtLastName").value;
+			var fname = document.getElementById("txtFirstName").value;
+			var number = document.getElementById("txtReservationNumber").value;
+			var depa = document.getElementById("txtDepAirport").value;
+			var arra = document.getElementById("txtArrAirport").value;
+			var odd = document.getElementById("txtOnlineDepartureDate3").value;
 
+			// 	location.href="bookingReserveController.bo?lname="+lname+"&fname="+fname+"&number="+number;
+			var iv = document.getElementById("f");
+			iv.innerHTML = "<input type='hidden' name='lname' value="+lname+">";
+			iv.innerHTML += "<input type='hidden' name='fname' value="+fname+">";
+			iv.innerHTML += "<input type='hidden' name='number' value="+number+">";
+			iv.innerHTML += "<input type='hidden' name='depa' value="+depa+">";
+			iv.innerHTML += "<input type='hidden' name='arra' value="+arra+">";
+			iv.innerHTML += "<input type='hidden' name='odd' value="+odd+">";
+
+			f.submit();
+		}
+	}
+</script>
 
 <!-- wrap -->
 	<div id="container">
@@ -35,9 +70,11 @@
 				<!-- tab 영역 (S) -->
 				<div class="tab_section02 tab_2w first">
 					<ul class="js-tab-section">
-						<li class="OnOffTab">
+						<li class="OnOffTab" id="OnlineTab">
 							<div class="tab_area">
-								<h2 class="tab_title" confirmfunc="fn_isLogin"><a href="javascript:void(0);" id="OnlineReservationTab">온라인 예약조회/비회원 로그인 예약 조회</a></h2>
+								<h2 class="tab_title" confirmfunc="fn_isLogin">
+									<a href="javascript:void(0);" id="OnlineReservationTab">온라인 예약조회/비회원 로그인 예약 조회</a>
+								</h2>
 								<div class="tab_content country">
 									<!-- 온라인 예약내역 (S) -->
 									<p id="noti1">에어서울 홈페이지 및 모바일에서 구매하신 항공권만 조회가 가능합니다.</p>
@@ -58,9 +95,21 @@
 												<td colspan="3">
 													<div>
 														<ul class="radio_list">
-															<li><span class="radiobox01 js-radiobox01"><label for="condition01" class="active"><input type="radio" id="condition01" name="reservationCondition" value="" checked="checked"> <span id="RadioAll">전체</span> </label></span></li>
-															<li><span class="radiobox01 js-radiobox01"><label for="condition02"><input type="radio" id="condition02" name="reservationCondition" value="HK"> <span id="Radiocommitment">확약</span></label></span></li>
-															<li><span class="radiobox01 js-radiobox01"><label for="condition03"><input type="radio" id="condition03" name="reservationCondition" value="XX"> <span id="RadioCancel">취소</span></label></span></li>
+															<li><span class="radiobox01 js-radiobox01"><label for="condition01" class="active">
+															<input type="radio" id="condition01" name="reservationCondition" value="" checked="checked"> 
+															<span id="RadioAll">전체</span> </label></span>
+															</li>
+															
+															<li><span class="radiobox01 js-radiobox01"><label for="condition02">
+															<input type="radio" id="condition02" name="reservationCondition" value="HK"> 
+															<span id="Radiocommitment">확약</span></label></span>
+															</li>
+															
+															<li><span class="radiobox01 js-radiobox01"><label for="condition03">
+															<input type="radio" id="condition03" name="reservationCondition" value="XX"> 
+															<span id="RadioCancel">취소</span></label></span>
+															</li>
+															
 														</ul>
 													</div>
 												</td>
@@ -70,8 +119,15 @@
 												<td colspan="3">
 													<div>
 														<ul class="radio_list">
-															<li><span class="radiobox01 js-radiobox01"><label for="sort01" class="active"><input type="radio" id="sort01" name="sorting" value="Board" checked="checked"> <span id="BoardingStandard">탑승일 기준</span> </label></span></li>
-															<li><span class="radiobox01 js-radiobox01"><label for="sort02"><input type="radio" id="sort02" name="sorting" value="Issue"> <span id="ReservationDateStandard">예약일 기준</span></label></span></li>
+															<li><span class="radiobox01 js-radiobox01"><label for="sort01" class="active">
+																<input type="radio" id="sort01" name="sorting" value="Board" checked="checked"> 
+																<span id="BoardingStandard">탑승일 기준</span> </label></span>
+															</li>
+															
+															<li><span class="radiobox01 js-radiobox01"><label for="sort02">
+																<input type="radio" id="sort02" name="sorting" value="Issue"> 
+																<span id="ReservationDateStandard">예약일 기준</span></label></span>
+															</li>
 														</ul>
 													</div>
 												</td>
@@ -121,7 +177,9 @@
 																<button type="button" class="booking-date-layer-btnright"><span name="lblNextMonth">다음달</span></button>
 															</div>
 															<!-- 출발지 도착지 선택시 hidden-title 명칭 변경되야함 접근성 -->
-															<div id="onlineDatePicker2" class="datePickerLayer"></div>
+															<div id="onlineDatePicker2" class="datePickerLayer">
+															
+															</div>
 															<div class="layer-close-area">
 																<!-- 2016-02-26 접근성 추가 (S) -->
 																<div class="date-layer-info">
@@ -171,6 +229,8 @@
 											<tbody>
 											
 											</tbody>
+											
+											
 										</table>
 									</div>
 									
@@ -199,7 +259,7 @@
 
 							</div>
 						</li>
-						<li class="OnOffTab on">
+						<li class="OnOffTab on" id="OfflineTab">
 							<div class="tab_area">
 								<h2 class="tab_title"><a href="#none" id="OfflineReservationTab">오프라인 예약조회</a></h2>
 								<div class="tab_content country">
@@ -243,8 +303,12 @@
 																<input type="hidden" id="hidDepCity" value="">
 																<input type="hidden" id="hidDepArea" value="">
 																<input type="hidden" id="hidDepValue" value="">
-																<button type="button" id="btnAirportLayerOpenDep" class="btn_booking js-radioLayer01-btn btnJourney" data-target="#divBookingJourneyLayer"><span id="OpenDepartureLayerOpen">출발지 선택 팝업 열기</span></button>
-																<div id="divDepAirportAC" class="booking-journey-autocomplete" style="top:0px;height:0px;z-index:100;"><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-1" tabindex="0" style="display: none;"></ul></div>
+																<button type="button" id="btnAirportLayerOpenDep" class="btn_booking js-radioLayer01-btn btnJourney" data-target="#divBookingJourneyLayer">
+																	<span id="OpenDepartureLayerOpen">출발지 선택 팝업 열기</span>
+																</button>
+																<div id="divDepAirportAC" class="booking-journey-autocomplete" style="top:0px;height:0px;z-index:100;">
+																	<ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-1" tabindex="0" style="display: none;"></ul>
+																</div>
 															</div>
 															<div class="booking js-radioLayer01">
 																<input type="text" name="txtArrAirport" id="txtArrAirport" placeholder="도착지" title="도착지 입력란" readonly="">
@@ -252,63 +316,21 @@
 																<input type="hidden" id="hidArrCity" value="">
 																<input type="hidden" id="hidArrArea" value="">
 																<input type="hidden" id="hidArrValue" value="">
-																<button type="button" id="btnAirportLayerOpenArr" class="btn_booking js-radioLayer01-btn btnJourney" data-target="#divBookingJourneyLayer"><span id="OpenArrivalLayerOpen">도착지 선택 팝업 열기</span></button>
+																<button type="button" id="btnAirportLayerOpenArr" class="btn_booking js-radioLayer01-btn btnJourney" data-target="#divBookingJourneyLayer">
+																	<span id="OpenArrivalLayerOpen">도착지 선택 팝업 열기</span>
+																</button>
 																<div id="divArrAirportAC" class="booking-journey-autocomplete" style="top:0px;height:0px;z-index:100;"></div>
 															</div>
 														</div>
 														<div id="divBookingJourneyLayer" class="booking-journey-layer">
 															<!-- 가는항공편, 오는항공편 선택시 hidden-title 명칭 변경되야함 접근성 -->
-															<h2 class="hidden-title" id="DepartureLayerPopup">출발지 레이어 팝업</h2><div class="booking-journey-layer-section booking-journey-layer-section-dep">
-<h3 class="booking-journey-layer-title" area="Korea">한국</h3>
-<ul class="booking-journey-layer-lists">
-<li><button type="button" city="SEL" airport="ICN">
-<span>서울/인천(ICN)</span></button></li>
-</ul>
-</div><div class="booking-journey-layer-section booking-journey-layer-section-dep">
-<h3 class="booking-journey-layer-title" area="Japan">일본</h3>
-<ul class="booking-journey-layer-lists">
-<li><button type="button" city="NRT" airport="NRT">
-<span>도쿄/나리타(NRT)</span></button></li>
-<li><button type="button" city="KIX" airport="KIX">
-<span>오사카/간사이(KIX)</span></button></li>
-<li><button type="button" city="TAK" airport="TAK">
-<span>다카마쓰(TAK)</span></button></li>
-<li><button type="button" city="KMJ" airport="KMJ">
-<span>구마모토(KMJ)</span></button></li>
-<li><button type="button" city="FSZ" airport="FSZ">
-<span>시즈오카(FSZ)</span></button></li>
-<li><button type="button" city="TOY" airport="TOY">
-<span>도야마(TOY)</span></button></li>
-<li><button type="button" city="NGS" airport="NGS">
-<span>나가사키(NGS)</span></button></li>
-<li><button type="button" city="HIJ" airport="HIJ">
-<span>히로시마(HIJ)</span></button></li>
-<li><button type="button" city="YGJ" airport="YGJ">
-<span>요나고(YGJ)</span></button></li>
-<li><button type="button" city="UBJ" airport="UBJ">
-<span>우베(UBJ)</span></button></li>
-</ul>
-</div><div class="booking-journey-layer-section booking-journey-layer-section-dep">
-<h3 class="booking-journey-layer-title" area="Southeast Asia">동남아시아</h3>
-<ul class="booking-journey-layer-lists">
-<li><button type="button" city="HKG" airport="HKG">
-<span>홍콩(HKG)</span></button></li>
-<li><button type="button" city="REP" airport="REP">
-<span>씨엠립(REP)</span></button></li>
-<li><button type="button" city="MFM" airport="MFM">
-<span>마카오(MFM)</span></button></li>
-<li><button type="button" city="BKI" airport="BKI">
-<span>코타키나발루(BKI)</span></button></li>
-</ul>
-</div>
-															<div class="booking-journey-layer-section booking-journey-layer-section-arr">
-																<h3 class="booking-journey-layer-title" style="width: 740px;"><em class="pointColor01" id="PleaseSelectDeparture">출발지가 선택되지 않았습니다.</em></h3>
-																<ul class="booking-journey-layer-lists"></ul>
-															</div>
+															<h2 class="hidden-title" id="DepartureLayerPopup">출발지 레이어 팝업</h2>
+											
 															<div class="layer-close-area">
-																<button type="button" class="layer-close"><span name="lblClose">닫기</span></button>
+																<button type="button" class="layer-close"><span id="spanBookingRouteLayerClose" name="lblClose">닫기</span></button>
 															</div>
 														</div>
+														
 													</div>
 												</td>
 											</tr>
@@ -328,7 +350,9 @@
 																<button id="PrevMonthButton1" type="button" class="booking-date-layer-btnleft"><span name="lbl1MonthAgo">이전달</span></button>
 																<button id="NextMonthButton1" type="button" class="booking-date-layer-btnright"><span name="lblNextMonth">다음달</span></button>
 															</div>
-															<div id="onlineDatePicker3" class="datePickerLayer"></div>
+															<div id="onlineDatePicker3" class="datePickerLayer">
+															
+															</div>
 															<div class="layer-close-area">
 																<div class="date-layer-info">
 																	<span name="lblTodayDate" class="today">오늘날짜</span>
@@ -347,7 +371,7 @@
 									</div>
 									<div class="btn_article">
 										<ul>
-											<li><button type="button" id="btnConfirm" class="btn-type01-col01">확인</button></li>
+											<li><button type="button" id="btnConfirm" class="btn-type01-col01" onclick="sub();">확인</button></li>
 										</ul>
 									</div>
 									
@@ -370,3 +394,295 @@
 		</div>
 	</div>
 	<p name="viewLayerLogin" href="I/KO/viewTwoLoginPnr1" class="jsOpenLayer" style="display:none;"></p>
+
+<form action="bookingReserveController.cK" method="post" name="f" id="f">
+
+</form>
+<script type="text/javascript">
+
+var memid = $("#memID").val(); //id 값 가져와서 저장
+
+
+$("#OfflineReservationTab").click(function() {
+
+	if (memid != "") {
+
+		$("#OfflineTab").addClass("on");
+		$("#OnlineTab").removeClass('on');
+	}
+
+});
+
+$("#OnlineReservationTab").click(function() {
+
+	if (memid != "") {
+
+		$("#OnlineTab").addClass("on");
+		$("#OfflineTab").removeClass('on');
+	} else {
+		alert("로그인 페이지로 이동시켜라");
+	}
+
+});
+
+$("#topbooking").click(function() {
+
+	alert(memid);
+	if (memid != "") {
+		alert("로그인 되어있습니다");
+		$("#OnlineTab").addClass("on");
+		$("#OfflineTab").removeClass('on');
+
+	} else {
+		$("#OnlineTab").addClass("");
+		$("#OfflineTab").removeClass('');
+	}
+
+});
+
+
+/*    var sday = document.getElementById("txtOnlineDepartureDate1").value; //검색 시작날짜
+  	 var eday = document.getElementById("txtOnlineDepartureDate2").value;//검색 마지막날짜
+ */
+ var srt ="";
+ var radioEx ="";
+ var radio ="";
+ var sort ="";
+var sday = "";
+var eday = "";
+var allData = "";
+//   console.log(sday);
+
+$("#btnOnlineConfirm").click(function() { //확인버튼을 클릭했을때... 
+	
+	var srt = $("[name$='sorting']:checked").val();
+	var radioEx = $("[name$='reservationCondition']:checked").val();
+
+
+	if (radioEx == "") {
+		var radio = document.getElementById("condition01").value;
+	} else if (radioEx == "HK") {
+		var radio = document.getElementById("condition02").value;
+	} else if (radioEx == "XX") {
+		var radio = document.getElementById("condition03").value;
+	}
+
+	if (srt == "Board") {
+		var sort = document.getElementById("sort01").value;
+	} else if (srt == "Issue") {
+		var sort = document.getElementById("sort02").value;
+	}
+
+					//alert("계절밥상");
+					sday = $("#txtOnlineDepartureDate1").val();
+					eday = $("#txtOnlineDepartureDate2").val();
+
+					allData = {"memid" : memid,"sort" : sort,"radio" : radio,"sday" : sday,"eday" : eday}; //모든 데이터 저장
+
+					//	console.log(allData);
+
+					$.ajax({
+								type : "POST",
+								url : "./bookingReserveController2.cK",
+								dataType : "JSON",
+								data : allData,
+								contextType : "application/x-www-form-urlencoded; charset=UTF-8",
+								success : function(data) {
+
+									console.log(data);
+
+									if (data.length == 0) {
+										alert("해당하는 정보가 없습니다.");
+
+									} else {
+										var bookingStr = "";
+										
+                      if(sort == "Board"){
+                    	  for (var i = 0; i < data.length; i++) {
+							bookingStr += "<tr>"
+								+ "<td class='tc'>"
+								+ data[i].name
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].sday
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].bst + '->'
+								+ data[i].barr
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].seat
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].check
+								+ "</td>" +
+
+								"</tr>";
+
+                    	  }}else{
+						for (var i = 0; i < data.length; i++) {
+							bookingStr += "<tr>"
+								+ "<td class='tc'>"
+								+ data[i].name
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].bday
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].bst + '->'
+								+ data[i].barr
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].seat
+								+ "</td>"
+								+ "<td class='tc'>"
+								+ data[i].check
+								+ "</td>" +
+
+								"</tr>";
+
+					}}
+										
+
+										var $table = $("#reservationListTable").find('tbody');
+
+										$table.html(bookingStr);
+
+										$("#OnlineTab").addClass("on");
+										$("#OfflineTab").removeClass('on');
+
+									}
+
+								}
+
+							});//ajax끝 
+
+				});
+
+
+
+function fn_createBookingMultiDateCal(num){
+	
+	$("#onlineDatePicker"+num).datepicker({
+		minDate : moment().toDate(),
+		maxDate : moment().add(323,'days').endOf('month').toDate(),
+		numberOfMonths : 2,
+		onSelect : function(valueDate,key){
+	/* 			alert("key :"+$(this).attr("class") +" valueDate: "+valueDate); */
+			var d = moment(valueDate).format("YYYY.MM.DD");
+//			alert(d);
+			$("#txtOnlineDepartureDate"+num).val(d);
+			$("#onlineBookingDateLayer"+num).slideUp(1); 
+		}
+	});
+	
+	
+	
+}
+
+$.ajax({
+	type : "POST",
+	url : "./searchDep.na",
+	dataType : "JSON",
+	contextType : "application/x-www-form-urlencoded; charset=UTF-8",
+	success : function(data){
+			DconvJs(data);
+	}
+});
+
+$("#divBookingJourneyLayer div.booking-journey-layer-section-arr").off("click").remove();
+
+$(".btnJourney").on("focus", function() {
+	var $this = $(this);
+	if (!$this.hasClass("active")) {	// 현재 레이어가 활성화된 상태에서는 수행하지 않는다.
+		var $divBookingJourneyLayer_id = $("#divBookingJourneyLayer");
+	
+	console.log($this.index(".btnJourney"));
+	
+		if ($this.index(".btnJourney") == 0) {
+			$divBookingJourneyLayer_id.find("div.booking-journey-layer-section-arr").css("display", "none");
+			$divBookingJourneyLayer_id.find("div.booking-journey-layer-section-dep").css("display", "");
+		} else {
+			$divBookingJourneyLayer_id.find("div.booking-journey-layer-section-dep").css("display", "none");
+			$divBookingJourneyLayer_id.find("div.booking-journey-layer-section-arr").css("display", "");
+		}
+	}
+});
+
+$(".btnJourney").on("click", function() {
+	var $spanBookingRouteLayerOpenDep_id	= $('#OpenDepartureLayerOpen');
+	var $spanBookingRouteLayerOpenArr_id	= $('#OpenArrivalLayerOpen');
+	var $layerCloseBtnName_id				= $('#spanBookingRouteLayerClose');
+	var $divBookingJourneyLayer_id = $("#divBookingJourneyLayer");
+
+
+	// 출발지 레이어 활성화/비활성화 시
+	if($("#OpenDepartureLayerOpen").parents(".d").hasClass('active')) {
+		$('#OpenDepartureLayerOpen').parents(".d").removeClass('active');
+		$divBookingJourneyLayer_id.slideUp(150);
+	} else {
+		$('#OpenDepartureLayerOpen').parents(".d").addClass('active');
+		$divBookingJourneyLayer_id.slideDown(150);
+	}
+	
+	// 도착지 레이어 활성화/비활성화 시
+	if($("#OpenArrivalLayerOpen").parents(".a").hasClass('active')) {
+		$('#OpenArrivalLayerOpen').parents(".a").removeClass('active');
+		$divBookingJourneyLayer_id.slideUp(150);
+	} else {
+		$('#OpenArrivalLayerOpen').parents(".a").addClass('active');
+		$divBookingJourneyLayer_id.slideDown(150);
+	}
+});
+
+/* $("#onlineDatePicker2").datepicker({
+	minDate : moment().toDate(),
+	maxDate : moment().add(323,'days').endOf('month').toDate(),
+	numberOfMonths : 2,
+	onSelect : function(valueDate,key){
+ 			alert("key :"+$(this).attr("class") +" valueDate: "+valueDate); 
+		var d = moment(valueDate).format("YYYY.MM.DD");
+		alert(d);
+		$("#txtOnlineDepartureDate2").val(d);
+		$("#onlineBookingDateLayer2").slideUp(1); 
+	}
+});
+
+$("#onlineDatePicker3").datepicker({
+	minDate : moment().toDate(),
+	maxDate : moment().add(323,'days').endOf('month').toDate(),
+	numberOfMonths : 2,
+	onSelect : function(valueDate,key){
+ 			alert("key :"+$(this).attr("class") +" valueDate: "+valueDate); 
+		var d = moment(valueDate).format("YYYY.MM.DD");
+		alert(d);
+		$("#txtOnlineDepartureDate3").val(d);
+		$("#onlineBookingDateLayer3").slideUp(1); 
+	}
+}); */
+
+$(".btn_booking").on("click", function(){
+var $this = $(this);
+var $target = $($(this).attr("data-target"));
+
+/*  	$("#onlineDatePicker").find("div").css("width","inherit");  */
+	$(".ui-datepicker-inline").css("width","700px");
+
+if($this.hasClass("active")){
+	$this.removeClass("active");
+	$target.slideUp(200);
+}else{
+/* 		$("#onlineDatePicker").find("div").css("width","inherit");  */
+	$this.addClass("active");
+	$target.slideDown(200);
+}
+
+$(".layer-close").on("click", function(){
+	$this.removeClass("active");
+	$target.slideUp(200);
+});
+
+});
+
+
+</script>

@@ -45,9 +45,21 @@
 	    <servlet-class>air.option.controller.OptionController</servlet-class>
  	 </servlet>
   
-  <servlet-mapping>
-    <servlet-name>OptionController</servlet-name>
-    <url-pattern>*.op</url-pattern>
-  </servlet-mapping>  
+	  <servlet-mapping>
+	    <servlet-name>OptionController</servlet-name>
+	    <url-pattern>*.op</url-pattern>
+	  </servlet-mapping>  
+	  
+	  
+    <servlet>
+  	  <servlet-name>CheckingReservationController</servlet-name>
+  	  <servlet-class>air.booking.controller.CheckingReservationController</servlet-class>
+ 	 </servlet>
+  
+ 	 <servlet-mapping>
+  		 <servlet-name>CheckingReservationController</servlet-name>
+ 		  <url-pattern>*.cK</url-pattern>
+ 	 </servlet-mapping>
+  
   
 </web-app>

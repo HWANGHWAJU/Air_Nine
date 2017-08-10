@@ -546,11 +546,15 @@ SettingDataBook05(jsFlightInfo,jsBookingCondition);
 
 var JSbookingCondition = new BookingConditionDataObject();
 var jsPassengerDataOject = new PassengerDataObject();
+var jsSegmentDataObject = new SegmentDataObject();
 
 JSbookingCondition = jQuery.parseJSON(jsBookingCondition);
+
 jsPassengerDataObject =[];
+jsSegmentDataObject =[];
 
 jsPassengerDataObject = JSbookingCondition.passengerDatas; //이미 Json으로 변형되었음
+jsSegmentDataObject = JSbookingCondition.segmentDatas;
 
 SettingFinalPrice(jsFlightInfo,jsPassengerDataObject);
 
@@ -563,7 +567,13 @@ JSflightDetail = [];
 JSflightDetail = JSflightInfo.flightDetailInfo;
 
 var type = JSflightInfo.triptype;
+
 $("#triptype").val(type);
+
+var OWdate = jsSegmentDataObject[0].departureDateTime;
+var RTdate = "";
+//console.log(OWdate);
+
 var OWflight=JSflightDetail[0].depflight;
 var RTflight="";
 
@@ -587,7 +597,8 @@ if(type=='RT'){
 	$("#RTtotalSeatPrice").css("display","block");
 	
 	RTflight = JSflightDetail[1].depflight;
-	
+	RTdate = jsSegmentDataObject[1].departureDateTime;
+//	console.log(RTdate);
 	if(RTflight.substring(0,2)=='RS'){
 		RTflightType="A321-200";
 	}else{
@@ -624,7 +635,16 @@ $("#OWlist").on("click", function(){
 
 var scNUM = $("#jsScheduleNum").val();
 
-Show_Seat(scNUM);
+var scDate = function(){
+	this.ow = "";
+	this.rt = "";
+}
+
+var jsSCdate = new scDate();
+jsSCdate.ow = OWdate;
+jsSCdate.rt = RTdate;
+
+Show_Seat(scNUM, jsSCdate);
 
 </script>
 
