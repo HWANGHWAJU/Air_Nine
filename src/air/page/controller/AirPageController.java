@@ -13,11 +13,13 @@ import air.page.action.ActionForward;
 import air.page.action.MemberLogoutAction;
 import air.page.action.MypagestapmAction;
 import air.page.action.WeatherAction;
+import air.schedule.action.JsonDepArrivalLookupAction;
 import air.schedule.action.JsonGoAdditionalChoiceAction;
 import air.schedule.action.JsonGoPassengerAction;
 import air.schedule.action.JsonGoPayAndReservateAction;
 import air.schedule.action.JsonGoPaymentPageAction;
 import air.schedule.action.JsonScheduleAction;
+import air.schedule.action.JsonScheduleLookupAction;
 import air.schedule.action.SAction;
 import air.schedule.action.SJsonAction;
 import air.schedule.action.ScheduleAction;
@@ -35,17 +37,8 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 		
 		ActionForward forward = null;
 		Action action = null;
+
 		System.out.println("*****************************************************");
-			
-		HttpSession sess = request.getSession();
-		LoginUser user = (LoginUser) sess.getAttribute("User");
-		
-		if(user != null){
-			System.out.println("User ID :"+user.getMember_id());
-		}
-		
-		System.out.println("Session : "+sess);
-		
 		System.out.println("RequestURI : "+RequestURI);
 		System.out.println("ContextPath :"+contextPath);
 		System.out.println("Command : "+command);
@@ -58,17 +51,19 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 			//메인 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("./0_mainIndex.jsp");
+			forward.setPath("./Main_Index.jsp");
 			System.out.println(" AirPageController ");
+			
 		}else if(command.equals("/LoginJoin.bo")){	// 로그인 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("./01_LoginMain.jsp");
+			forward.setPath("./Main_Index.jsp?page=member/01_LoginMain.jsp");
 		}
 		else if(command.equals("/JoinView.bo")){	// 회원 가입 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("./Join_01.jsp");
+			forward.setPath("./Main_Index.jsp?page=member/Join_01.jsp");
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////ㅇㅇ
 		}else if (command.equals("/MemberLogout.bo")) {		
 			
 
@@ -106,7 +101,7 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 		else if(command.equals("/viewReservationList.bo")){	//예약 조회 변경 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
-			forward.setPath("./viewReser_0_Main.jsp");
+			forward.setPath("./Main_Index.jsp?page=reservation/viewReser_CheckInList.jsp");
 		}else if(command.equals("/viewCheckInList.bo")){	// 온라인 체크 페이지로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false);
@@ -266,6 +261,20 @@ public class AirPageController extends javax.servlet.http.HttpServlet implements
 				System.out.println();
 			}
 		}
+		
+		
+		else if(command.equals("/scheduleLookup.bo")){
+			SJsonAction jsonaction= new JsonScheduleLookupAction();
+			jsonaction.execute(request, response);
+		}else if(command.equals("/depArrivalLookup.bo")){
+			SJsonAction jsonaction = new JsonDepArrivalLookupAction();
+			jsonaction.execute(request, response);
+		}
+		
+		
+		
+		
+		
 		
 		
 	if(forward != null){

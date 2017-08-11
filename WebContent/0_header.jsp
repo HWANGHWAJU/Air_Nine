@@ -1,17 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8" session="false"%>
-<%@ page import="dto.*" %>
-	<%	
 
-	HttpSession sess = request.getSession();
-	
-	LoginUser user = (LoginUser)sess.getAttribute("User");
-	request.getSession().setAttribute("User", user);
-	if(user != null){
-	String id = user.getMember_id();
-	request.getSession().setAttribute("id",id);
-	}
-%>
 <!DOCTYPE html>
 
 <div id="header" >
@@ -20,11 +9,9 @@
 		 	<h1 class="logo">
 		 	<a href="mainIndex.bo"><img src="./images/common/img_logo01.png" alt="AIR NINE"></a></h1>
 
-<%if(user!=null){ %>
-<input type="hidden" id="userId" value="<%=user.getMember_id()%>">
-<%} %>
+
 			 <div class="hrgroup" id="flagLogin">
-			 	<% if(user == null){ %>	 
+
 			 	<span class="login" id="loginSpan"><a href="LoginJoin.bo">로그인</a></span>
 			 	<span class="member jsHrgroup"> 
 			 		<a href="#this">마이 페이지</a>
@@ -34,17 +21,6 @@
 			 			<li><a href="#this">회원 탈퇴</a></li>
 			 		</ul>
 			 	</span>
-			 	<%}else if(user != null){ 	String id = user.getMember_id();	%>
-			 <span class="login" id="loginSpan"><%=id %>님 &nbsp;&nbsp;<a href="LogOut.bo">로그아웃</a></span>
-			 	<span class="member jsHrgroup"> 
-			 		<a href="#this">마이 페이지</a>
-			 		<ul class="hrgroup-list">
-			 			<li><a href="Mypage.bo">나의 스탬프</a></li>
-			 			<li><a href="MemberModify.bo">회원정보 수정</a></li>
-			 			<li><a href="#this">회원 탈퇴</a></li>
-			 		</ul>
-			 	</span>
-			 	<%} %>
 			 	<span class="customer jsHrgroup">
 			 		<a href="Company.bo">회사 소개</a>
 			 		<ul class="hrgroup-list">

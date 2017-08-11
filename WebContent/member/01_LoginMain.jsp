@@ -1,32 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>로그인 | 에어나인</title>
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/company.css">  
-  <link rel="stylesheet" type="text/css" href="stylesheets/common/common.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/board.css">  
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/service.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/utile.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/swiper.min.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/myreservation.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/air_booking.css">
-  
-<link rel="stylesheet" type="text/css" href="//story.airbusan.com/web/assets/stylesheets/less.min.css">       
-    <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
-	 <script type="text/javascript" src="javascripts/designCommon_onServer.js" ></script> 
-    <script type="text/javascript" src="javascripts/moment.js"></script>
-    <script type="text/javascript" src="javascripts/airs_booking.js"></script>
-    <script type="text/javascript" src="javascripts/airs_common.js"></script>
-    
 <style type="text/css">
+/* 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,input,textarea,time,mark,audio,video{margin:0;padding:0;border:0;}
-article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
-body{line-height: 20px;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;} */
+
 table{width:100%;min-width:100%;border-collapse:collapse;border-spacing:0;}
 input{padding:0; margin:0; background:none;border:none;}
 input[type="submit"],input[type="button"],label{cursor:pointer;}
@@ -95,15 +74,9 @@ span.loginInp{display:inline-block;}
 </style>
 
 </head>
-<body style="zoom:1;">
-<div id="skipNavigation">
-    <ul>
-        <li><a href="#content">본문 바로가기</a></li>
-        <li><a href="#gnb">주메뉴 바로가기</a></li>
-    </ul>
-</div>
-<div id="wrap" class="board">
-<jsp:include page="0_header.jsp"/>
+
+<div class="board">
+
 	
 	<div id="container">
 		<div id="content">
@@ -277,10 +250,4 @@ span.loginInp{display:inline-block;}
 		</div><!-- content -->
 	</div><!-- container -->
 
-<jsp:include page="0_footer.jsp"/>
 </div>
-<div>
-
-</div>
-</body>
-</html>

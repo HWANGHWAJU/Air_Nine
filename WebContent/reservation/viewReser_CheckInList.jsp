@@ -3,35 +3,9 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<!-- 수정 1 -->
-<script>
-  function sub(){
-	  
-	  var radioEx = $("[name$='searchType']:checked").val();
-
-	  
-	  if(radioEx == "R"){
-	        var radio = document.getElementById("searchType01").value;
-	     }else if(radioEx == "T"){
-	        var radio = document.getElementById("searchType02").value;
-	     }
-	  var number = document.getElementById("txtReservationNumber").value;
-	  var lname = document.getElementById("txtLastName").value;
-	  var fname = document.getElementById("txtFirstName").value;
-	  var sday = document.getElementById("txtBoardingday").value;
-	  var iv = document.getElementById("h");
-	  
-	  iv.innerHTML = "<input type='hidden' name='number' value="+number+">";
-	  iv.innerHTML += "<input type='hidden' name='radio' value="+radio+">";
-	  iv.innerHTML += "<input type='hidden' name='lname' value="+lname+">";
-	  iv.innerHTML += "<input type='hidden' name='fname' value="+fname+">";
-	  iv.innerHTML += "<input type='hidden' name='sday' value="+sday+">";
-	  iv.submit();
-  };
-  
-</script>
 
 <!-- wrap -->
+<div id="wrap" class="reservation">
 	<div id="container">
 		<div id="content">
 			<!-- location -->
@@ -331,7 +305,7 @@
 	</div>
 	<p name="viewLayerLogin" href="I/KO/viewOneLogin" class="jsOpenLayer" style="display:none;"></p>
     <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
-
+</div>
     <form action="bookingCheckController.cK" method="post"  name="h"  id="h">
 			
 	</form>
@@ -340,6 +314,33 @@
 	</form>
 
 <script type="text/javascript">
+
+<!-- 수정 1 -->
+
+  function sub(){
+	  
+	  var radioEx = $("[name$='searchType']:checked").val();
+
+	  
+	  if(radioEx == "R"){
+	        var radio = document.getElementById("searchType01").value;
+	     }else if(radioEx == "T"){
+	        var radio = document.getElementById("searchType02").value;
+	     }
+	  var number = document.getElementById("txtReservationNumber").value;
+	  var lname = document.getElementById("txtLastName").value;
+	  var fname = document.getElementById("txtFirstName").value;
+	  var sday = document.getElementById("txtBoardingday").value;
+	  var iv = document.getElementById("h");
+	  
+	  iv.innerHTML = "<input type='hidden' name='number' value="+number+">";
+	  iv.innerHTML += "<input type='hidden' name='radio' value="+radio+">";
+	  iv.innerHTML += "<input type='hidden' name='lname' value="+lname+">";
+	  iv.innerHTML += "<input type='hidden' name='fname' value="+fname+">";
+	  iv.innerHTML += "<input type='hidden' name='sday' value="+sday+">";
+	  iv.submit();
+  };
+  
 var memid = $("#memID").val(); //id 값 가져와서 저장
 
 $("#onlineDatePicker").datepicker({
@@ -458,4 +459,3 @@ $("#NonmemberCheckIn").click(function(){
 });
 
 </script>
-    

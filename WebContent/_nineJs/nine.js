@@ -677,6 +677,11 @@ $(document).ready(function(){
 	// 예약 정보를 저장하기 위해 변수 설정 
 	var jsBookConditionDataObject = new BookingConditionDataObject();
 	var ShowBooking = new BookingInfo();
+	var DateObj = new Date(); 
+	var currentYear =Number(DateObj.getFullYear());
+	var currentMonth = Number(DateObj.getMonth()+1);
+	var currentDate =Number(DateObj.getDate());
+	
 	
 	$("input:radio[name=radTripType]").on("click", function() {
 			selectTripType = this.value; //현재 클릭한 버튼 
@@ -695,6 +700,9 @@ $(document).ready(function(){
 				$other = $("#radRoundTripType");
 				$otherlabel = $other.parent('label');
 			}
+//			console.log($now);
+//			console.log($otherlabel);
+			
 			
 			if(selectTripType == 'RT'){
 				$ulOneWayDesc_id.css("display","none");
@@ -1282,23 +1290,184 @@ $(document).ready(function(){
 			});
 			
 			
+			
+			/*	출도착, 스케줄 조회 확인 버튼 눌렀을 때			*/
+			
+			// 1. 스케줄 조회 / 확인 버튼 
+			$("#btnSubmit").on("click", function(){
+				
+				var scradio = $("input:radio[name='radTripType']:checked").val();
+
+				var dep = $("#txtDepAirport").val();
+				var arr = $("#txtArrAirport").val();
+				var scCondition = $("input:radio[name='radTerm']:checked").attr("id");
+				
+				var depDate = $("#txtDepBookingDate").val();
+				var arrDate = "";
+				
+				if(scradio == "RT"){
+					arrDate = $("#txtArrBookingDate").val();
+				}
+						
+				
+				console.log(scradio +"        "+scCondition);
+				console.log("dep :"+dep+'       arr :'+ arr);
+				console.log("dep Date :"+depDate+"    arr Date :"+arrDate);
+				
+				var condition = function(){
+					this.triptype= "";
+					this.condition ="";
+					this.dep="";
+					this.arr = "";
+					this.depDate = "";
+					this.arrDate = "";
+				}
+				
+				var LookupCon = new condition();
+				LookupCon.triptype = scradio;
+				LookupCon.condition = scCondition;
+				LookupCon.dep = dep;
+				LookupCon.arr = arr;
+				LookupCon.depDate = depDate;
+				LookupCon.arrDate = arrDate;
+				
+				console.log(LookupCon);
+				fn_ScheduleLookup(LookupCon);
+				
+			});
+			
+			
+			
+			//	2. 출도착 조회 
+			
+			// 노선별 
+			
+			var DepArrival = function(){
+				this.type="";
+				this.condition ="";
+			}
+			
+			$("#btnSearch_Tab1").on("click", function(){
+				var type = "Route";
+				var dep = $("#txtDepAirport").val();
+				var arr = $("#txtArrAirport").val();
+				var depDate = $("#selDepDate1").val();
+				
+				var condition = function(){
+					this.dep = "";
+					this.arr = "";
+					this.depDate = "";
+				}
+				
+				var RouteCondition = new condition();
+				
+				RouteCondition.dep = dep;
+				RouteCondition.arr = arr;
+				RouteCondition.depDate = depDate;
+				
+				var jsDepArrival = new DepArrival();
+				jsDepArrival.type="Route";
+				jsDepArrival.condition = RouteCondition;
+				
+				fn_DepArrivalLookup(jsDepArrival);
+				
+			});
+			
+			// 편명별 
+			
+			$("#btnSearch_Tab2").on("click", function(){
+				var type = "FlightName";
+				var flightname = $("#txtFlightid").val();
+				var depDate = $("#selDepDate2").val();
+				
+				var condition = function(){
+					this.flightname = "";
+					this.depDate = "";
+				}
+				
+				var byFlightCondition = new condition();
+				
+				byFlightCondition.flightname = flightname;
+				byFlightCondition.depDate = depDate;
+				
+				var jsDepArrival = new DepArrival();
+				jsDepArrival.type="FlightName";
+				jsDepArrival.condition = byFlightCondition;
+				
+				fn_DepArrivalLookup(jsDepArrival);
+				
+			});
 		
 			
-
 }); // document.ready 함수 끝 
 
-// 5단계로 가져가야 할 데이터는 뭘까. (확실하게 선택된 데이터 )
+function fn_DepArrivalLookup(data){
+	var str = JSON.stringify(data);
+	console.log(str);
+	
+	$.ajax({
+		type : "POST",
+		url : "./depArrivalLookup.bo",
+		dataType :"JSON",
+		contextType : "application/x-www-form-urlencoded; charset=UTF-8",
+		data : {LookupData : str},
+		success : function(data){
+//			alert("ㅇㅇ");
+			console.log(data);
+			$("#FlightSearchList_div").removeClass('hide');
+			$("#spanSrchDepAirportid").text(data.dep);
+			$("#spanSrchArrAirportid").text(data.arr);
+			$("#spanSrchDepDate").text(data.depdate);
+			console.log(data.flightlist.length);
+			var str ="";
+			for(var i=0; i<data.flightlist.length; i++){
+				str += "<tr>"+
+					   "<td>"+data.flightlist[i].flight+"</td>"+
+					   "<td><em class='point-color01'>"+data.flightlist[i].state+"</em></td>"+
+					   "<td>"+data.flightlist[i].deptime+"</td>"+
+					   "<td>"+data.flightlist[i].willdep+"</td>"+
+					   "<td>"+data.flightlist[i].sucdep+"</td>"+
+					   "<td>"+data.flightlist[i].arrtime+"</td>"+
+					   "<td>"+data.flightlist[i].willarr+"</td>"+
+					   "<td>"+data.flightlist[i].sucarr+"</td>"+
+					   "</tr>";
+			}
+			$("#FlightSearchList_tbody").html(str);
+		}
+	});
+}
+
+function fn_ScheduleLookup(data){
+	
+	console.log(data);
+	
+	var str = JSON.stringify(data);
+	console.log(str);
+	
+	$.ajax({
+		type : "POST",
+		url : "./scheduleLookup.bo",
+		dataType :"JSON",
+		contextType : "application/x-www-form-urlencoded; charset=UTF-8",
+		data : {LookupData : str},
+		success : function(){
+			
+		}
+	});
+	
+}
+
+//5단계로 가져가야 할 데이터는 뭘까. (확실하게 선택된 데이터 )
 /*	1. 여행 타입 RT, OW 
- *  2. 출발지와 목적지 / RT의 경우 두가지를 바꾼 것. 
- *  3. 출발지에서의 탑승 날짜와, 탑승 시간. 항공기편
- *  4. RT의 경우 목적지에서 출발지로 오는 날짜와, 시간, 항공기편 
- * 	5. 탑승 인원의 종류와 그 수 (성인, 소아, 유아)
- * 	6. 각 인원의 금액과 총 금액, 세금, 유류할증료 등. 
- * 
- * */
+*  2. 출발지와 목적지 / RT의 경우 두가지를 바꾼 것. 
+*  3. 출발지에서의 탑승 날짜와, 탑승 시간. 항공기편
+*  4. RT의 경우 목적지에서 출발지로 오는 날짜와, 시간, 항공기편 
+* 	5. 탑승 인원의 종류와 그 수 (성인, 소아, 유아)
+* 	6. 각 인원의 금액과 총 금액, 세금, 유류할증료 등. 
+* 
+* */
 
-// 여행 조건을 전부 입력후 5단계, 탑승자 정보를 입력하는 페이지로 이동할 데이터들 
-
+//여행 조건을 전부 입력후 5단계, 탑승자 정보를 입력하는 페이지로 이동할 데이터들 
 function fn_ClickConfirmBtn(){
 	var memid = $("#memID").val();
 	var memEmail = $("#memEMAIL").val();

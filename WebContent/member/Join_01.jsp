@@ -9,9 +9,6 @@
 div.clear {
 	clear: both;
 }
-
-
-
 .top_lo {
 	width: 1100px;
 	height: 52px;
@@ -19,7 +16,6 @@ div.clear {
 	padding: 19px 0 19px;
 	box-sizing: border-box;
 }
-
 .center {
 	width: 1100px;
 	margin: 0 auto;

@@ -40,6 +40,7 @@
 </script>
 
 <!-- wrap -->
+<div	 class="reservation">
 	<div id="container">
 		<div id="content">
 			<!-- location -->
@@ -394,7 +395,7 @@
 		</div>
 	</div>
 	<p name="viewLayerLogin" href="I/KO/viewTwoLoginPnr1" class="jsOpenLayer" style="display:none;"></p>
-
+</div>
 <form action="bookingReserveController.cK" method="post" name="f" id="f">
 
 </form>

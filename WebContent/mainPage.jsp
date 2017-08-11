@@ -1,99 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="dto.*" %>    
-	<%	
-
-	HttpSession sess = request.getSession();
-	
-	LoginUser user = (LoginUser)sess.getAttribute("User");
-	request.getSession().setAttribute("User", user);
-%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>메인 | 에어나인</title>
- <link rel="stylesheet" type="text/css" href="stylesheets/main/main.css">
-    
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/company.css">  
-  <link rel="stylesheet" type="text/css" href="stylesheets/common/common.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/board.css">  
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/service.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/utile.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/swiper.min.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/myreservation.css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/sub/air_booking.css">
-    
-    <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
-<!--     <script type="text/javascript" src="javascripts/jquery/jquery-ui-1.11.4-custom.js" integrity="sha256-pSvgu2Sa7p+rRCgBgb/POfgj2H75UHLVO2Tb2m5KHGo=" crossorigin="anonymous"></script>
- -->  
-   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="javascripts/moment.js"></script>
-	<script type="text/javascript" src="javascripts/jquery.oLoader.js"></script>
-    <script type="text/javascript" src="javascripts/jquery.oLoader.min.js"></script>
-	<script type="text/javascript" src="_nineJs/nine.js"></script>
-	<!-- 날씨 파싱부분 style 지정 -->	
-	<style>
-		.weather{
-			width: 1000px;
-			height: 100%;
-			margin: 15px auto;
-			text-align: center;
-		}
-		.weather tr{
-			width: 100%;
-			height: 100px;
-		}
-		.weather tr td{
-			width: 250px;
-			border: 1px solid lightgray
-		}
-		.WeatherTitle{
-			font-size: 20px;
-			text-align: center;
-			color: #5D5D5D;
-			letter-spacing: 10px
-		}
-		.font_head{
-			margin: 10px;
-			font-size: 16px;
-		}
-		.font_m{
-			margin: 10px;
-			font-size: 14px
-		}
-		
-	</style>
-	<!-- 날씨 파싱부분 style 지정 끝 -->	
-	
-</head>
-<body>
-<div id="skipNavigation">
-    <ul>
-        <li><a href="#content">본문 바로가기</a></li>
-        <li><a href="#gnb">주메뉴 바로가기</a></li>
-    </ul>
-</div>
-
-
-<!-- 메인만 상단바 제공 -->
-
-
-<div id="wrap" class="main">
-<div id="main_head"><jsp:include page="0_header.jsp"/></div>
- 
  <script type="text/javascript" src="javascripts/mainBanner.js"></script>
-
-
  <script type="text/javascript">
-
-
- 
  jQuery(document).ready(function($){
-
-	 
 	 $(function()
 			 {
 			     var page = $(".page");
@@ -131,9 +41,41 @@
 	 
 	
  });
-
-
- </script>
+</script>
+<!-- 날씨 파싱부분 style 지정 -->	
+	<style>
+		.weather{
+			width: 1000px;
+			height: 100%;
+			margin: 15px auto;
+			text-align: center;
+		}
+		.weather tr{
+			width: 100%;
+			height: 100px;
+		}
+		.weather tr td{
+			width: 250px;
+			border: 1px solid lightgray
+		}
+		.WeatherTitle{
+			font-size: 20px;
+			text-align: center;
+			color: #5D5D5D;
+			letter-spacing: 10px
+		}
+		.font_head{
+			margin: 10px;
+			font-size: 16px;
+		}
+		.font_m{
+			margin: 10px;
+			font-size: 14px
+		}
+		
+	</style>
+	<!-- 날씨 파싱부분 style 지정 끝 -->	
+	
 <link rel="stylesheet" type="text/css" href="stylesheets/main/main02.css">
 <div id="container">
 	<div id="content">
@@ -822,11 +764,6 @@
 		
 	</div><!-- content -->
 </div><!-- container -->
-<div>
-<jsp:include page="0_footer.jsp"/>
-</div>
-</div>
-
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -901,6 +838,3 @@ $(document).ready(function(){
 
 
 </script>
-
-</body>
-</html>

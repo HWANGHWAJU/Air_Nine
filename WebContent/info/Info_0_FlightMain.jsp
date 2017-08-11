@@ -17,6 +17,8 @@
     
     <script type="text/javascript" src="javascripts/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="javascripts/jquery.placeholder.js" ></script>
+
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="javascripts/moment.js"></script>
 	<script type="text/javascript" src="_nineJs/nine.js"></script>
 </head>

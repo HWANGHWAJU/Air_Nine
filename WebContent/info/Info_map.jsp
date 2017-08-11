@@ -13,7 +13,7 @@
 <!-- jQuery 예약어 충동 방지 처리 -->
 <script type="text/javascript">
 jQuery.noConflict();
-</script>
+</script>9210
 
 <script type="text/javascript" src="/js/common/jquery/prototype.js"></script>
 
